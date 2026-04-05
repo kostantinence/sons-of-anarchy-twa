@@ -1,14 +1,16 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SOA Club House</title>
-    <!-- Подключаем библиотеку Telegram -->
-    <script src="https://telegram.org"></script>
+    <title>Document</title>
+
     <style>
-        body {
-            background-color: #121212; /* Темный фон */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 100%; height: 100%; background: #000; overflow: hidden; }
+
+                 body {
+            background-color: #12121200; /* Темный фон */
             color: #d4af37; /* Золотой цвет текста */
             font-family: 'Courier New', Courier, monospace;
             display: flex;
@@ -19,14 +21,25 @@
             margin: 0;
             text-align: center;
         }
-        .container {
-            border: 2px solid #d4af37;
-            padding: 30px;
-            border-radius: 20px;
-            background: #1c1c1c;
-            box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
-            width: 80%;
-        }
+       canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1; /* Уводит анимацию на задний план */
+}
+
+.container {
+    position: relative; /* Чтобы z-index работал */
+    z-index: 1; 
+    border: 2px solid #d4af37;
+    padding: 30px;
+    border-radius: 20px;
+    background: rgba(28, 28, 28, 0.8); /* Полупрозрачный фон, чтобы видеть анимацию */
+    backdrop-filter: blur(10px); /* Эффект размытия стекла (по желанию) */
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+    width: 80%;
+    max-width: 500px;
+}
         h1 { margin-bottom: 10px; text-transform: uppercase; letter-spacing: 3px; }
         p { color: #ffffff; font-size: 1.1em; }
         .btn {
@@ -40,17 +53,22 @@
             cursor: pointer;
             text-transform: uppercase;
         }
+        .version-tag {
+            position: fixed;
+            bottom: 5px;
+            right: 10px;
+            font-size: 10px;
+            color: rgba(212, 175, 55, 0.5); /* Полупрозрачный золотой */
+            font-family: monospace;
+            text-shadow: 0 0 10px #d4af37;
+        }
     </style>
+
 </head>
 <body>
+     
 
-    <div class="container">
-        <h1>Sons of Anarchy</h1>
-        <p>Добро пожаловать в клубный дом, <span id="username">брат</span>.</p>
-        <button class="btn" onclick="tg.close()">Покинуть штаб</button>
-    </div>
-
-    <script>
+      <script>
         const tg = window.Telegram.WebApp;
         
         // Сообщаем Telegram, что приложение готово
@@ -63,5 +81,158 @@
             document.getElementById('username').innerText = tg.initDataUnsafe.user.first_name;
         }
     </script>
+
+
+ <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js">
+      </script>
+
+
+<div class="container">
+        <h1>Sons of Anarchy</h1>
+        <p>Добро пожаловать в клуб <span id="username">SON</span>.</p>
+        <button class="btn" onclick="tg.close()">Покинуть</button>
+    </div>
+    <div class="version-tag">v.1.0.2 (05.04.2026)</div>
+
+      <script>
+      
+const U = v => ({ value: v });
+
+const renderer = new THREE.WebGLRenderer({ antialias: false, alpha: true });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
+
+const scene  = new THREE.Scene();
+const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+
+const mat = new THREE.ShaderMaterial({
+  uniforms: {
+    time:       U(0.0),
+    res:        U(new THREE.Vector2(window.innerWidth, window.innerHeight)),
+    uvScale:    U(0.70),
+    uvOffX:     U(0.00),
+    uvOffY:     U(1.00),
+    depthStep:  U(0.175),
+    rotSpeed:   U(0.05),
+    outerIter:  U(56),
+    innerIter:  U(17),
+    sInit:      U(1.75),
+    minFold:    U(1.00),
+    foldStr:    U(20.40),
+    foldOff:    U(4.25),
+    foldBX:     U(2.65),
+    foldBY:     U(5.40),
+    foldBZ:     U(2.00),
+    modScale:   U(5.00),
+    sLogMul:    U(0.25),
+    brightness: U(530.0),
+    hueOff:     U(0.78),
+    hueScale:   U(2.55),
+    satMult:    U(-0.50),
+  },
+
+  vertexShader: `void main(){ gl_Position = vec4(position.xy, 0.0, 1.0); }`,
+
+  fragmentShader: `
+    precision highp float;
+    uniform float time;
+    uniform vec2  res;
+    uniform float uvScale;
+    uniform float uvOffX;
+    uniform float uvOffY;
+    uniform float depthStep;
+    uniform float rotSpeed;
+    uniform int   outerIter;
+    uniform int   innerIter;
+    uniform float sInit;
+    uniform float minFold;
+    uniform float foldStr;
+    uniform float foldOff;
+    uniform float foldBX;
+    uniform float foldBY;
+    uniform float foldBZ;
+    uniform float modScale;
+    uniform float sLogMul;
+    uniform float brightness;
+    uniform float hueOff;
+    uniform float hueScale;
+    uniform float satMult;
+
+    #define MAX_OUTER 200
+    #define MAX_INNER  40
+
+    vec3 hsv(float h, float s, float v){
+      vec4 K = vec4(1., 2./3., 1./3., 3.);
+      vec3 p = abs(fract(vec3(h) + K.xyz) * 6. - K.www);
+      return v * mix(K.xxx, clamp(p - K.xxx, 0., 1.), s);
+    }
+    mat2 rotate2D(float a){ float c=cos(a),s=sin(a); return mat2(c,-s,s,c); }
+
+    void main(){
+      vec4  o = vec4(0.0);
+      vec2 FC = gl_FragCoord.xy;
+      float t = time;
+      float g = 0.0;
+
+      for(int oi = 0; oi < MAX_OUTER; oi++){
+        if(oi >= outerIter) break;
+        float e = 0.0;
+        vec3 p = vec3(((FC.xy*2.0 - res)/res.x)*uvScale + vec2(uvOffX,uvOffY), g + depthStep);
+        p.zx *= rotate2D(t * rotSpeed);
+        float s = sInit;
+        for(int ii = 0; ii < MAX_INNER; ii++){
+          if(ii >= innerIter) break;
+          s *= e = max(minFold, foldStr / dot(p,p));
+          p  = vec3(foldBX,foldBY,foldBZ) - abs(abs(p)*e - vec3(foldOff));
+        }
+        g += mod(length(p.xz), p.y * modScale) / s;
+        s = log(s * sLogMul);
+        o.rgb += hsv(hueOff + g*hueScale, p.z*satMult, s/brightness);
+      }
+      o.a = 1.0;
+      gl_FragColor = o;
+    }
+  `,
+});
+
+scene.add(new THREE.Mesh(new THREE.PlaneGeometry(2, 2), mat));
+
+// Animated params
+const ANIM_DEFS = [
+  { key: 'depthStep', min: 0.175, max: 0.38, freq: 1.00, phase: 0.00 },
+  { key: 'foldBX',   min: 2.10,  max: 3.20, freq: 0.70, phase: 1.05 },
+  { key: 'foldBY',   min: 4.85,  max: 6.00, freq: 0.85, phase: 2.09 },
+  { key: 'foldOff',  min: 4.00,  max: 5.75, freq: 0.60, phase: 3.14 },
+  { key: 'hueOff',   min: 0.00,  max: 1.00, freq: 0.45, phase: 4.19 },
+  { key: 'hueScale', min: 1.20,  max: 4.00, freq: 0.55, phase: 5.24 },
+];
+
+const ANIM_SPEED = 0.03;
+
+const clock = new THREE.Clock();
+let animTime = 0;
+
+(function animate(){
+  requestAnimationFrame(animate);
+  const delta = clock.getDelta();
+  animTime += delta * ANIM_SPEED;
+  mat.uniforms.time.value = clock.elapsedTime;
+
+  for (const def of ANIM_DEFS) {
+    const t   = (Math.sin(animTime * def.freq * Math.PI * 2 + def.phase) + 1) / 2;
+    const val = def.min + (def.max - def.min) * t;
+    mat.uniforms[def.key].value = val;
+  }
+
+  renderer.render(scene, camera);
+})();
+
+window.addEventListener('resize', () => {
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  mat.uniforms.res.value.set(window.innerWidth, window.innerHeight);
+});
+
+      </script>
 </body>
 </html>
