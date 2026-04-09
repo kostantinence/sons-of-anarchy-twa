@@ -3,10 +3,10 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SOA - Sons Of Anarchy</title>
+    <title>SON - Sons Of Anarchy</title>
     
     <!-- Настройки для отображения превью в Telegram -->
-    <meta property="og:title" content="SOA - Sons Of Anarchy">
+    <meta property="og:title" content="SON - Sons Of Anarchy">
     <meta property="og:description" content="Внутреннее объявление союза">
     <!-- Замените 'ваш-логин' на свой ник в GitHub ниже -->
     <meta property="og:image" content="https://github.io">
@@ -32,20 +32,113 @@
         /* СЛОЙ 3: Интерфейс */
         .ui { position: relative; z-index: 10; display: flex; flex-direction: column; align-items: center; padding: 20px; }
         
-        .card {
-            background: rgb(0 0 0 / 50%);
-            border: 2px solid #d4af3787;
-            padding: 20px;
-            border-radius: 20px;
-            text-align: center;
-            width: 280px;
-            box-shadow: 0 0 25px rgba(212, 175, 55, 0.4);
-            margin-bottom: 20px;
-        }
+   .card .expandable-box {
+    background: rgb(0 0 0 / 60%);
+    border: 2px solid #d4af3787;
+    padding: 15px 20px; /* Немного уменьшил отступы для компактности */
+    border-radius: 20px;
+    text-align: center;
+    width: 280px;
+    box-shadow: 0 0 25px rgba(212, 175, 55, 0.4);
+    margin-bottom: 20px;
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+    cursor: pointer;
+    
+    /* ВАЖНО: Начальная высота, чтобы было видно только заголовок */
+    max-height: 50px; 
+}
+
+  .card-header {
+    background: rgb(0 0 0 / 50%);
+    border: 2px solid #d4af3787;
+    padding: 20px;
+    border-radius: 20px;
+    text-align: center;
+    font-family: serif;
+    margin-bottom: 20px; /* Отступ от нижнего блока */
+    box-shadow: 0 0 25px rgba(212, 175, 55, 0.4);
+    display: inline-block; /* Рамка по размеру текста */
+}
 
         h1 { margin: 0; font-size: 20px; letter-spacing: 2px; text-transform: uppercase; }
         h2 { font-size: 16px; margin: 10px 0; border-bottom: 1px solid #d4af37; padding-bottom: 5px; }
         p { color: #fff; margin: 10px 0; font-size: 14px; line-height: 1.4; }
+
+          /* анимация бегающей строки h1 */
+        .txt {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(90deg, #b29841bf 10%, #a68137d4 20%);
+  background-repeat: no-repeat;
+  background-size: 80%;
+  animation: animate 6s linear infinite;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: rgb(222 215 20 / 85%);
+}
+
+@keyframes animate {
+  0% {
+    background-position: -500%;
+  }
+  100% {
+    background-position: 500%;
+  }
+}
+         /* Состояние при раскрытии */
+.expandable-box.is-expanded {
+    max-height: 800px; /* Раскрываем */
+    background: rgb(0 0 0 / 85%); /* Делаем фон плотнее при раскрытии */
+    border-color: #d4af37;
+    cursor: default;
+}
+
+.content {
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+    padding-top: 10px;
+}
+
+.is-expanded .content {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* мерцание рамки */
+/* Описываем саму анимацию */
+@keyframes goldPulse {
+  0% {
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+    border-color: rgba(212, 175, 55, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(212, 175, 55, 0.7); /* Свечение усиливается */
+    border-color: rgba(212, 175, 55, 1);      /* Рамка становится ярче */
+  }
+  100% {
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+    border-color: rgba(212, 175, 55, 0.5);
+  }
+}
+
+/* Применяем её к верхней рамке */
+.card-header {
+  animation: goldPulse 4s infinite ease-in-out;
+}
+
+/* Применяем её к нижней рамке (когда она закрыта) */
+.expandable-box {
+  animation: goldPulse 4s infinite ease-in-out;
+}
+
+/* Отключаем пульсацию, когда рамка раскрыта, чтобы не отвлекать от текста */
+.expandable-box.is-expanded {
+  animation: none; 
+  border-color: #d4af37;
+  box-shadow: 0 0 25px rgba(212, 175, 55, 0.5);
+}
+
     </style>
 </head>
 <body>
@@ -55,19 +148,27 @@
 
 <div class="ui">
     <!-- Первая карточка: Заголовок -->
-    <div class="card">
-        <h1>SONS OF ANARCHY</h1>
+    <div class="card card-header">
+        <h1 class="txt">SONS OF ANARCHY</h1>
     </div>
 
     <!-- Вторая карточка: Объявление -->
-    <div class="card">
-        <h2>Внутреннее объявление</h2>
+    <div class="card container">
+      <div id="expandableBox" class="expandable-box">
+        <!-- То, что видно всегда -->
+        <span class="trigger-text"><h2>Внутреннее объявление</h2></span>
+        <!-- Скрытый контент -->
+        <div class="content">
         <p>Союзы играющие по правилам сервера</p>
         <p>Твинсоюзы/twin unions: son, Ryc. UKR</p>
         <p style="color: #ff4d4d; font-weight: bold;">ВОЙНА/WAR:</p>
         <p>на сервере мир 6/1<br>on the server peacetime 6/1</p>
         <p>В воскресенье событие экспедиции, свой сервер нигде не атакуем!</p>
         <p>On Sunday, the expedition event, we don't attack our server anywhere!</p>
+        <p>Минимум на дома/minimum Monster houses- закрыть 5 этапов/ close 5 stages of the event</p>
+      </div>
+  </div>
+</div>
     </div>
 </div>
 
@@ -104,6 +205,22 @@
     window.addEventListener("resize", init);
     init();
     draw();
+</script>
+<script>
+const box = document.getElementById('expandableBox');
+
+box.addEventListener('click', (e) => {
+    // Останавливаем передачу клика документу
+    e.stopPropagation(); 
+    box.classList.add('is-expanded');
+});
+
+document.addEventListener('click', (e) => {
+    // Если клик вне бокса — закрываем
+    if (!box.contains(e.target)) {
+        box.classList.remove('is-expanded');
+    }
+});
 </script>
 </body>
 </html>
