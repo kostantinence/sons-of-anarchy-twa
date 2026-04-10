@@ -34,12 +34,12 @@
         
    .card .expandable-box {
     background: rgb(0 0 0 / 60%);
-    border: 2px solid #d4af3787;
-    padding: 15px 20px; /* Немного уменьшил отступы для компактности */
+    border: 2px solid #cec09487;
+    padding: 15px 20px;
     border-radius: 20px;
     text-align: center;
     width: 280px;
-    box-shadow: 0 0 25px rgba(212, 175, 55, 0.4);
+    box-shadow: 0 0 25px rgb(215 201 155 / 40%);
     margin-bottom: 20px;
     transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
     overflow: hidden;
@@ -88,7 +88,7 @@
          /* Состояние при раскрытии */
 .expandable-box.is-expanded {
     max-height: 800px; /* Раскрываем */
-    background: rgb(0 0 0 / 60%); /* Делаем фон плотнее при раскрытии */
+    background: rgb(0 0 0 / 85%); /* Делаем фон плотнее при раскрытии */
     border-color: #d4af37;
     cursor: default;
 }
@@ -109,17 +109,18 @@
 /* Описываем саму анимацию */
 @keyframes goldPulse {
   0% {
-    box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
-    border-color: rgba(212, 175, 55, 0.5);
-  }
-  50% {
-    box-shadow: 0 0 30px rgba(212, 175, 55, 0.7); /* Свечение усиливается */
-    border-color: rgba(212, 175, 55, 1);      /* Рамка становится ярче */
-  }
-  100% {
-    box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
-    border-color: rgba(212, 175, 55, 0.5);
-  }
+    box-shadow: 0 0 15px rgb(236 229 207 / 30%);
+    border-color: rgb(255 254 249 / 50%);
+}
+
+50% {
+    box-shadow: 0 0 30px rgb(226 216 185 / 70%);
+    border-color: rgb(216 209 187);
+}
+100% {
+    box-shadow: 0 0 15px rgb(234 227 205 / 30%);
+    border-color: rgb(234 222 184 / 50%);
+}
 }
 
 /* Применяем её к верхней рамке */
