@@ -156,8 +156,9 @@
 }
 
 #run-btn {
-    position: fixed; /* Чтобы летала по всему экрану */
+    position: relative; /* Теперь она стоит в ряду с кнопкой НЕТ */
     transition: all 0.1s ease-out;
+    display: inline-block;
 }
 
 .static-btn:hover {
@@ -321,8 +322,8 @@ function showInsult(x, y) {
 }
 
 function moveButton(e) {
-    const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
-    const clientY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
+    const clientX = e.type.includes('touch') ? e.touches.clientX : e.clientX;
+    const clientY = e.type.includes('touch') ? e.touches.clientY : e.clientY;
 
     const rect = runBtn.getBoundingClientRect();
     const btnCenterX = rect.left + rect.width / 2;
@@ -330,14 +331,18 @@ function moveButton(e) {
 
     const distance = Math.hypot(clientX - btnCenterX, clientY - btnCenterY);
 
-    if (distance < 120) {
+    if (distance < 100) {
+        // КЛЮЧЕВОЙ МОМЕНТ: при первом приближении делаем её "летающей"
+        if (runBtn.style.position !== 'fixed') {
+            runBtn.style.position = 'fixed';
+        }
+
         const x = Math.random() * (window.innerWidth - rect.width - 60) + 30;
         const y = Math.random() * (window.innerHeight - rect.height - 60) + 30;
 
         runBtn.style.left = x + 'px';
         runBtn.style.top = y + 'px';
 
-        // Показываем надпись в месте, где была мышка/палец
         showInsult(clientX, clientY);
     }
 }
