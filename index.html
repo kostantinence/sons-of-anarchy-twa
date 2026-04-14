@@ -140,24 +140,6 @@
   box-shadow: 0 0 25px rgba(212, 175, 55, 0.5);
 }
 
-/* Настраиваем стиль плеера под ваш дизайн */
-  .video-card {
-        background: rgb(0 0 0 / 60%);
-        border: 2px solid #cec09487;
-        padding: 10px;
-        border-radius: 20px;
-        width: 280px;
-        box-shadow: 0 0 25px rgb(215 201 155 / 40%);
-        margin-bottom: 20px;
-        animation: goldPulse 4s infinite ease-in-out; /* Ваша анимация мерцания */
-    }
-
-    .video-card video {
-        width: 100%;
-        border-radius: 15px;
-        display: block;
-    }
-
     </style>
 </head>
 <body>
@@ -166,24 +148,30 @@
 <div class="bg-photo"></div>
 
 <div class="ui">
+    <!-- Первая карточка: Заголовок -->
     <div class="card card-header">
         <h1 class="txt">SONS OF ANARCHY</h1>
     </div>
 
-    <div class="video-card">
-        <video 
-            controls 
-            playsinline 
-            webkit-playsinline
-            preload="metadata" 
-            style="width: 100%; display: block; border-radius: 15px; background: #000;">
-            <source src="promo.mp4" type="video/mp4">
-            Ваш браузер не поддерживает видео.
-        </video>
+    <!-- Вторая карточка: Объявление -->
+    <div class="card container">
+      <div id="expandableBox" class="expandable-box">
+        <!-- То, что видно всегда -->
+        <span class="trigger-text"><h2>Внутреннее объявление</h2></span>
+        <!-- Скрытый контент -->
+        <div class="content">
+        <p>Союзы играющие по правилам сервера</p>
+        <p>Твинсоюзы/twin unions: son, Ryc. UKR</p>
+        <p style="color: #ff4d4d; font-weight: bold;">ВОЙНА/WAR:</p>
+        <p>на сервере мир 6/1<br>on the server peacetime 6/1</p>
+        <p>В воскресенье событие экспедиции, свой сервер нигде не атакуем!</p>
+        <p>On Sunday, the expedition event, we don't attack our server anywhere!</p>
+        <p>Минимум на дома/minimum Monster houses- закрыть 5 этапов/ close 5 stages of the event</p>
+      </div>
+  </div>
+</div>
     </div>
 </div>
-
-
 
 <script>
     // JS МАТРИЦА (Фоновая анимация)
@@ -219,6 +207,21 @@
     init();
     draw();
 </script>
+<script>
+const box = document.getElementById('expandableBox');
 
+box.addEventListener('click', (e) => {
+    // Останавливаем передачу клика документу
+    e.stopPropagation(); 
+    box.classList.add('is-expanded');
+});
+
+document.addEventListener('click', (e) => {
+    // Если клик вне бокса — закрываем
+    if (!box.contains(e.target)) {
+        box.classList.remove('is-expanded');
+    }
+});
+</script>
 </body>
 </html>
