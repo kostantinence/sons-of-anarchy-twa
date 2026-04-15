@@ -14,7 +14,18 @@
 
     <script src="https://telegram.org"></script>
     <style>
-        body, html { margin: 0; padding: 0; width: 100%; min-height: 100vh; background: #000; font-family: monospace; color: #d4af37; overflow-x: hidden; }
+        /* Скрываем полосу прокрутки для Chrome, Safari и Opera */
+body::-webkit-scrollbar {
+    display: none;
+}
+
+/* Скрываем полосу прокрутки для IE, Edge и Firefox */
+body {
+    -ms-overflow-style: none;  /* IE и Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+        body, html { margin: 0; padding: 0; width: 100%; min-height: 100vh; background: #000; font-family: monospace; color: #d4af37; overflow-x: hidden;  scroll-behavior: smooth; /* Плавная прокрутка */
+    -webkit-overflow-scrolling: touch; /* Инерционный скролл для iPhone */ }
         
         /* СЛОЙ 1: JavaScript Матрица */
         canvas { position: fixed; top: 0; left: 0; z-index: 1; pointer-events: none; }
@@ -29,116 +40,134 @@
             pointer-events: none;
         }
 
-        /* СЛОЙ 3: Интерфейс */
-        .ui { position: relative; z-index: 10; display: flex; flex-direction: column; align-items: center; padding: 20px; }
-        
-   .card .expandable-box {
-    background: rgb(0 0 0 / 60%);
-    border: 2px solid #cec09487;
-    padding: 15px 20px;
-    border-radius: 20px;
-    text-align: center;
-    width: 280px;
-    box-shadow: 0 0 25px rgb(215 201 155 / 40%);
-    margin-bottom: 20px;
-    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    overflow: hidden;
-    cursor: pointer;
-    
-    /* ВАЖНО: Начальная высота, чтобы было видно только заголовок */
-    max-height: 50px; 
+           /* СЛОЙ 3: Интерфейс */
+/* Контейнер: разрешаем перенос строк и центрируем */
+.ui { 
+    position: relative; 
+    z-index: 10; 
+    display: flex; 
+    flex-wrap: wrap;          
+    justify-content: center;  
+    align-items: flex-start;  
+    gap: 20px; 
+    padding: 20px; 
+    width: 100%;
+    box-sizing: border-box;
 }
 
-  .card-header {
+/* Заголовок: теперь рамка строго по тексту и всегда по центру */
+.card-header {
     background: rgb(0 0 0 / 50%);
     border: 2px solid #d4af3787;
-    padding: 20px;
+    padding: 13px 20px;
+    border-radius: 20px;
+    font-family: serif;
+    text-align: center;
+    box-shadow: 0 0 25px rgba(212, 175, 55, 0.4);
+    animation: goldPulse 4s infinite ease-in-out;
+    
+    /* Магия центрирования */
+    flex: 0 0 auto;      /* Не растягиваем на 100% */
+    margin: 10px 100% 10px; /* Хитрость: margin 100% выталкивает всё остальное на новую строку */
+    display: inline-block;
+    position: relative;
+    z-index: 20;
+}
+
+
+
+/* Карточки: фиксируем ширину, чтобы они не сжимались как на фото */
+.static-box, .expandable-box {
+    background: rgb(0 0 0 / 60%);
+    border: 2px solid #cec09487;
+    padding: 10px;
     border-radius: 20px;
     text-align: center;
-    font-family: serif;
-    margin-bottom: 20px; /* Отступ от нижнего блока */
-    box-shadow: 0 0 25px rgba(212, 175, 55, 0.4);
-    display: inline-block; /* Рамка по размеру текста */
+    width: 280px;        
+    min-width: 280px;    /* Чтобы не сжимались меньше 280px */
+    box-shadow: 0 0 25px rgb(215 201 155 / 40%);
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+    position: relative;
+    z-index: 10;
 }
+
+        /* Специфика раздвижной коробки */
+        .expandable-box {
+            cursor: pointer;
+            max-height: 50px; /* Схлопнута */
+            animation: goldPulse 4s infinite ease-in-out;
+        }
+
+        /* Состояние раздвижной коробки при раскрытии */
+        .expandable-box.is-expanded {
+            max-height: 800px;
+            background: rgb(0 0 0 / 80%);
+            border-color: #d4af37;
+            animation: none;
+            cursor: default;
+        }
+
+        /* Специфика стационарной коробки */
+.static-box {
+    border-color: #d4af37;
+    box-shadow: 0 0 25px rgba(212, 175, 55, 0.5);
+    flex: 0 1 280px; 
+    max-height: none !important; /* Гарантия открытия */
+}
+
+
 
         h1 { margin: 0; font-size: 20px; letter-spacing: 2px; text-transform: uppercase; }
-        h2 { font-size: 16px; margin: 10px 0; border-bottom: 1px solid #d4af37; padding-bottom: 5px; }
-        p { color: #fff; margin: 10px 0; font-size: 14px; line-height: 1.4; }
+        
+        /* Заголовки h2 — центрирование и линия */
+        h2 {
+            font-size: 17px;
+            margin: 10px auto;
+            border-bottom: 1px solid #d44b37;
+            padding-bottom: 4px;
+            font-family: monospace;
+            font-weight: lighter;
+            display: table; /* Линия только под текстом */
+        }
 
-          /* анимация бегающей строки h1 */
+        p { color: #fff; margin: 6px 4px; font-size: 13px; line-height: 1.3; }
+
+        /* Контент */
+        .content {
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+            padding-top: 10px;
+        }
+
+        /* Показываем контент, если коробка раскрыта ИЛИ если она стационарная */
+        .is-expanded .content, .static-box .content {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Анимация текста h1 */
         .txt {
-  position: relative;
-  overflow: hidden;
-  background: linear-gradient(90deg, #b29841bf 10%, #a68137d4 20%);
-  background-repeat: no-repeat;
-  background-size: 80%;
-  animation: animate 6s linear infinite;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: rgb(222 215 20 / 85%);
-}
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(90deg, #b29841bf 10%, #a68137d4 20%);
+            background-repeat: no-repeat;
+            background-size: 80%;
+            animation: animate 6s linear infinite;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: rgb(222 215 20 / 85%);
+        }
 
-@keyframes animate {
-  0% {
-    background-position: -500%;
-  }
-  100% {
-    background-position: 500%;
-  }
-}
-         /* Состояние при раскрытии */
-.expandable-box.is-expanded {
-    max-height: 800px; /* Раскрываем */
-    background: rgb(0 0 0 / 60%); /* Делаем фон плотнее при раскрытии */
-    border-color: #d4af37;
-    cursor: default;
-}
+        @keyframes animate {
+            0% { background-position: -500%; }
+            100% { background-position: 500%; }
+        }
 
-.content {
-    opacity: 0;
-    transition: opacity 0.5s ease;
-    pointer-events: none;
-    padding-top: 10px;
-}
-
-.is-expanded .content {
-    opacity: 1;
-    pointer-events: auto;
-}
-
-/* мерцание рамки */
-/* Описываем саму анимацию */
-@keyframes goldPulse {
-  0% {
-    box-shadow: 0 0 15px rgb(236 229 207 / 30%);
-    border-color: rgb(255 254 249 / 50%);
-}
-
-50% {
-    box-shadow: 0 0 30px rgb(226 216 185 / 70%);
-    border-color: rgb(216 209 187);
-}
-100% {
-    box-shadow: 0 0 15px rgb(234 227 205 / 30%);
-    border-color: rgb(234 222 184 / 50%);
-}
-}
-
-/* Применяем её к верхней рамке */
-.card-header {
-  animation: goldPulse 4s infinite ease-in-out;
-}
-
-/* Применяем её к нижней рамке (когда она закрыта) */
-.expandable-box {
-  animation: goldPulse 4s infinite ease-in-out;
-}
-
-/* Отключаем пульсацию, когда рамка раскрыта, чтобы не отвлекать от текста */
-.expandable-box.is-expanded {
-  animation: none; 
-  border-color: #d4af37;
-  box-shadow: 0 0 25px rgba(212, 175, 55, 0.5);
-}
+        @keyframes goldPulse {
+            0%, 100% { box-shadow: 0 0 15px rgb(234 227 205 / 30%); border-color: rgb(234 222 184 / 50%); }
+            50% { box-shadow: 0 0 30px rgb(226 216 185 / 70%); border-color: rgb(216 209 187); }
+        }
 
     </style>
 </head>
@@ -148,29 +177,58 @@
 <div class="bg-photo"></div>
 
 <div class="ui">
-    <!-- Первая карточка: Заголовок -->
-    <div class="card card-header">
-        <h1 class="txt">SONS OF ANARCHY</h1>
+    <div class="card-header">
+         <h1 class="txt">SONS OF ANARCHY</h1>
     </div>
 
-    <!-- Вторая карточка: Объявление -->
-    <div class="card container">
-      <div id="expandableBox" class="expandable-box">
-        <!-- То, что видно всегда -->
-        <span class="trigger-text"><h2>Внутреннее объявление</h2></span>
-        <!-- Скрытый контент -->
+    <!-- 1. СТАЦИОНАРНАЯ КАРТОЧКА -->
+    <div class="static-box">
+        <h2>Внутреннее объявление</h2>
         <div class="content">
-        <p>Союзы играющие по правилам сервера</p>
+           <p>Союзы играющие по правилам сервера</p>
         <p>Твинсоюзы/twin unions: son, Ryc. UKR</p>
         <p style="color: #ff4d4d; font-weight: bold;">ВОЙНА/WAR:</p>
         <p>на сервере мир 6/1<br>on the server peacetime 6/1</p>
         <p>В воскресенье событие экспедиции, свой сервер нигде не атакуем!</p>
         <p>On Sunday, the expedition event, we don't attack our server anywhere!</p>
+        <p>Сбор по рангам/collecting by rank</p>
         <p>Минимум на дома/minimum Monster houses- закрыть 5 этапов/ close 5 stages of the event</p>
-      </div>
-  </div>
-</div>
+        </div>
     </div>
+
+    <!-- 2. РАЗДВИЖНАЯ КАРТОЧКА (РУДА) -->
+    <div class="expandable-box">
+        <h2>РУДА/MINE</h2>
+        <div class="content">
+            <p>1-3 всегда в безопасности/always safe</p>
+        <p>4 для маршала и выше/safe for marshal and higher</p>
+        <p>5 для великого маршала/safe for GMs</p>
+        <p>6-7 всегда опасно/always unsafe</p>
+        </div>
+    </div>
+
+    <!-- 3. РАЗДВИЖНАЯ КАРТОЧКА (ПЫЛЬ) -->
+    <div class="expandable-box">
+        <h2>Пыль/DUST</h2>
+        <div class="content">
+           <p>1-2 всегда в безопасности/always safe</p>
+        <p>3 для маршала и выше/safe for marshal and higher</p>
+        <p>4 для великого маршала/safe for GMs</p>
+        <p>5-6 всегда опасно/always unsafe</p>
+        </div>
+    </div>
+
+    <!-- 4. РАЗДВИЖНАЯ КАРТОЧКА (КОСТИ) -->
+    <div class="expandable-box">
+        <h2>КОСТИ/BONES</h2>
+        <div class="content">
+            <p>2-5 всегда в безопасности/always safe</p>
+       <p>6 для маршала и выше/safe for marshal and higher</p>
+       <p>7 для великого маршала/safe for GMs</p>
+       <p>8-10 всегда опасно/always unsafe</p>
+        </div>
+    </div>
+
 </div>
 
 <script>
@@ -208,19 +266,26 @@
     draw();
 </script>
 <script>
-const box = document.getElementById('expandableBox');
+// Находим только раздвижные блоки
+const boxes = document.querySelectorAll('.expandable-box');
 
-box.addEventListener('click', (e) => {
-    // Останавливаем передачу клика документу
-    e.stopPropagation(); 
-    box.classList.add('is-expanded');
+boxes.forEach(box => {
+    box.addEventListener('click', (e) => {
+        e.stopPropagation();
+        
+        // Закрываем другие, если нажимаем на новую
+        boxes.forEach(b => {
+            if (b !== box) b.classList.remove('is-expanded');
+        });
+
+        // Переключаем текущую
+        box.classList.toggle('is-expanded');
+    });
 });
 
-document.addEventListener('click', (e) => {
-    // Если клик вне бокса — закрываем
-    if (!box.contains(e.target)) {
-        box.classList.remove('is-expanded');
-    }
+// Закрытие при клике по экрану
+document.addEventListener('click', () => {
+    boxes.forEach(box => box.classList.remove('is-expanded'));
 });
 </script>
 </body>
