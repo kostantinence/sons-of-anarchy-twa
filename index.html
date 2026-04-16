@@ -169,6 +169,58 @@ body {
             50% { box-shadow: 0 0 30px rgb(226 216 185 / 70%); border-color: rgb(216 209 187); }
         }
 
+        /* Добавление кодов */
+
+        /* Стили для КОДОВ */
+        .code-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 10px 0;
+            padding: 5px 0;
+        }
+
+ .copy-target {
+            color: #0f0;
+            cursor: pointer;
+            font-weight: bold;
+            border: 1px dashed #0f0;
+            padding: 4px 8px;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+
+       /* Анимация вспышки */
+@keyframes flash-green {
+    0% { background-color: rgba(0, 255, 0, 0.8); color: #000; }
+    100% { background-color: rgba(0, 255, 0, 0); color: #0f0; }
+}
+
+.is-copied {
+    animation: flash-green 0.6s ease-out;
+}
+
+.copy-target:hover {
+    text-shadow: 0 0 8px #0f0;
+    background: rgba(0, 255, 0, 0.1);
+}
+
+/* Стиль для уведомления о копировании */
+.copy-notification {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #d4af37; /* Золотой под ваш стиль */
+    color: #000;
+    padding: 10px 20px;
+    border-radius: 20px;
+    display: none;
+    z-index: 1000;
+    font-weight: bold;
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.6);
+}
+
     </style>
 </head>
 <body>
@@ -195,6 +247,16 @@ body {
         <p>Минимум на дома/minimum Monster houses- закрыть 5 этапов/ close 5 stages of the event</p>
         </div>
     </div>
+
+<div class="static-box">
+    <h2>АКТУАЛЬНЫЕ КОДЫ</h2>
+    <div class="content">
+        <p>Пыль: <span id="code1" class="copy-target">...</span></p>
+        <p>Руда: <span id="code2" class="copy-target">...</span></p>
+        <p>Кости: <span id="code3" class="copy-target">...</span></p>
+    </div>
+</div>
+<div id="toast" class="copy-notification">Код скопирован!</div>
 
     <!-- 2. РАЗДВИЖНАЯ КАРТОЧКА (РУДА) -->
     <div class="expandable-box">
@@ -286,6 +348,38 @@ boxes.forEach(box => {
 // Закрытие при клике по экрану
 document.addEventListener('click', () => {
     boxes.forEach(box => box.classList.remove('is-expanded'));
+});
+</script>
+<script>
+// 1. Получение кодов из URL (от бота)
+const params = new URLSearchParams(window.location.search);
+const updateCode = (id, param) => {
+    const val = params.get(param);
+    if (val) document.getElementById(id).innerText = val;
+};
+updateCode('code1', 'c1');
+updateCode('code2', 'c2');
+updateCode('code3', 'c3');
+
+// 2. Логика копирования с анимацией
+document.querySelectorAll('.copy-target').forEach(item => {
+    item.addEventListener('click', event => {
+        const target = event.target;
+        const text = target.innerText;
+        
+        if (text === "...") return;
+
+        navigator.clipboard.writeText(text).then(() => {
+            // Анимация вспышки
+            target.classList.add('is-copied');
+            setTimeout(() => target.classList.remove('is-copied'), 600);
+            
+            // Показ уведомления
+            const toast = document.getElementById('toast');
+            toast.style.display = 'block';
+            setTimeout(() => { toast.style.display = 'none'; }, 2000);
+        });
+    });
 });
 </script>
 </body>
