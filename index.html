@@ -245,8 +245,7 @@ body {
         <div style="display: flex; gap: 5px;">
             <input type="text" id="chat-input" placeholder="Введите текст..." 
                    style="flex: 1; background: #000; border: 1px solid #d4af37; color: #fff; padding: 5px; border-radius: 5px; font-family: monospace;">
-            <button id="send-btn" onclick="sendMessage()" style="background: #d4af37; border: none; color: #000; padding: 5px 10px; border-radius: 5px; font-weight: bold; cursor: pointer; z-index: 100;"> >
-</button>
+            <button type="button" id="send-btn" onclick="sendMessage(event)">></button>
         </div>
     </div>
 </div>
@@ -443,8 +442,8 @@ document.querySelectorAll('.copy-target').forEach(item => {
     const sendBtn = document.getElementById('send-btn');
 
     // 3. ФУНКЦИЯ ОТПРАВКИ (теперь она видит и socket, и chatInput)
-    function sendMessage() {
-        if (!chatInput) return; // Защита от ошибки
+    function sendMessage(event) {
+    if (event) event.preventDefault(); // Защита от ошибки
         
         const text = chatInput.value.trim();
         console.log("Пытаюсь отправить:", text);
