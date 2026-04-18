@@ -13,6 +13,7 @@
     <meta property="og:type" content="website">
 
     <script src="https://telegram.org"></script>
+    <script src="https://socket.io"></script>
     <style>
         /* Скрываем полосу прокрутки для Chrome, Safari и Opera */
 body::-webkit-scrollbar {
@@ -233,6 +234,25 @@ body {
          <h1 class="txt">SONS OF ANARCHY</h1>
     </div>
 
+    <!-- чат -->>
+     <!-- КАРТОЧКА ЧАТА -->
+<div class="expandable-box" id="chat-card">
+    <h2 style="border-bottom-color: #d4af37;">💬 UNION CHAT</h2>
+    <div class="content">
+        <!-- Окно сообщений -->
+        <div id="chat-messages" style="height: 200px; overflow-y: auto; text-align: left; padding: 10px; background: rgba(0,0,0,0.6); border-radius: 10px; margin-bottom: 10px; border: 1px solid #d4af3744; font-size: 12px;">
+            <!-- Сюда итератор подгрузит сообщения -->
+        </div>
+        
+        <!-- Поле ввода -->
+        <div style="display: flex; gap: 5px;">
+            <input type="text" id="chat-input" placeholder="Введите текст..." 
+                   style="flex: 1; background: #000; border: 1px solid #d4af37; color: #fff; padding: 5px; border-radius: 5px; font-family: monospace;">
+            <button id="send-btn" style="background: #d4af37; border: none; color: #000; padding: 5px 10px; border-radius: 5px; font-weight: bold; cursor: pointer;">></button>
+        </div>
+    </div>
+</div>
+
     <!-- 1. СТАЦИОНАРНАЯ КАРТОЧКА -->
     <div class="static-box">
         <h2>Порядок двух дневных ивентов</h2>
@@ -405,6 +425,70 @@ document.querySelectorAll('.copy-target').forEach(item => {
         });
     });
 });
+</script>
+<script>
+    // 1. Инициализация Telegram WebApp
+    const tg = window.Telegram.WebApp;
+    tg.expand();
+
+    // 2. ПОДКЛЮЧЕНИЕ К СЕРВЕРУ
+    const socket = io("http://localhost:3000"); 
+
+    // ЭЛЕМЕНТЫ ЧАТА
+    const chatMessages = document.getElementById('chat-messages');
+    const chatInput = document.getElementById('chat-input');
+    const sendBtn = document.getElementById('send-btn');
+
+    // 3. ПРИЕМ СООБЩЕНИЙ
+    socket.on('chat_msg', (msg) => {
+        const div = document.createElement('div');
+        div.style.marginBottom = "8px";
+        div.style.borderBottom = "1px solid #ffffff11";
+        const time = new Date(msg.date).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        const userColor = msg.from_tg ? "#0088cc" : "#d4af37";
+
+        div.innerHTML = `
+            <span style="color: #888; font-size: 10px;">[${time}]</span> 
+            <b style="color: ${userColor};">${msg.user}:</b> 
+            <span style="color: #fff;">${msg.text}</span>
+        `;
+        chatMessages.appendChild(div);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    });
+
+    // 4. ФУНКЦИЯ ОТПРАВКИ
+    function sendMessage() {
+        const text = chatInput.value.trim();
+        if (text) {
+            socket.emit('client_message', {
+                user: tg.initDataUnsafe.user?.first_name || "Guest",
+                text: text
+            });
+            chatInput.value = '';
+        }
+    }
+
+    sendBtn.onclick = (e) => {
+        e.stopPropagation();
+        sendMessage();
+    };
+
+    chatInput.onkeypress = (e) => {
+        if (e.key === 'Enter') sendMessage();
+    };
+
+    chatInput.onclick = (e) => e.stopPropagation();
+
+    // --- ЛОГИКА КОДОВ (ОБЪЕДИНЕННАЯ) ---
+    // Используем ПЕРЕМЕННУЮ PARAMS, КОТОРАЯ БЫЛА ОБЪЯВЛЕНА ВЫШЕ В ТВОЕМ КОДЕ
+    // Если выше по коду её нет, раскомментируй строку ниже:
+    // const params = new URLSearchParams(window.location.search);
+
+    if(typeof params !== 'undefined') {
+        if(params.get('c1')) document.getElementById('code1').innerText = params.get('c1');
+        if(params.get('c2')) document.getElementById('code2').innerText = params.get('c2');
+        if(params.get('c3')) document.getElementById('code3').innerText = params.get('c3');
+    }
 </script>
 </body>
 </html>
