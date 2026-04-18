@@ -11,9 +11,7 @@
     <!-- Замените 'ваш-логин' на свой ник в GitHub ниже -->
     <meta property="og:image" content="https://github.io">
     <meta property="og:type" content="website">
-
-    <script src="https://telegram.org"></script>
-    <script src="https://socket.io"></script>
+    
     <style>
         /* Скрываем полосу прокрутки для Chrome, Safari и Opera */
 body::-webkit-scrollbar {
@@ -426,74 +424,52 @@ document.querySelectorAll('.copy-target').forEach(item => {
     });
 });
 </script>
-<script>
-    // 1. Инициализация Telegram WebApp
-    const tg = window.Telegram.WebApp;
-    tg.expand();
+<script src="https://telegram.org"></script>
+<script src="https://socket.io"></script>
 
-    // 2. ПОДКЛЮЧЕНИЕ К СЕРВЕРУ
+<script>
+    // 2. Инициализация (ПОРЯДОК ВАЖЕН!)
+    const tg = window.Telegram?.WebApp;
+    if (tg) tg.expand();
+
+    // Сначала создаем socket
     const socket = io("http://localhost:3000"); 
 
-    // ЭЛЕМЕНТЫ ЧАТА
     const chatMessages = document.getElementById('chat-messages');
     const chatInput = document.getElementById('chat-input');
-    const sendBtn = document.getElementById('send-btn');
 
-    // 3. ПРИЕМ СООБЩЕНИЙ
+    // 3. Теперь функция может использовать socket
+    function sendMessage() {
+        const text = chatInput.value.trim();
+        console.log("Попытка отправки:", text);
+
+        if (text) {
+            // Используем имя из ТГ или Guest
+            const userName = tg?.initDataUnsafe?.user?.first_name || "Guest";
+            
+            socket.emit('client_message', {
+                user: userName,
+                text: text
+            });
+            chatInput.value = '';
+        }
+    }
+
+    // Прием сообщений
     socket.on('chat_msg', (msg) => {
         const div = document.createElement('div');
         div.style.marginBottom = "8px";
-        div.style.borderBottom = "1px solid #ffffff11";
         const time = new Date(msg.date).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-        const userColor = msg.from_tg ? "#0088cc" : "#d4af37";
-
-        div.innerHTML = `
-            <span style="color: #888; font-size: 10px;">[${time}]</span> 
-            <b style="color: ${userColor};">${msg.user}:</b> 
-            <span style="color: #fff;">${msg.text}</span>
-        `;
+        
+        div.innerHTML = `<span style="color:#888">[${time}]</span> <b style="color:#d4af37">${msg.user}:</b> <span style="color:#fff">${msg.text}</span>`;
         chatMessages.appendChild(div);
         chatMessages.scrollTop = chatMessages.scrollHeight;
     });
 
-    // 4. ФУНКЦИЯ ОТПРАВКИ
-    function sendMessage() {
-    const chatInput = document.getElementById('chat-input');
-    const text = chatInput.value.trim();
-    
-    console.log("Попытка отправки:", text); // Отладочный лог в консоль
-
-    if (text) {
-        // Отправляем объект на сервер
-        socket.emit('client_message', {
-            user: tg.initDataUnsafe.user?.first_name || "Guest",
-            text: text
-        });
-        chatInput.value = ''; // Очищаем поле
-    }
-}
-
-    sendBtn.onclick = (e) => {
-        e.stopPropagation();
-        sendMessage();
-    };
-
-    chatInput.onkeypress = (e) => {
+    // Привязываем Enter
+    chatInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') sendMessage();
-    };
-
-    chatInput.onclick = (e) => e.stopPropagation();
-
-    // --- ЛОГИКА КОДОВ (ОБЪЕДИНЕННАЯ) ---
-    // Используем ПЕРЕМЕННУЮ PARAMS, КОТОРАЯ БЫЛА ОБЪЯВЛЕНА ВЫШЕ В ТВОЕМ КОДЕ
-    // Если выше по коду её нет, раскомментируй строку ниже:
-    // const params = new URLSearchParams(window.location.search);
-
-    if(typeof params !== 'undefined') {
-        if(params.get('c1')) document.getElementById('code1').innerText = params.get('c1');
-        if(params.get('c2')) document.getElementById('code2').innerText = params.get('c2');
-        if(params.get('c3')) document.getElementById('code3').innerText = params.get('c3');
-    }
+    });
 </script>
 </body>
 </html>
