@@ -236,12 +236,11 @@ body {
 
     <!-- чат -->>
      <!-- КАРТОЧКА ЧАТА -->
-<div class="expandable-box" id="chat-card">
+<div class="static-box" id="chat-card">
     <h2 style="border-bottom-color: #d4af37;">💬 UNION CHAT</h2>
-    <div class="content">
+    <div class="content" style="opacity: 1; pointer-events: auto;"> 
         <!-- Окно сообщений -->
-        <div id="chat-messages" style="height: 200px; overflow-y: auto; text-align: left; padding: 10px; background: rgba(0,0,0,0.6); border-radius: 10px; margin-bottom: 10px; border: 1px solid #d4af3744; font-size: 12px;">
-            <!-- Сюда итератор подгрузит сообщения -->
+        <div id="chat-messages" style="height: 250px; overflow-y: auto; text-align: left; padding: 10px; background: rgba(0,0,0,0.6); border-radius: 10px; margin-bottom: 10px; border: 1px solid #d4af3744; font-size: 12px;">
         </div>
         
         <!-- Поле ввода -->
