@@ -232,23 +232,6 @@ body {
          <h1 class="txt">SONS OF ANARCHY</h1>
     </div>
 
-     <!-- КАРТОЧКА ЧАТА -->
-<div class="static-box" id="chat-card">
-    <h2 style="border-bottom-color: #d4af37;">💬 UNION CHAT</h2>
-    <div class="content" style="opacity: 1; pointer-events: auto;"> 
-        <!-- Окно сообщений -->
-        <div id="chat-messages" style="height: 250px; overflow-y: auto; text-align: left; padding: 10px; background: rgba(0,0,0,0.6); border-radius: 10px; margin-bottom: 10px; border: 1px solid #d4af3744; font-size: 12px;">
-        </div>
-        
-        <!-- Поле ввода -->
-        <div style="display: flex; gap: 5px;">
-            <input type="text" id="chat-input" placeholder="Введите текст..." 
-                   style="flex: 1; background: #000; border: 1px solid #d4af37; color: #fff; padding: 5px; border-radius: 5px; font-family: monospace;">
-            <button type="button" id="send-btn" onclick="sendMessage(event)">></button>
-        </div>
-    </div>
-</div>
-
     <!-- 1. СТАЦИОНАРНАЯ КАРТОЧКА -->
     <div class="static-box">
         <h2>Порядок двух дневных ивентов</h2>
@@ -283,6 +266,23 @@ body {
 </div>
 <div id="toast" class="copy-notification">Код скопирован!</div>
 
+     <!-- КАРТОЧКА ЧАТА -->
+<div class="static-box" id="chat-card">
+    <h2 style="border-bottom-color: #d4af37;">UNION CHAT</h2>
+    <div class="content" style="opacity: 1; pointer-events: auto;"> 
+        <!-- Окно сообщений -->
+        <div id="chat-messages" style="height: 250px; overflow-y: auto; text-align: left; padding: 10px; background: rgba(0,0,0,0.6); border-radius: 10px; margin-bottom: 10px; border: 1px solid #d4af3744; font-size: 12px;">
+        </div>
+        
+        <!-- Поле ввода -->
+        <div style="display: flex; gap: 5px;">
+            <input type="text" id="chat-input" placeholder="Введите текст..." 
+                   style="flex: 1; background: #000; border: 1px solid #d4af37; color: #fff; padding: 5px; border-radius: 5px; font-family: monospace;">
+            <button type="button" id="send-btn" onclick="sendMessage(event)">></button>
+        </div>
+    </div>
+</div>
+    
     <!-- 2. РАЗДВИЖНАЯ КАРТОЧКА (Внутреннее объявление) -->
     <div class="expandable-box">
         <h2>Внутреннее объявление</h2>
