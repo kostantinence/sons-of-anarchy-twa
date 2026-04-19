@@ -220,6 +220,22 @@ body {
     box-shadow: 0 0 15px rgba(212, 175, 55, 0.6);
 }
 
+/* Добавление цветного текста */
+        .colore {
+ background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+  background-size: 400%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gradientMove 8s ease infinite;
+}
+
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
     </style>
 </head>
 <body>
@@ -248,7 +264,7 @@ body {
          <p>8. Модификация Снаряжения (трата камней и итемов для прокачки и ковки снаряжения лорда)</p>
         <p>9. Перековка Талантов</p>
         <p>10. Фантомная Богиня </p>
-        <p>11. Экспедиция Хаоса ( опыт хаоса и итемы на прокачку навыков хаоса)</p>
+        <div class="colore">11. Экспедиция Хаоса<div><p>(опыт хаоса и итемы на прокачку навыков хаоса)</p>
         <p>12. ⚠️ Боевой Колосс (итемы развития машин) ждем второй день</p>
         <p>12.1 ✔️ Второй день тоже на (итемы боевых машин)</p>
         <p>13. Улучшение Облика (итемы развития скинов замка, похода, области, лорда)</p>
