@@ -432,7 +432,7 @@ document.querySelectorAll('.copy-target').forEach(item => {
     if (tg) tg.expand();
 
     // Сначала подключаем сокет
-    const socket = io("http://192.168.0.103:3000"); 
+    const socket = io("http://localhost:3000"); 
 
     const chatMessages = document.getElementById('chat-messages');
     const chatInput = document.getElementById('chat-input');
