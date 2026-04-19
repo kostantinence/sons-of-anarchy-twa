@@ -428,25 +428,24 @@ document.querySelectorAll('.copy-target').forEach(item => {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.8.1/socket.io.min.js"></script>
 
 <script>
-    // 2. Объявляем ВСЕ переменные сразу в начале
     const tg = window.Telegram?.WebApp;
     if (tg) tg.expand();
 
     // Сначала подключаем сокет
     const socket = io("http://localhost:3000"); 
 
-    // Находим элементы DOM
     const chatMessages = document.getElementById('chat-messages');
     const chatInput = document.getElementById('chat-input');
     const sendBtn = document.getElementById('send-btn');
 
-    // 3. ФУНКЦИЯ ОТПРАВКИ (теперь она видит и socket, и chatInput)
     function sendMessage(event) {
-    if (event) event.preventDefault(); // Защита от ошибки
+        // ОБЯЗАТЕЛЬНО: останавливаем стандартное поведение браузера
+        if (event) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
         
         const text = chatInput.value.trim();
-        console.log("Пытаюсь отправить:", text);
-
         if (text) {
             const userName = tg?.initDataUnsafe?.user?.first_name || "Guest";
             
@@ -454,19 +453,24 @@ document.querySelectorAll('.copy-target').forEach(item => {
                 user: userName,
                 text: text
             });
-            chatInput.value = ''; // Очистка
+            chatInput.value = '';
+            
+            // Чтобы клавиатура на Android не пряталась сразу
+            chatInput.focus(); 
         }
     }
 
-    // 4. ПРИЕМ СООБЩЕНИЙ (Итератор на сервере начнет слать данные сюда)
     socket.on('chat_msg', (msg) => {
         const div = document.createElement('div');
         div.style.marginBottom = "8px";
         const time = new Date(msg.date).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
         
+        // Помечаем сообщения из ТГ синим цветом (используем метку from_tg из итератора)
+        const nameColor = msg.from_tg ? "#0088cc" : "#d4af37";
+
         div.innerHTML = `
             <span style="color:#888">[${time}]</span> 
-            <b style="color:#d4af37">${msg.user}:</b> 
+            <b style="color:${nameColor}">${msg.user}:</b> 
             <span style="color:#fff">${msg.text}</span>
         `;
         if (chatMessages) {
@@ -475,20 +479,25 @@ document.querySelectorAll('.copy-target').forEach(item => {
         }
     });
 
-    // 5. ПРИВЯЗКА СОБЫТИЙ
     if (chatInput) {
         chatInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') sendMessage();
+            if (e.key === 'Enter') {
+                sendMessage(e); // ПЕРЕДАЕМ СОБЫТИЕ 'e'
+            }
         });
     }
 
-    // Если у тебя кнопка прописана в HTML как onclick="sendMessage()", 
-    // этого блока достаточно. Если нет — добавь:
     if (sendBtn) {
         sendBtn.onclick = (e) => {
-            if(e) e.stopPropagation();
-            sendMessage();
+            sendMessage(e); // ПЕРЕДАЕМ СОБЫТИЕ 'e'
         };
+    }
+
+    // Фикс для Telegram WebApp: предотвращаем "дрожание" при вводе
+    if (tg) {
+        tg.onEvent('viewportChanged', () => {
+            document.body.style.height = window.innerHeight + 'px';
+        });
     }
 </script>
 </body>
