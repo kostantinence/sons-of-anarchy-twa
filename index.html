@@ -237,23 +237,80 @@ body {
   100% { background-position: 0% 50%; }
 }
 
-/* Настраиваем стиль плеера под ваш дизайн */
-  .video-card {
-        background: rgb(0 0 0 / 60%);
-        border: 2px solid #cec09487;
-        padding: 10px;
-        border-radius: 20px;
-        width: 280px;
-        box-shadow: 0 0 25px rgb(215 201 155 / 40%);
-        margin-bottom: 20px;
-        animation: goldPulse 4s infinite ease-in-out; /* Ваша анимация мерцания */
-    }
+/* Обновленный контейнер для YouTube плеера */
+.video-card {
+    background: rgb(0 0 0 / 60%);
+    border: 2px solid #cec09487;
+    padding: 8px; /* Небольшой отступ внутри рамки */
+    border-radius: 20px;
+    width: 280px;
+    box-shadow: 0 0 25px rgb(215 201 155 / 40%);
+    margin-bottom: 20px;
+    animation: goldPulse 4s infinite ease-in-out;
+    position: relative;
+    overflow: hidden;
+}
 
-    .video-card video {
-        width: 100%;
-        border-radius: 15px;
-        display: block;
-    }
+/* Обертка для сохранения пропорций 16:9 */
+.video-responsive {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%; /* Соотношение сторон 16:9 */
+    height: 0;
+}
+
+.video-responsive iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 12px; /* Скругляем углы самого видео */
+    border: none;
+}
+
+
+/* Стили для таблицы Храмов */
+.table-wrapper {
+    width: 100%;
+    overflow-x: auto; /* Позволяет листать таблицу, если она не влезает */
+    margin-top: 10px;
+    scrollbar-width: thin;
+    scrollbar-color: #d4af37 #000;
+}
+
+.temple-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11px; /* Компактный шрифт для мобилок */
+    color: #fff;
+    border: 1px solid #d4af3787;
+}
+
+.temple-table th {
+    background: rgba(212, 175, 55, 0.2);
+    color: #d4af37;
+    padding: 8px 3px;
+    border: 1px solid #d4af3787;
+    white-space: nowrap; /* Запрещаем перенос лвл */
+}
+
+.temple-table td {
+    padding: 7px 3px;
+    border: 1px solid #d4af3740;
+    text-align: center;
+}
+
+.temple-table tr:nth-child(even) {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.temple-table td:first-child {
+    text-align: left;
+    color: #d4af37;
+    font-weight: bold;
+    min-width: 90px;
+}
 
     </style>
 </head>
@@ -284,17 +341,107 @@ body {
         <p>9. Перековка Талантов</p>
         <p>10. Фантомная Богиня </p>
         <p>11. Экспедиция Хаоса (опыт хаоса и итемы на прокачку навыков хаоса)</p>
-        <p> 12. ⚠️ Боевой Колосс (итемы развития машин) ждём второй день</p>
-        <p>12.1 ✔️ Второй день тоже на (итемы боевых машин)</p>
         <p style="
     background-image: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    ">13. Улучшение Облика (итемы развития скинов замка, похода, области, лорда)</p>
+    "> 12. Боевой Колосс (итемы развития машин)</p> 
+              <p class="p">ждем второй день</p>
+        <p>12.1 ✔️ Второй день тоже на (итемы боевых машин)</p>
+        <p>13. Улучшение Облика (итемы развития скинов замка, похода, области, лорда)</p>
         <p>14. Кузница Сокровищ (все для развития сокровищ)</p>
         </div>
     </div>
+
+<!-- ХРАМ МАШИН -->
+<div class="static-box">
+    <h2 style="border-bottom-color: #d4af37;">ХРАМ МАШИН</h2>
+    <div class="content">
+        <div class="table-wrapper">
+            <table class="temple-table">
+                <thead>
+                    <tr>
+                        <th>Бонусы:</th>
+                        <th>20 лвл</th>
+                        <th>40 лвл</th>
+                        <th>60 лвл</th>
+                        <th>80 лвл</th>
+                        <th>100 лвл</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>ХП</td><td>3,5%</td><td>7,50%</td><td>15%</td><td>28,50%</td><td>-</td></tr>
+                    <tr><td>Доп. Физ. Защ.</td><td>12</td><td>25,5</td><td>42</td><td>63</td><td>-</td></tr>
+                    <tr><td>Доп. Маг. Защ.</td><td>12</td><td>25,5</td><td>42</td><td>59</td><td>-</td></tr>
+                    <tr><td>УРН навыка</td><td>1%</td><td>2,50%</td><td>5%</td><td>7%</td><td>-</td></tr>
+                    <tr><td>Эффект лечения</td><td>1%</td><td>3%</td><td>5%</td><td>7%</td><td>-</td></tr>
+                    <tr><td>Снижение УРН</td><td>0%</td><td>3%</td><td>5%</td><td>7,5</td><td>-</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- ХРАМ ОГНЯ -->
+<div class="static-box">
+    <h2 style="border-bottom-color: #d4af37;">ХРАМ ОГНЯ</h2>
+    <div class="content">
+        <div class="table-wrapper">
+            <table class="temple-table">
+                <thead>
+                    <tr>
+                        <th>Бонусы:</th>
+                        <th>20 лвл</th>
+                        <th>40 лвл</th>
+                        <th>60 лвл</th>
+                        <th>80 лвл</th>
+                        <th>100 лвл</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Физ. Атака</td><td>-</td><td>6,5</td><td>14</td><td>25</td><td>40</td></tr>
+                    <tr><td>Физ. Защита</td><td>-</td><td>6,5</td><td>14</td><td>25</td><td>40</td></tr>
+                    <tr><td>Маг. Атака</td><td>-</td><td>6,5</td><td>14</td><td>25</td><td>40</td></tr>
+                    <tr><td>Маг. Защита</td><td>-</td><td>6,5</td><td>14</td><td>25</td><td>40</td></tr>
+                    <tr><td>УРН навыка</td><td>-</td><td>11%</td><td>18%</td><td>28%</td><td>40%</td></tr>
+                    <tr><td>Эффект лечения</td><td>0</td><td>11%</td><td>18%</td><td>28%</td><td>40%</td></tr>
+                    <tr><td>Уклон солдата</td><td>0</td><td>0</td><td>1%</td><td>3%</td><td>5%</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- ХРАМ ЮНИТОВ -->
+<div class="static-box">
+    <h2 style="border-bottom-color: #d4af37;">ХРАМ ЮНИТОВ</h2>
+    <div class="content">
+        <div class="table-wrapper">
+            <table class="temple-table">
+                <thead>
+                    <tr>
+                        <th>Бонусы:</th>
+                        <th>20 лвл</th>
+                        <th>40 лвл</th>
+                        <th>60 лвл</th>
+                        <th>80 лвл</th>
+                        <th>100 лвл</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Физ. Атака</td><td>5%</td><td>14%</td><td>25,5%</td><td>-</td><td>-</td></tr>
+                    <tr><td>Физ. Защита</td><td>5%</td><td>14%</td><td>25,5%</td><td>-</td><td>-</td></tr>
+                    <tr><td>Маг. Атака</td><td>5%</td><td>14%</td><td>25,5%</td><td>-</td><td>-</td></tr>
+                    <tr><td>Маг. Защита</td><td>5%</td><td>14%</td><td>25,5%</td><td>-</td><td>-</td></tr>
+                    <tr><td>Сила воинов</td><td>7%</td><td>19%</td><td>34%</td><td>-</td><td>-</td></tr>
+                    <tr><td>ЖЗН воинов</td><td>7%</td><td>19%</td><td>26%</td><td>-</td><td>-</td></tr>
+                    <tr><td>Урн. солдатами</td><td>0%</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
 <div class="static-box">
     <h2>АКТУАЛЬНЫЕ КОДЫ</h2>
@@ -325,16 +472,15 @@ body {
     
     <!-- 2. КАРТОЧКА (Видео) -->
         <div class="video-card">
-        <video 
-            controls 
-            playsinline 
-            webkit-playsinline
-            preload="metadata" 
-            style="width: 100%; display: block; border-radius: 15px; background: #000;">
-            <source src="promo.mp4" type="video/mp4">
-            Ваш браузер не поддерживает видео.
-        </video>
+    <div class="video-responsive">
+        <iframe 
+            src="https://www.youtube.com/embed/c1zk5nSaDGs" 
+            title="Sons of Anarchy Video"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen>
+        </iframe>
     </div>
+</div>
 
 </div>
 
