@@ -238,9 +238,8 @@
         <div class="static-box">
     <h2>АКТУАЛЬНЫЕ КОДЫ</h2>
 <div class="content">
-        <p>1. 🎁 (New) <span id="code1" class="copy-target">......</span></p>
-        <p>2. 🎁 <span id="code2" class="copy-target">......</span></p>
-        <p>3. 🎁 <span id="code3" class="copy-target">......</span></p>
+        <p>1. 🎁 (New) <span id="code1" class="copy-target">...</span></p>
+        <p>2. 🎁 <span id="code2" class="copy-target">...</span></p>
     </div>
 </div>
 </div> <!-- Закрыли Колонну 4 -->
@@ -310,29 +309,38 @@ document.addEventListener('click', () => {
 </script>
 <script>
 // 1. Получение кодов из URL (от бота)
+    
 const params = new URLSearchParams(window.location.search);
-const updateCode = (id, param) => {
-    const val = params.get(param);
-    if (val) document.getElementById(id).innerText = val;
-};
-updateCode('code1', 'c1');
-updateCode('code2', 'c2');
-updateCode('code3', 'c3');
 
-// 2. Логика копирования с анимацией
+const updateCode = (id, rowId, param) => {
+    const val = params.get(param);
+    const element = document.getElementById(id);
+    const row = document.getElementById(rowId);
+
+    if (val && val !== "undefined" && val !== "null") {
+        element.innerText = val;
+    } else if (row) {
+        // Если кода нет в ссылке, скрываем всю строку целиком
+        row.style.display = 'none';
+    }
+};
+
+// Обновляем только 2 кода
+updateCode('code1', 'row1', 'c1');
+updateCode('code2', 'row2', 'c2');
+
+// 2. Логика копирования (остается без изменений)
 document.querySelectorAll('.copy-target').forEach(item => {
     item.addEventListener('click', event => {
         const target = event.target;
         const text = target.innerText;
         
-        if (text === "...") return;
+        if (text.includes("..")) return;
 
         navigator.clipboard.writeText(text).then(() => {
-            // Анимация вспышки
             target.classList.add('is-copied');
             setTimeout(() => target.classList.remove('is-copied'), 600);
             
-            // Показ уведомления
             const toast = document.getElementById('toast');
             toast.style.display = 'block';
             setTimeout(() => { toast.style.display = 'none'; }, 2000);
