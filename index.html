@@ -277,42 +277,6 @@
 <div id="toast" class="copy-notification">Код скопирован!</div>
 
 <script>
-    // JS МАТРИЦА (Фоновая анимация)
-    var canvas = document.getElementById("m");
-    var ctx = canvas.getContext("2d");
-    var w, h, columns, drops;
-    var fontSize = 18;
-    var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
-
-    function init() {
-        w = canvas.width = window.innerWidth;
-        h = canvas.height = window.innerHeight;
-        columns = Math.floor(w / fontSize);
-        drops = [];
-        for (var i = 0; i < columns; i++) drops[i] = 1;
-    }
-
-    function draw() {
-        ctx.fillStyle = "rgba(0, 0, 0, 0.1)"; 
-        ctx.fillRect(0, 0, w, h);
-        ctx.font = fontSize + "px monospace";
-        for (var i = 0; i < drops.length; i++) {
-            var txt = chars[Math.floor(Math.random() * chars.length)];
-            // Делаем обычные символы чуть тусклее, а "вспышки" ярче
-            ctx.fillStyle = Math.random() > 0.98 ? "#fff" : "#00ff0080"; 
-            ctx.fillText(txt, i * fontSize, drops[i] * fontSize);
-            if (drops[i] * fontSize > h && Math.random() > 0.975) drops[i] = 0;
-            drops[i]++;
-        }
-        // Оптимальная задержка для плавной работы в Telegram
-        setTimeout(() => { requestAnimationFrame(draw); }, 50);
-    }
-
-    window.addEventListener("resize", init);
-    init();
-    draw();
-</script>
-<script>
 // Находим только раздвижные блоки
 const boxes = document.querySelectorAll('.expandable-box');
 
