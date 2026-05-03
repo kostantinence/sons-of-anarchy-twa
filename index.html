@@ -206,40 +206,56 @@
     </div>
 
 
-    <!-- Колонна 3: Видео и Чат -->
-    <div class="column-group">
-        <!-- Видео теперь само по себе (без static-box вокруг) -->
-            <!-- 2. КАРТОЧКА (Видео) -->
-        <div class="video-card">
-    <div class="video-responsive">
-        <video 
-            controls 
-            playsinline 
-            webkit-playsinline
-            preload="metadata" 
-            style="width: 100%; display: block; border-radius: 15px; background: #000;">
-            <source src="promo.mp4" type="video/mp4">
-            Ваш браузер не поддерживает видео.
-        </video>
-    </div>
-</div>
-        <!-- КАРТОЧКА ЧАТА -->
-<div class="static-box" id="chat-card">
-    <h2 style="border-bottom-color: #d4af37;">UNION CHAT</h2>
-    <div class="content" style="opacity: 1; pointer-events: auto;"> 
-        <!-- Окно сообщений -->
-        <div id="chat-messages" style="height: 250px; overflow-y: auto; text-align: left; padding: 10px; background: rgba(0,0,0,0.6); border-radius: 10px; margin-bottom: 10px; border: 1px solid #d4af3744; font-size: 12px;">
-        </div>
-        
-        <!-- Поле ввода -->
-        <div style="display: flex; gap: 5px;">
-            <input type="text" id="chat-input" placeholder="Введите текст..." 
-                   style="flex: 1; background: #000; border: 1px solid #d4af37; color: #fff; padding: 5px; border-radius: 5px; font-family: monospace;">
-            <button type="button" id="send-btn" onclick="sendMessage(event)">></button>
+<!-- Колонна 3: Видео и Улучшенный Хакерский Чат -->
+<div class="column-group">
+    <!-- 2. КАРТОЧКА (Видео) -->
+    <div class="video-card">
+        <div class="video-responsive">
+            <video controls playsinline webkit-playsinline preload="metadata" style="width: 100%; display: block; border-radius: 15px; background: #000;">
+                <source src="promo.mp4" type="video/mp4">
+            </video>
         </div>
     </div>
-</div>
-    </div> <!-- Закрыли Колонну 3 -->
+
+    <!-- КАРТОЧКА ЧАТА -->
+    <div class="static-box" id="chat-card">
+        <h2 class="txt">UNION TERMINAL</h2>
+        <div class="content"> 
+            
+            <!-- 1. ПОЛЕ ДЛЯ НИКА (Твой стиль) -->
+            <div class="ai-input-container" style="width: 100%; margin-bottom: 15px; border-color: #d4af37; box-shadow: 0 0 10px #d4af3766;">
+                <div class="ai-input-inner">
+                    <input id="username-input" placeholder="Идентификация..." class="ai-input" type="text" style="color: #d4af37;" />
+                    <label class="ai-label" style="color: #d4af37; border-color: #d4af37;">USER_ID</label>
+                    <div class="digital-noise">
+                        <span style="left: 10%; top: 20%; color: #d4af37;" class="noise-bit">0</span>
+                        <span style="left: 80%; top: 50%; color: #d4af37;" class="noise-bit">1</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. ОКНО СООБЩЕНИЙ -->
+            <div id="chat-messages" style="height: 200px; overflow-y: auto; text-align: left; padding: 10px; background: rgba(0,0,0,0.8); border-radius: 10px; margin-bottom: 15px; border: 1px solid #d4af3744; font-size: 12px; font-family: 'Courier New', monospace;">
+            </div>
+            
+            <!-- 3. ПОЛЕ ДЛЯ СООБЩЕНИЯ (Твой стиль) -->
+            <div class="ai-input-container" style="width: 100%;">
+                <div class="ai-input-inner">
+                    <input id="chat-input" placeholder="Execute command..." class="ai-input" type="text" onkeypress="if(event.key === 'Enter') sendMessage()" />
+                    <label class="ai-label">MESSAGE_DATA</label>
+                    <button class="ai-button" onclick="sendMessage()">↳</button>
+                    <div class="digital-noise">
+                        <span style="left: 15%; top: 20%;" class="noise-bit">1</span>
+                        <span style="left: 45%; top: 40%;" class="noise-bit">0</span>
+                        <span style="left: 75%; top: 30%;" class="noise-bit">1</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div> <!-- Закрыли Колонну 3 -->
+    
 
     <!-- Колонна 4: Коды -->
     <div class="column-group">
@@ -387,69 +403,79 @@ document.querySelectorAll('.copy-target').forEach(item => {
     const tg = window.Telegram?.WebApp;
     if (tg) tg.expand();
 
-    // Сначала подключаем сокет
     const socket = io("https://soa-backend.onrender.com"); 
 
     const chatMessages = document.getElementById('chat-messages');
     const chatInput = document.getElementById('chat-input');
-    const sendBtn = document.getElementById('send-btn');
+    const nameInput = document.getElementById('username-input'); // Поле ника
 
+    // 1. ЗАГРУЗКА НИКА: Приоритет: 1. Память браузера, 2. Имя из ТГ, 3. Guest
+    window.addEventListener('DOMContentLoaded', () => {
+        const savedName = localStorage.getItem('soa_chat_name');
+        if (savedName) {
+            nameInput.value = savedName;
+        } else if (tg?.initDataUnsafe?.user?.first_name) {
+            nameInput.value = tg.initDataUnsafe.user.first_name;
+        }
+    });
+
+    // 2. ОБНОВЛЕННАЯ ФУНКЦИЯ ОТПРАВКИ
     function sendMessage(event) {
-        // ОБЯЗАТЕЛЬНО: останавливаем стандартное поведение браузера
         if (event) {
             event.preventDefault();
-            event.stopPropagation();
         }
         
         const text = chatInput.value.trim();
+        // Берем ник из поля ввода (если там пусто - Guest)
+        const userName = nameInput.value.trim() || "Guest";
+
         if (text) {
-            const userName = tg?.initDataUnsafe?.user?.first_name || "Guest";
-            
+            // Сохраняем ник в память, если пользователь его изменил
+            localStorage.setItem('soa_chat_name', userName);
+
             socket.emit('client_message', {
                 user: userName,
                 text: text
             });
-            chatInput.value = '';
             
-            // Чтобы клавиатура на Android не пряталась сразу
-            chatInput.focus(); 
+            chatInput.value = '';
+            chatInput.focus(); // Оставляем фокус на поле для удобства
         }
     }
 
+    // 3. ПРИЕМ СООБЩЕНИЙ (с цветовым разделением)
     socket.on('chat_msg', (msg) => {
         const div = document.createElement('div');
         div.style.marginBottom = "8px";
+        div.style.fontFamily = "'Courier New', monospace"; // Хакерский шрифт для сообщений
+        
         const time = new Date(msg.date).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
         
-        // Помечаем сообщения из ТГ синим цветом (используем метку from_tg из итератора)
-        const nameColor = msg.from_tg ? "#0088cc" : "#d4af37";
+        // Цвет: Синий для ТГ, Золотой для WebApp, Зеленый для тебя (Уточка)
+        let nameColor = "#d4af37";
+        if (msg.from_tg) nameColor = "#0088cc";
+        if (msg.user === "Уточка") nameColor = "#00ff00";
 
         div.innerHTML = `
-            <span style="color:#888">[${time}]</span> 
+            <span style="color:#666">[${time}]</span> 
             <b style="color:${nameColor}">${msg.user}:</b> 
             <span style="color:#fff">${msg.text}</span>
         `;
+        
         if (chatMessages) {
             chatMessages.appendChild(div);
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
     });
 
+    // 4. СЛУШАТЕЛИ СОБЫТИЙ
     if (chatInput) {
         chatInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                sendMessage(e); // ПЕРЕДАЕМ СОБЫТИЕ 'e'
-            }
+            if (e.key === 'Enter') sendMessage(e);
         });
     }
 
-    if (sendBtn) {
-        sendBtn.onclick = (e) => {
-            sendMessage(e); // ПЕРЕДАЕМ СОБЫТИЕ 'e'
-        };
-    }
-
-    // Фикс для Telegram WebApp: предотвращаем "дрожание" при вводе
+    // Обработка viewport для ТГ
     if (tg) {
         tg.onEvent('viewportChanged', () => {
             document.body.style.height = window.innerHeight + 'px';
