@@ -69,7 +69,34 @@
         .sci-fi-button::after { bottom: -6px; right: -6px; }
         .sci-fi-button:hover::before, .sci-fi-button:hover::after { top: 0; left: 0; right: 0; bottom: 0; opacity: 1; }
 
-         /* новые стили */
+         /* хакий чат */
+        .ai-input-container { position: relative; width: 300px; padding: 4px; background: #0a0a0a; border: 1px solid #00ff00; box-shadow: 0 0 12px #00ff00; border-radius: 4px; }
+        .ai-input-inner { position: relative; display: flex; align-items: center; background: repeating-linear-gradient( 0deg, rgba(0, 255, 0, 0.05), rgba(0, 255, 0, 0.05) 2px, transparent 2px, transparent 10px ); animation: grid-shift 2s linear infinite; border-radius: 2px; }
+        .ai-input { width: calc(100% - 50px); padding: 12px 15px; background: transparent; border: none; color: #00ff00; font-family: "Courier New", monospace; font-size: 16px; outline: none; caret-color: #00ff00; transition: all 0.3s ease; z-index: 1; }
+        .ai-input:placeholder-shown { color: transparent; }
+        .ai-input:focus::placeholder { color: #00ff0088; }
+        .ai-input:not(:placeholder-shown)::placeholder { color: transparent; }
+        .ai-input:focus { box-shadow: inset 0 0 10px #00ff00, 0 0 20px #00ff00; animation: glitch-input 0.3s infinite; }
+        .ai-label { position: absolute; top: -18px; left: 10px; color: #00ff00; font-size: 12px; text-shadow: 0 0 5px #00ff00; background: #0a0a0a; padding: 0 4px; z-index: 2; }
+        .ai-input:placeholder-shown + .ai-label { top: -18px; }
+        .ai-input:focus + .ai-label,
+        .ai-input:not(:placeholder-shown) + .ai-label { animation: flicker-label 1s infinite; }
+        .ai-button { width: 36px; height: 36px; background: #00ff00; border: none; color: #0a0a0a; font-family: "Courier New", monospace; font-size: 18px; cursor: pointer; margin-right: 6px; position: relative; overflow: hidden; transition: all 0.2s ease; z-index: 1; }
+        .ai-button:hover { background: #00cc00; box-shadow: 0 0 15px #00ff00; animation: pulse-button 0.5s infinite; }
+        .ai-button::before { content: ""; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient( 120deg, transparent, rgba(255, 255, 255, 0.3), transparent ); animation: swipe 1.5s infinite; }
+        .ai-input-inner::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 1px; background: #00ff00; opacity: 0.3; animation: scanline 1s infinite linear; }
+        .digital-noise { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+        .noise-bit { position: absolute; color: #00ff00; font-size: 10px; opacity: 0; animation: noise-flash 0.8s infinite; }
+
+        @keyframes grid-shift { 0% { background-position: 0 0; } 100% { background-position: 0 10px; } }
+        @keyframes glitch-input { 0% { transform: translate(0); } 20% { transform: translate(-2px, 2px); } 40% { transform: translate(2px, -2px); } 60% { transform: translate(-1px, 1px); } 80% { transform: translate(1px, -1px); } 100% { transform: translate(0); } }
+        @keyframes flicker-label { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
+        @keyframes pulse-button { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+        @keyframes swipe { 0% { left: -100%; } 20% { left: 100%; } 100% { left: 100%; } }
+        @keyframes scanline { 0% { top: 0; } 100% { top: 100%; } }
+        @keyframes noise-flash { 0% { opacity: 0; } 10% { opacity: 0.6; } 20% { opacity: 0; } 100% { opacity: 0; } }
+
+        /* новые стили */
     </style>
 </head>
 <body>
