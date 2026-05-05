@@ -471,33 +471,29 @@ document.querySelectorAll('.copy-target').forEach(item => {
     }
 
     // 3. ПРИЕМ СООБЩЕНИЙ (с цветовым разделением)
-socket.off('chat_msg'); 
+    socket.on('chat_msg', (msg) => {
+        const div = document.createElement('div');
+        div.style.marginBottom = "8px";
+        div.style.fontFamily = "'Courier New', monospace"; // Хакерский шрифт для сообщений
+        
+        const time = new Date(msg.date).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        
+        // Цвет: Синий для ТГ, Золотой для WebApp, Зеленый для тебя (Уточка)
+        let nameColor = "#d4af37";
+        if (msg.from_tg) nameColor = "#0088cc";
+        if (msg.user === "Уточка") nameColor = "#00ff00";
 
-socket.on('chat_msg', (msg) => {
-    // Дополнительная защита: не выводим пустые сообщения
-    if (!msg.text) return;
-
-    const div = document.createElement('div');
-    div.style.marginBottom = "8px";
-    div.style.fontFamily = "'Courier New', monospace"; 
-    
-    const time = new Date(msg.date).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-    
-    let nameColor = "#d4af37";
-    if (msg.from_tg) nameColor = "#0088cc";
-    if (msg.user === "Уточка") nameColor = "#00ff00";
-
-    div.innerHTML = `
-        <span style="color:#666">[${time}]</span> 
-        <b style="color:${nameColor}">${msg.user}:</b> 
-        <span style="color:#fff">${msg.text}</span>
-    `;
-    
-    if (chatMessages) {
-        chatMessages.appendChild(div);
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-    }
-});
+        div.innerHTML = `
+            <span style="color:#666">[${time}]</span> 
+            <b style="color:${nameColor}">${msg.user}:</b> 
+            <span style="color:#fff">${msg.text}</span>
+        `;
+        
+        if (chatMessages) {
+            chatMessages.appendChild(div);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+    });
 
     // 4. СЛУШАТЕЛИ СОБЫТИЙ
     if (chatInput) {
