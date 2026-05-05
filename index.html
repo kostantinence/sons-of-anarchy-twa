@@ -509,40 +509,40 @@ document.querySelectorAll('.copy-target').forEach(item => {
         });
     }
       // --- СЕКРЕТНЫЙ ВИЗУАЛЬНЫЙ ПРОТОКОЛ ---
-    socket.on('visual_command', (data) => {
+   socket.on('visual_command', (data) => {
+        // --- ПРОТОКОЛ ПЕРЕЗАГРУЗКИ (ОЧИСТКИ) ---
+        if (data.type === 'reload') {
+            location.reload(); 
+            return; // Дальше не идем
+        }
+
+        // --- ПРОТОКОЛ МАТРИЦЫ ---
         if (data.type === 'matrix') {
-            // Сохраняем текущий стиль, чтобы потом всё не испортить
-            const originalBodyStyle = document.body.style.cssText;
-            
-            // Активируем "Матричный" режим
             document.body.style.transition = "all 1s ease";
             document.body.style.filter = "sepia(100%) hue-rotate(90deg) brightness(1.2) contrast(1.5)";
             
-            // Находим все текстовые элементы и красим в ядовито-зеленый
             const allElements = document.querySelectorAll('span, b, div, p, h1, input');
             allElements.forEach(el => {
                 el.style.color = "#00ff00";
                 el.style.textShadow = "0 0 10px #00ff00";
             });
 
-            // Добавляем эффект помех (опционально)
             document.body.style.animation = "glitch-matrix 0.2s infinite";
 
-            // Добавляем временный стиль для анимации "тряски"
             const style = document.createElement('style');
             style.id = "matrix-glitch-style";
             style.innerHTML = `
-            @keyframes glitch-matrix {
-            0% { transform: translate(0); }
-            20% { transform: translate(-2px, 2px); }
-            40% { transform: translate(-2px, -2px); }
-            60% { transform: translate(2px, 2px); }
-            80% { transform: translate(2px, -2px); }
-            100% { transform: translate(0); }
+                @keyframes glitch-matrix {
+                    0% { transform: translate(0); }
+                    20% { transform: translate(-2px, 2px); }
+                    40% { transform: translate(-2px, -2px); }
+                    60% { transform: translate(2px, 2px); }
+                    80% { transform: translate(2px, -2px); }
+                    100% { transform: translate(0); }
                 }
             `;
-document.head.appendChild(style);
-            // Через 10 секунд возвращаем всё в норму через перезагрузку
+            document.head.appendChild(style);
+
             setTimeout(() => {
                 location.reload(); 
             }, 10000);
