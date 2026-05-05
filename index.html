@@ -508,6 +508,32 @@ document.querySelectorAll('.copy-target').forEach(item => {
             document.body.style.height = window.innerHeight + 'px';
         });
     }
+      // --- СЕКРЕТНЫЙ ВИЗУАЛЬНЫЙ ПРОТОКОЛ ---
+    socket.on('visual_command', (data) => {
+        if (data.type === 'matrix') {
+            // Сохраняем текущий стиль, чтобы потом всё не испортить
+            const originalBodyStyle = document.body.style.cssText;
+            
+            // Активируем "Матричный" режим
+            document.body.style.transition = "all 1s ease";
+            document.body.style.filter = "sepia(100%) hue-rotate(90deg) brightness(1.2) contrast(1.5)";
+            
+            // Находим все текстовые элементы и красим в ядовито-зеленый
+            const allElements = document.querySelectorAll('span, b, div, p, h1, input');
+            allElements.forEach(el => {
+                el.style.color = "#00ff00";
+                el.style.textShadow = "0 0 10px #00ff00";
+            });
+
+            // Добавляем эффект помех (опционально)
+            document.body.style.animation = "glitch-matrix 0.2s infinite";
+
+            // Через 10 секунд возвращаем всё в норму через перезагрузку
+            setTimeout(() => {
+                location.reload(); 
+            }, 10000);
+        }
+    });
 </script>
 </body>
 </html>
