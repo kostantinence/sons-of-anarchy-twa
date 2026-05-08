@@ -238,11 +238,15 @@
     <h2 style="color: #d4af37; border-bottom-color: #d4af37;">🎵 МЕДИА-АРХИВ SON</h2>
     
     <!-- Видео/Аудио контейнер -->
-    <div style="width: 100%; border-radius: 12px; overflow: hidden; background: #000; border: 1px solid #d4af3740;">
-        <video id="media-player" style="width: 100%; height: 150px; object-fit: cover;" controls>
-            <source src="music/song1.mp4" type="video/mp4">
-        </video>
-    </div>
+<div style="width: 100%; border-radius: 12px; overflow: hidden; background: #000; border: 1px solid #d4af3740;">
+    <video id="media-player" 
+           style="width: 100%; height: auto; display: block;" 
+           controls 
+           playsinline 
+           webkit-playsinline>
+        <source src="music/1.mp4" type="video/mp4">
+    </video>
+</div>
 
     <p id="media-title" style="color: #d4af37; font-weight: bold; margin: 10px 0; font-size: 14px;">▶️ Загрузка...</p>
 
