@@ -241,6 +241,7 @@
     <!-- Видео/Аудио контейнер -->
 <div style="width: 100%; border-radius: 12px; overflow: hidden; background: #000; border: 1px solid #d4af3740;">
     <video id="media-player" 
+           onclick="toggleFullscreen()" 
            style="width: 100%; height: auto; display: block;" 
            controls 
            playsinline 
@@ -625,6 +626,17 @@ function prevMedia() {
     mediaIndex = (mediaIndex - 1 + myPlaylist.length) % myPlaylist.length;
     loadMedia(mediaIndex);
     mediaEl.play();
+}
+
+function toggleFullscreen() {
+    const player = document.getElementById('media-player');
+    if (player.requestFullscreen) {
+        player.requestFullscreen();
+    } else if (player.webkitEnterFullscreen) {
+        player.webkitEnterFullscreen(); // Специально для iOS/Safari в Telegram
+    } else if (player.webkitRequestFullscreen) {
+        player.webkitRequestFullscreen();
+    }
 }
 
 // Автопереключение по завершении
