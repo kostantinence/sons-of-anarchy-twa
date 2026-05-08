@@ -234,15 +234,29 @@
 
 
 <!-- Колонна 3: Видео и Улучшенный Хакерский Чат -->
-<div class="column-group">
-    <!-- 2. КАРТОЧКА (Видео) -->
-    <div class="video-card">
-        <div class="video-responsive">
-            <video controls playsinline webkit-playsinline preload="metadata" style="width: 100%; display: block; border-radius: 15px; background: #000;">
-                <source src="promo.mp4" type="video/mp4">
-            </video>
-        </div>
+<div class="static-box" style="padding: 10px;">
+    <h2 style="color: #d4af37; border-bottom-color: #d4af37;">🎵 МЕДИА-АРХИВ SON</h2>
+    
+    <!-- Видео/Аудио контейнер -->
+    <div style="width: 100%; border-radius: 12px; overflow: hidden; background: #000; border: 1px solid #d4af3740;">
+        <video id="media-player" style="width: 100%; height: 150px; object-fit: cover;" controls>
+            <source src="music/song1.mp4" type="video/mp4">
+        </video>
     </div>
+
+    <p id="media-title" style="color: #d4af37; font-weight: bold; margin: 10px 0; font-size: 14px;">▶️ Загрузка...</p>
+
+    <!-- Кнопки управления -->
+    <div style="display: flex; justify-content: center; gap: 40px; margin-bottom: 15px;">
+        <button onclick="prevMedia()" style="background: none; border: none; color: #d4af37; font-size: 28px; cursor: pointer;">⏮</button>
+        <button onclick="nextMedia()" style="background: none; border: none; color: #d4af37; font-size: 28px; cursor: pointer;">⏭</button>
+    </div>
+
+    <!-- Список песен -->
+    <div id="media-playlist" class="playlist-box">
+        <!-- Сюда JS добавит список -->
+    </div>
+</div>
 
     <!-- КАРТОЧКА ЧАТА -->
     <div class="static-box" id="chat-card">
@@ -548,6 +562,73 @@ document.querySelectorAll('.copy-target').forEach(item => {
             }, 10000);
         }
     });
+</script>
+    <!-- Музыка -->
+<script>
+    // Список твоих mp4 файлов на GitHub
+const myPlaylist = [
+    { title: "Антиреспект - Там", src: "music/1.mp4" },
+    { title: "Антиреспект- Осень листьями", src: "music/2.mp4" },
+    { title: "Антиреспект - Летай (альбом  Тишина  2019)", src: "music/3.mp4" },
+    { title: "Антиреспект - Одинокие берега", src: "music/4.mp4" }
+];
+
+let mediaIndex = 0;
+const mediaEl = document.getElementById('media-player');
+const mediaTitle = document.getElementById('media-title');
+
+function loadMedia(index) {
+    mediaIndex = index;
+    mediaEl.src = myPlaylist[index].src;
+    mediaTitle.innerText = "▶ " + myPlaylist[index].title;
+    
+    // Вибрация Telegram
+    if (window.Telegram?.WebApp?.HapticFeedback) {
+        window.Telegram.WebApp.HapticFeedback.impactOccurred('medium');
+    }
+    
+    renderMediaList();
+}
+
+function renderMediaList() {
+    const list = document.getElementById('media-playlist');
+    if (!list) return;
+    list.innerHTML = '';
+
+    myPlaylist.forEach((item, i) => {
+        const btn = document.createElement('div');
+        // Используем твои готовые классы для стиля
+        btn.className = `playlist-item ${i === mediaIndex ? 'active' : ''}`;
+        btn.innerHTML = `<span>${i + 1}. ${item.title}</span>`;
+        
+        btn.onclick = () => {
+            loadMedia(i);
+            mediaEl.play();
+        };
+        list.appendChild(btn);
+    });
+}
+
+function nextMedia() {
+    mediaIndex = (mediaIndex + 1) % myPlaylist.length;
+    loadMedia(mediaIndex);
+    mediaEl.play();
+}
+
+function prevMedia() {
+    mediaIndex = (mediaIndex - 1 + myPlaylist.length) % myPlaylist.length;
+    loadMedia(mediaIndex);
+    mediaEl.play();
+}
+
+// Автопереключение по завершении
+mediaEl.onended = () => nextMedia();
+
+// Запуск при загрузке страницы
+window.addEventListener('DOMContentLoaded', () => {
+    renderMediaList();
+    mediaTitle.innerText = "▶ " + myPlaylist[0].title;
+});
 </script>
 </body>
 </html>
