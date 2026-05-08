@@ -32,9 +32,10 @@
         .static-box, .video-card { background: rgb(0 0 0 / 60%); border: 2px solid #d4af37; padding: 15px; border-radius: 20px; text-align: center; width: 100%; box-sizing: border-box; box-shadow: 0 0 25px rgba(212, 175, 55, 0.5); position: relative; z-index: 10; height: auto !important; }
         
         /* ВИДЕО (Фиксированная высота) */
-        .video-card { height: 200px !important; padding: 10px !important; overflow: visible; }
-        .video-responsive { width: 100%; height: 100%; position: relative; }
+        .video-card { height: auto !important; min-height: 200px; padding: 10px !important; overflow: visible !important; }
+        .video-responsive { width: 100%; height: auto; position: relative; }
         .video-responsive iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; border-radius: 12px; }
+        #media-player { width: 100%; height: auto; max-height: 70vh; border-radius: 12px; display: block; background: #000; }
 
         /* 6. ТЕКСТ И ТАБЛИЦЫ */
         h1 { margin: 0; font-size: 20px; letter-spacing: 2px; text-transform: uppercase; }
@@ -584,6 +585,7 @@ const mediaTitle = document.getElementById('media-title');
 function loadMedia(index) {
     mediaIndex = index;
     mediaEl.src = myPlaylist[index].src;
+    mediaEl.setAttribute('playsinline', '');
     mediaTitle.innerText = "▶ " + myPlaylist[index].title;
     
     // Вибрация Telegram
@@ -631,6 +633,8 @@ mediaEl.onended = () => nextMedia();
 // Запуск при загрузке страницы
 window.addEventListener('DOMContentLoaded', () => {
     renderMediaList();
+    mediaEl.setAttribute('playsinline', '');
+    mediaEl.setAttribute('webkit-playsinline', '');
     mediaTitle.innerText = "▶ " + myPlaylist[0].title;
 });
 </script>
