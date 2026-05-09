@@ -29,7 +29,11 @@
         .card-header { background: rgb(0 0 0 / 50%); border: 2px solid #d4af3787; padding: 13px 20px; border-radius: 20px; font-family: serif; text-align: center; box-shadow: 0 0 25px rgba(212, 175, 55, 0.4); animation: goldPulse 4s infinite ease-in-out; grid-column: 1 / -1; justify-self: center; margin-bottom: 10px; }
 
         /* 5. КАРТОЧКИ */
-        .static-box, .video-card { max-width: 360px; margin: 0 auto; background: rgb(0 0 0 / 60%); border: 2px solid #d4af37; padding: 15px; border-radius: 20px; text-align: center; width: 100%; box-sizing: border-box; box-shadow: 0 0 25px rgba(212, 175, 55, 0.5); position: relative; z-index: 10; height: auto !important; }
+        .static-box, .video-card { max-width: 360px; margin: 0 auto; background: rgb(0 0 0 / 60%); border: 2px solid #d4af37; padding: 15px; border-radius: 20px; text-align: center; width: 100%; box-sizing: border-box; box-shadow: 0 0 25px rgba(212, 175, 55, 0.5); position: relative; z-index: 1; height: auto !important; overflow: hidden; }
+        .static-box::before, .video-card::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: conic-gradient( transparent, #d4af37, transparent 30% ); animation: rotateLine 4s linear infinite; z-index: -2; }
+        .static-box::after, .video-card::after { content: ''; position: absolute; inset: 2px; background: #000; border-radius: 18px; z-index: -1; }
+        @keyframes rotateLine { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        
         
         /* ВИДЕО (Фиксированная высота) */
         .video-card { height: auto !important; min-height: 200px; padding: 10px !important; overflow: visible !important; }
