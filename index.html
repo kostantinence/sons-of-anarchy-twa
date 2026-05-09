@@ -29,7 +29,7 @@
         .card-header { background: rgb(0 0 0 / 50%); border: 2px solid #d4af3787; padding: 13px 20px; border-radius: 20px; font-family: serif; text-align: center; box-shadow: 0 0 25px rgba(212, 175, 55, 0.4); animation: goldPulse 4s infinite ease-in-out; grid-column: 1 / -1; justify-self: center; margin-bottom: 10px; }
 
         /* 5. КАРТОЧКИ */
-        .static-box, .video-card { max-width: 400px; margin: 0 auto; background: rgb(0 0 0 / 60%); border: 2px solid #d4af37; padding: 15px; border-radius: 20px; text-align: center; width: 100%; box-sizing: border-box; box-shadow: 0 0 25px rgba(212, 175, 55, 0.5); position: relative; z-index: 10; height: auto !important; }
+        .static-box, .video-card { max-width: 390px; margin: 0 auto; background: rgb(0 0 0 / 60%); border: 2px solid #d4af37; padding: 15px; border-radius: 20px; text-align: center; width: 100%; box-sizing: border-box; box-shadow: 0 0 25px rgba(212, 175, 55, 0.5); position: relative; z-index: 10; height: auto !important; }
         
         /* ВИДЕО (Фиксированная высота) */
         .video-card { height: auto !important; min-height: 200px; padding: 10px !important; overflow: visible !important; }
@@ -97,7 +97,15 @@
         @keyframes scanline { 0% { top: 0; } 100% { top: 100%; } }
         @keyframes noise-flash { 0% { opacity: 0; } 10% { opacity: 0.6; } 20% { opacity: 0; } 100% { opacity: 0; } }
 
-        /* новые стили */
+        /* Анимация плавного появления */
+        .static-box, .video-card, .card-header { animation: fadeInSystem 0.8s ease-out forwards; opacity: 0; }
+        @keyframes fadeInSystem { from { opacity: 0; transform: translateY(20px); filter: blur(5px); } to { opacity: 1; transform: translateY(0); filter: blur(0); } }   
+        .ui > div:nth-child(1) { animation-delay: 0.1s; }
+        .ui > div:nth-child(2) { animation-delay: 0.3s; }
+        .ui > div:nth-child(3) { animation-delay: 0.5s; }
+        .ui > div:nth-child(4) { animation-delay: 0.7s; }
+        .ui > div:nth-child(5) { animation-delay: 0.9s; }
+        /* Новые стили */
     </style>
 </head>
 <body>
