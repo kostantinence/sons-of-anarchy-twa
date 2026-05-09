@@ -33,9 +33,9 @@
         
         /* ВИДЕО (Фиксированная высота) */
         .video-card { height: auto !important; min-height: 200px; padding: 10px !important; overflow: visible !important; }
-        .video-responsive { width: 100%; height: auto; position: relative; }
+        .video-responsive { width: 100%; height: auto !important; position: relative; z-index: 11; }
         .video-responsive iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; border-radius: 12px; }
-        #media-player { width: 100%; height: auto; max-height: 70vh; border-radius: 12px; display: block; background: #000; }
+        #media-player { width: 100%; height: auto; max-height: 70vh; border-radius: 12px; display: block; background: #000; pointer-events: auto !important; filter: none !important; }
 
         /* 6. ТЕКСТ И ТАБЛИЦЫ */
         h1 { margin: 0; font-size: 20px; letter-spacing: 2px; text-transform: uppercase; }
@@ -239,10 +239,10 @@
     <h2 style="color: #d4af37; border-bottom-color: #d4af37;">🎵 МЕДИА-АРХИВ SON</h2>
     
     <!-- Видео/Аудио контейнер -->
-<div style="width: 100%; border-radius: 12px; overflow: hidden; background: #000; border: 1px solid #d4af3740;">
+<div style="width: 100%; border-radius: 12px; background: #000; border: 1px solid #d4af3740; overflow: visible;">
     <video id="media-player" 
            onclick="toggleFullscreen()" 
-           style="width: 100%; height: auto; display: block;" 
+           style="width: 100%; height: auto; display: block; border-radius: 12px;" 
            controls 
            playsinline 
            webkit-playsinline>
@@ -586,10 +586,13 @@ const mediaTitle = document.getElementById('media-title');
 function loadMedia(index) {
     mediaIndex = index;
     mediaEl.src = myPlaylist[index].src;
+    
+    // Принудительно подтверждаем режим "в окне" при каждой смене трека
     mediaEl.setAttribute('playsinline', '');
+    mediaEl.setAttribute('webkit-playsinline', '');
+    
     mediaTitle.innerText = "▶ " + myPlaylist[index].title;
     
-    // Вибрация Telegram
     if (window.Telegram?.WebApp?.HapticFeedback) {
         window.Telegram.WebApp.HapticFeedback.impactOccurred('medium');
     }
@@ -629,13 +632,11 @@ function prevMedia() {
 }
 
 function toggleFullscreen() {
-    const player = document.getElementById('media-player');
-    if (player.requestFullscreen) {
-        player.requestFullscreen();
-    } else if (player.webkitEnterFullscreen) {
-        player.webkitEnterFullscreen(); // Специально для iOS/Safari в Telegram
-    } else if (player.webkitRequestFullscreen) {
-        player.webkitRequestFullscreen();
+    // Используем уже объявленную в начале скрипта переменную mediaEl
+    if (mediaEl.webkitEnterFullscreen) {
+        mediaEl.webkitEnterFullscreen(); // Самое важное для Telegram на iOS
+    } else if (mediaEl.requestFullscreen) {
+        mediaEl.requestFullscreen();
     }
 }
 
