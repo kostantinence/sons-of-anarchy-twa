@@ -537,7 +537,22 @@ document.querySelectorAll('.copy-target').forEach(item => {
         });
     }
       // --- СЕКРЕТНЫЙ ВИЗУАЛЬНЫЙ ПРОТОКОЛ ---
+      // Создаем невидимый аудио-плеер
+   const secretAudio = new Audio();
+    
    socket.on('visual_command', (data) => {
+        // --- ПРОТОКОЛ МУЗЫКИ ---
+        if (data.type === 'play_audio') {
+        secretAudio.src = data.url;
+        secretAudio.volume = 0.7; // Чтобы не оглушить людей
+        secretAudio.play().catch(e => console.log("Браузер заблокировал автоплей: нужно взаимодействие с сайтом"));
+        }
+    
+    if (data.type === 'stop_audio') {
+        secretAudio.pause();
+        secretAudio.currentTime = 0;
+        }
+       
         // --- ПРОТОКОЛ ПЕРЕЗАГРУЗКИ (ОЧИСТКИ) ---
         if (data.type === 'reload') {
             location.reload(); 
