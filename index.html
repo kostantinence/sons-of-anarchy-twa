@@ -473,7 +473,21 @@ document.querySelectorAll('.copy-target').forEach(item => {
             nameInput.value = tg.initDataUnsafe.user.first_name;
         }
     });
+    // Музыка для скрипта
+let audioActivated = false;
 
+document.addEventListener('click', () => {
+    if (!audioActivated) {
+        // Проигрываем тишину на 0.1 секунды, чтобы разблокировать аудио-канал на телефоне
+        secretAudio.play().then(() => {
+            secretAudio.pause();
+            secretAudio.currentTime = 0;
+            audioActivated = true;
+            console.log("Аудио-канал на телефоне разблокирован!");
+        }).catch(e => console.log("Ждем первого клика..."));
+    }
+}, { once: true }); // Сработает только один раз
+    
     // 2. ОБНОВЛЕННАЯ ФУНКЦИЯ ОТПРАВКИ
     function sendMessage(event) {
         if (event) {
