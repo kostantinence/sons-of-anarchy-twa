@@ -42,6 +42,9 @@
         .playlist-item { padding: 2px; cursor: pointer; transition: all 0.3s ease; color: #ffd11a; }
         .playlist-item:hover { color: #37d439; }
         .playlist-item.active { color: #37d439; }
+        .playlist-box { max-height: 150px; overflow: hidden; transition: max-height 0.5s ease-in-out; border-top: 1px solid #d4af3740; margin-top: 10px; text-align: left; }
+        .playlist-box.expanded { max-height: 2000px; overflow-y: auto; }
+        .playlist-toggle { background: none; border: 1px solid #d4af37; color: #d4af37; border-radius: 8px; padding: 6px 12px; margin: 10px auto; display: block; cursor: pointer; font-family: monospace; font-size: 11px; }
 
         /* 6. ТЕКСТ И ТАБЛИЦЫ */
         h1 { margin: 0; font-size: 20px; letter-spacing: 2px; text-transform: uppercase; }
@@ -140,13 +143,13 @@
         <p>7. ⚠️Усиление Зверей (итемы развития зверей)</p>
         <p>7.1 ✔️ Второй день Тоже на (итемы развития зверей)</p>
          <p>8. Модификация Снаряжения (трата камней и итемов для прокачки и ковки снаряжения лорда)</p>
+        <p>9. Перековка Талантов</p>
         <p style="
     background-image: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    ">9. Перековка Талантов</p>
-        <p>10. Фантомная Богиня </p>
+    ">10. Фантомная Богиня </p>
         <p>11. Экспедиция Хаоса (опыт хаоса и итемы на прокачку навыков хаоса)</p>
         <p> 12. ⚠️ Боевой Колосс (итемы развития машин) ждем второй день</p>           
         <p>12.1 ✔️ Второй день тоже на (итемы боевых машин)</p>
@@ -282,9 +285,9 @@
     </div>
 
     <!-- Список песен -->
-    <div id="media-playlist" class="playlist-box">
+    <div id="media-playlist" class="playlist-box"></div>
+    <button id="playlist-btn" class="playlist-toggle" onclick="togglePlaylist()">⏬ РАЗВЕРНУТЬ ВЕСЬ СПИСОК</button>
         <!-- Сюда JS добавит список -->
-    </div>
 </div>
 
     <!-- КАРТОЧКА ЧАТА -->
@@ -718,6 +721,45 @@ function toggleFullscreen() {
         mediaEl.requestFullscreen();
     }
 }
+
+// --- НОВАЯ ФУНКЦИЯ ДЛЯ РАЗВОРОТА ПЛЕЙЛИСТА ---
+function togglePlaylist() {
+    const playlist = document.getElementById('media-playlist');
+    const btn = document.getElementById('playlist-btn');
+    
+    playlist.classList.toggle('expanded');
+    
+    if (playlist.classList.contains('expanded')) {
+        btn.innerText = "⏫ СВЕРНУТЬ СПИСОК";
+    } else {
+        btn.innerText = "⏬ РАЗВЕРНУТЬ ВЕСЬ СПИСОК";
+        // Прокрутка вверх к плееру при сворачивании
+        document.querySelector('.static-box h2').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    if (window.Telegram?.WebApp?.HapticFeedback) {
+        window.Telegram.WebApp.HapticFeedback.impactOccurred('light');
+    }
+}
+
+// Обновляем загрузку страницы
+window.addEventListener('DOMContentLoaded', () => {
+    renderMediaList();
+    mediaEl.setAttribute('playsinline', '');
+    mediaEl.setAttribute('webkit-playsinline', '');
+    
+    // Проверка первого трека (если он есть в списке)
+    if (myPlaylist.length > 0) {
+        mediaTitle.innerText = "▶ " + myPlaylist[0].title;
+    }
+
+    // --- ЗДЕСЬ БУДЕТ ПРОВЕРКА ТВОЕГО ID ДЛЯ АДМИНКИ ---
+    if (window.Telegram?.WebApp?.initDataUnsafe?.user?.id === 123456789) { // ЗАМЕНИ НА СВОЙ ID
+        console.log("Админ-режим активирован");
+        // Показать кнопку админки
+        // document.getElementById('admin-btn').style.display = 'block';
+    }
+});
 
 // Автопереключение по завершении
 mediaEl.onended = () => nextMedia();
