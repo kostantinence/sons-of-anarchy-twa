@@ -29,7 +29,9 @@
         .card-header { background: rgb(0 0 0 / 50%); border: 2px solid #d4af3787; padding: 13px 20px; border-radius: 20px; font-family: serif; text-align: center; box-shadow: 0 0 25px rgba(212, 175, 55, 0.4); animation: goldPulse 4s infinite ease-in-out; grid-column: 1 / -1; justify-self: center; margin-bottom: 10px; }
 
         /* 5. КАРТОЧКИ */
-        .static-box, .video-card { max-width: 360px; margin: 0 auto; background: rgb(0 0 0 / 60%); border: 2px solid #d4af37; padding: 15px; border-radius: 20px; text-align: center; width: 100%; box-sizing: border-box; box-shadow: 0 0 25px rgba(212, 175, 55, 0.5); position: relative; z-index: 10; height: auto !important; }
+        .static-box, .expandable-box, .video-card { max-width: 360px; margin: 0 auto; background: rgb(0 0 0 / 60%); border: 2px solid #d4af37; padding: 15px; border-radius: 20px; text-align: center; width: 100%; box-sizing: border-box; box-shadow: 0 0 25px rgba(212, 175, 55, 0.5); position: relative; z-index: 10; height: auto !important; }
+        .expandable-box { cursor: pointer; max-height: 50px; animation: goldPulse 4s infinite ease-in-out; }
+        .expandable-box.is-expanded { max-height: 800px; background: rgb(0 0 0 / 80%); border-color: #d4af37; animation: none; cursor: default; }
         
         /* ВИДЕО (Фиксированная высота) */
         .video-card { height: auto !important; min-height: 200px; padding: 10px !important; overflow: visible !important; }
@@ -155,7 +157,7 @@
 
     <!-- Колонна 2: Все Храмы -->
     <div class="column-group">
-<div class="static-box">
+<div class="expandable-box">
     <h2 style="border-bottom-color: #d4af37;">ХРАМ МАШИН</h2>
 <div class="content">
         <div class="table-wrapper">
@@ -184,7 +186,7 @@
 </div>
 
         <!-- ХРАМ ОГНЯ -->
-<div class="static-box">
+<div class="expandable-box">
     <h2 style="border-bottom-color: #d4af37;">ХРАМ ОГНЯ</h2>
  <div class="content">
         <div class="table-wrapper">
@@ -214,7 +216,7 @@
 </div>
 
         <!-- ХРАМ ЮНИТОВ -->
-<div class="static-box">
+<div class="expandable-box">
     <h2 style="border-bottom-color: #d4af37;">ХРАМ ЮНИТОВ</h2>
 <div class="content">
         <div class="table-wrapper">
