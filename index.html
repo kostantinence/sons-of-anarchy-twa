@@ -131,6 +131,26 @@
 <div class="ui">
     <div class="card-header"><h1 class="txt">SONS OF ANARCHY</h1></div>
 
+    <!-- Панель админа -->
+<div id="admin-control-panel" style="display:none; position:fixed; top:20%; left:50%; transform:translateX(-50%); width:90%; max-width:350px; background:rgba(20,0,0,0.95); border:2px solid #ff0000; border-radius:15px; padding:20px; z-index:10000; box-shadow:0 0 30px #ff0000;">
+    <h3 style="color:#ff0000; text-align:center; margin-top:0;">ШТАБНОЙ ТЕРМИНАЛ</h3>
+    
+    <div style="display:flex; flex-direction:column; gap:10px;">
+        <button onclick="socket.emit('visual_command', {type: 'reload'})" style="padding:10px; background:#222; color:#fff; border:1px solid #ff0000;">🔄 Рестарт всех систем</button>
+        
+        <button onclick="socket.emit('visual_command', {type: 'play_audio', url: 'https://githubusercontent.com'})" style="padding:10px; background:#222; color:#fff; border:1px solid #ff0000;">📢 Запуск песни (Full)</button>
+        
+        <button onclick="socket.emit('visual_command', {type: 'stop_audio'})" style="padding:10px; background:#222; color:#fff; border:1px solid #ff0000;">🔇 Отключить звук везде</button>
+
+       <!-- <button onclick="if(confirm('УДАЛИТЬ ВЕСЬ ЧАТ?')){ socket.emit('admin_command', {type: 'purge_all'}) }" 
+        style="padding:10px; background:#440000; color:#ff0000; border:1px solid #ff0000; font-weight:bold; cursor:pointer;">
+     ТОТАЛЬНАЯ ОЧИСТКА
+        </button> -->
+        
+        <button onclick="document.getElementById('admin-control-panel').style.display='none'" style="margin-top:10px; padding:10px; background:#ff0000; color:#000; border:none; font-weight:bold;">ЗАКРЫТЬ ТЕРМИНАЛ</button>
+    </div>
+</div>
+
     <!-- Колонна 1: Ивенты (самая длинная) -->
 <div class="column-group">
          <!-- 1. СТАЦИОНАРНАЯ КАРТОЧКА -->
@@ -362,21 +382,6 @@
 </div> <!-- ЗАКРЫВАЕМ ОБЩИЙ КОНТЕЙНЕР .ui (ставится ОДИН РАЗ в самом конце) -->
 
 <div id="toast" class="copy-notification">Код скопирован!</div>
-
-<!-- Панель админа -->
-<div id="admin-control-panel" style="display:none; position:fixed; top:20%; left:50%; transform:translateX(-50%); width:90%; max-width:350px; background:rgba(20,0,0,0.95); border:2px solid #ff0000; border-radius:15px; padding:20px; z-index:10000; box-shadow:0 0 30px #ff0000;">
-    <h3 style="color:#ff0000; text-align:center; margin-top:0;">ШТАБНОЙ ТЕРМИНАЛ</h3>
-    
-    <div style="display:flex; flex-direction:column; gap:10px;">
-        <button onclick="socket.emit('visual_command', {type: 'reload'})" style="padding:10px; background:#222; color:#fff; border:1px solid #ff0000;">🔄 Рестарт всех систем</button>
-        
-        <button onclick="socket.emit('visual_command', {type: 'play_audio', url: 'https://githubusercontent.com'})" style="padding:10px; background:#222; color:#fff; border:1px solid #ff0000;">📢 Запуск песни (Full)</button>
-        
-        <button onclick="socket.emit('visual_command', {type: 'stop_audio'})" style="padding:10px; background:#222; color:#fff; border:1px solid #ff0000;">🔇 Отключить звук везде</button>
-        
-        <button onclick="document.getElementById('admin-control-panel').style.display='none'" style="margin-top:10px; padding:10px; background:#ff0000; color:#000; border:none; font-weight:bold;">ЗАКРЫТЬ ТЕРМИНАЛ</button>
-    </div>
-</div>
 
  <!-- <script>
     
@@ -677,6 +682,64 @@ document.addEventListener('click', () => {
             }, 10000);
         }
     });
+
+ // --- 5. СЕКРЕТНЫЙ ПРОТОКОЛ АДМИНИСТРАТОРА (ВХОД) ---
+    let adminClicks = 0;
+    let clickTimer;
+    const logo = document.querySelector('.card-header h1.txt');
+
+    if (logo) {
+        logo.style.cursor = 'pointer';
+        logo.onclick = function() {
+            adminClicks++;
+            clearTimeout(clickTimer);
+            clickTimer = setTimeout(() => { adminClicks = 0; }, 1500);
+
+            if (adminClicks === 4) {
+                adminClicks = 0;
+                const pass = prompt("Введите протокол доступа:");
+                if (pass === "777") {
+                    socket.emit('admin_verify_request');
+                }
+            }
+        };
+    }
+
+    // Слушаем персональное разрешение от сервера
+    socket.on('admin_access_granted', () => {
+        const panel = document.getElementById('admin-control-panel');
+        if (panel) {
+            panel.style.display = 'block';
+            if (tg?.HapticFeedback) {
+                tg.HapticFeedback.notificationOccurred('success');
+            }
+        }
+    });
+    
+    // --- ОБРАБОТКА КОМАНД ИЗ АДМИН-ПАНЕЛИ САЙТА ---
+socket.on('admin_command', async (data) => {
+    // 1. Тотальная очистка чата
+    if (data.type === 'purge_all') {
+        try {
+            await db.collection('messages').deleteMany({}); // Стираем всё в БД
+            io.emit('visual_command', { type: 'reload' }); // Перезагружаем всех
+            console.log("[ADMIN] База данных полностью очищена");
+        } catch (e) {
+            console.error("Ошибка PURGE_ALL:", e);
+        }
+    } 
+    // 2. Все остальные команды (matrix, play_audio, reload)
+    else {
+        io.emit('visual_command', data);
+        console.log(`[ADMIN] Глобальная команда: ${data.type}`);
+    }
+});
+
+// --- ПРОВЕРКА ПРАВ (для появления панели) ---
+socket.on('admin_verify_request', () => {
+    // Здесь можно добавить проверку по ID, но пока просто разрешаем
+    socket.emit('admin_access_granted');
+});
 </script>
     <!-- Музыка -->
 <script>
