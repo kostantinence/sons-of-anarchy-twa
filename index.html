@@ -363,6 +363,21 @@
 
 <div id="toast" class="copy-notification">Код скопирован!</div>
 
+<!-- Панель админа -->
+<div id="admin-control-panel" style="display:none; position:fixed; top:20%; left:50%; transform:translateX(-50%); width:90%; max-width:350px; background:rgba(20,0,0,0.95); border:2px solid #ff0000; border-radius:15px; padding:20px; z-index:10000; box-shadow:0 0 30px #ff0000;">
+    <h3 style="color:#ff0000; text-align:center; margin-top:0;">ШТАБНОЙ ТЕРМИНАЛ</h3>
+    
+    <div style="display:flex; flex-direction:column; gap:10px;">
+        <button onclick="socket.emit('visual_command', {type: 'reload'})" style="padding:10px; background:#222; color:#fff; border:1px solid #ff0000;">🔄 Рестарт всех систем</button>
+        
+        <button onclick="socket.emit('visual_command', {type: 'play_audio', url: 'https://githubusercontent.com'})" style="padding:10px; background:#222; color:#fff; border:1px solid #ff0000;">📢 Запуск песни (Full)</button>
+        
+        <button onclick="socket.emit('visual_command', {type: 'stop_audio'})" style="padding:10px; background:#222; color:#fff; border:1px solid #ff0000;">🔇 Отключить звук везде</button>
+        
+        <button onclick="document.getElementById('admin-control-panel').style.display='none'" style="margin-top:10px; padding:10px; background:#ff0000; color:#000; border:none; font-weight:bold;">ЗАКРЫТЬ ТЕРМИНАЛ</button>
+    </div>
+</div>
+
  <!-- <script>
     
     // JS МАТРИЦА (Фоновая анимация)
@@ -400,6 +415,44 @@
     init();
     draw();
 </script> -->
+
+<script>
+let adminClicks = 0;
+let clickTimer;
+
+// Находим заголовок по классу .txt внутри .card-header
+const logo = document.querySelector('.card-header h1.txt');
+
+if (logo) {
+    logo.style.cursor = 'pointer'; // Чтобы ты знал, куда жать
+    logo.onclick = function() {
+        adminClicks++;
+        clearTimeout(clickTimer);
+        
+        // Сброс, если не успел нажать 4 раза за 1.5 секунды
+        clickTimer = setTimeout(() => { adminClicks = 0; }, 1500);
+
+        if (adminClicks === 4) {
+            adminClicks = 0;
+            // Показываем стандартное окно ввода (для дополнительной защиты)
+            const pass = prompt("Введите протокол доступа:");
+            if (pass === "777") { // Можешь сменить на любой код
+                // Отправляем запрос боту
+                socket.emit('admin_verify_request');
+            }
+        }
+    };
+}
+
+// Ждем ответа от бота
+socket.on('admin_access_granted', () => {
+    // Показываем панель (создадим её заранее скрытой)
+    document.getElementById('admin-control-panel').style.display = 'block';
+    if (window.Telegram?.WebApp?.HapticFeedback) {
+        window.Telegram.WebApp.HapticFeedback.notificationOccurred('success');
+    }
+});
+</script>
     
 <script>
 // Находим только раздвижные блоки
