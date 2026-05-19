@@ -759,24 +759,13 @@ function getNewProxy() {
 
 // Слушаем ответ от бота
 socket.on('proxy_data_ready', (data) => {
-    const btn = document.getElementById('proxy-scan-btn');
-    
-    // Возвращаем кнопку в исходный вид
-    btn.innerText = "📡 СКАНИРОВАТЬ ПРОКСИ (DPI)";
-    btn.style.borderColor = "#00ff00";
-    btn.style.color = "#00ff00";
-    btn.disabled = false;
-
     if (data.success) {
-        const link = `tg://proxy?server=${data.server}&port=${data.port}&secret=${data.secret}`;
-        
-        // Показываем красивое окно подтверждения
-        if(confirm("✅ СВЕЖИЙ ПРОКСИ НАЙДЕН!\n\nНажмите ОК для автоматической настройки в Telegram.")) {
-            window.location.href = link;
+        // data.url теперь содержит https://t.me...
+        if(confirm("✅ ПРОКСИ НАЙДЕН! ПОДКЛЮЧИТЬ?")) {
+            window.location.href = data.url; 
         }
     } else {
-        // Выводим ошибку, если прокси старый или не найден
-        alert("⚠️ ОТКАЗ: " + data.error);
+        alert("ОШИБКА: " + data.error);
     }
 });
     
