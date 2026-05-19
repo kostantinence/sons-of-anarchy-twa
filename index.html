@@ -652,36 +652,39 @@ document.addEventListener('click', () => {
         }
     });
 
- // --- 5. СЕКРЕТНЫЙ ПРОТОКОЛ АДМИНИСТРАТОРА (ВХОД) ---
+    // --- 5. СЕКРЕТНЫЙ ПРОТОКОЛ АДМИНИСТРАТОРА (ВХОД) ---
     let adminClicks = 0;
     let clickTimer;
     const logo = document.querySelector('.card-header h1.txt');
 
     if (logo) {
         logo.style.cursor = 'pointer';
- logo.onclick = function() {
-        adminClicks++;
-        clearTimeout(clickTimer);
-        clickTimer = setTimeout(() => { adminClicks = 0; }, 1500);
+        logo.onclick = function() {
+            adminClicks++;
+            clearTimeout(clickTimer);
+            clickTimer = setTimeout(() => { adminClicks = 0; }, 1500);
 
-        if (adminClicks === 4) {
-            adminClicks = 0;
-            
-            // Вместо ID используем секретный ключ доступа
-            // Можешь назвать его как угодно, чтобы запутать (например, "session_token")
-            const session_token = "soa_admin_access_777"; 
+            if (adminClicks === 4) {
+                adminClicks = 0;
+                
+                // Пытаемся достать ключ из памяти устройства
+                const savedToken = localStorage.getItem('admin_session'); 
 
-            socket.emit('admin_verify_request', {
-                token: session_token
-            });
-        }
-    };
+                if (savedToken) {
+                    socket.emit('admin_verify_request', {
+                        token: savedToken
+                    });
+                } else {
+                    alert("Ключ доступа не найден на этом устройстве!");
+                }
+            }
+        }; // Конец onclick
 
-    // Записываем ключ в память один раз (можешь сделать это сам через консоль)
-    localStorage.setItem('admin_session', 'soa_admin_access_777');
-    }
+        // Разовая запись (выполни один раз на ПК и удали эту строку)
+        localStorage.setItem('admin_session', 'soa_admin_access_777');
+    } // Конец if (logo)
 
-    // Слушаем персональное разрешение от сервера
+    // Слушаем разрешение от сервера
     socket.on('admin_access_granted', () => {
         const panel = document.getElementById('admin-control-panel');
         if (panel) {
