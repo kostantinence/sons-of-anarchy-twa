@@ -152,6 +152,11 @@
         style="padding:10px; background:#222; color:#d4af37; border:1px solid #d4af37; cursor:pointer;">
     🧹 Удалить последнее сообщение
         </button>
+
+        <button onclick="socket.emit('admin_command', {type: 'alarm'})" 
+        style="padding:10px; background:#f00; color:#fff; border:none; border-radius:5px; cursor:pointer;">
+    🚨 ТРЕВОГА (6 сек)
+        </button>
         
        <!-- <button onclick="if(confirm('УДАЛИТЬ ВЕСЬ ЧАТ?')){ socket.emit('admin_command', {type: 'purge_all'}) }" 
         style="padding:10px; background:#440000; color:#ff0000; border:1px solid #ff0000; font-weight:bold; cursor:pointer;">
@@ -626,6 +631,23 @@ document.addEventListener('click', () => {
             return; // Дальше не идем
         }
 
+        // --- ПРОТОКОЛ тревоги ---
+        if (data.type === 'alarm') {
+    document.body.style.animation = "alarm-pulse 0.6s infinite";
+    
+    // Создаем стиль один раз
+    if (!document.getElementById('alarm-style')) {
+        const s = document.createElement('style');
+        s.id = 'alarm-style';
+        s.innerHTML = `@keyframes alarm-pulse {0%{background:#000}50%{background:#600}100%{background:#000}}`;
+        document.head.appendChild(s);
+    }
+
+    setTimeout(() => { 
+        document.body.style.animation = "none";
+        document.body.style.backgroundColor = "#000";
+    }, 6000); // 6 секунд и тишина
+}
         // --- ПРОТОКОЛ МАТРИЦЫ ---
         if (data.type === 'matrix') {
             document.body.style.transition = "all 1s ease";
