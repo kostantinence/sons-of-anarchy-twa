@@ -660,26 +660,32 @@ document.addEventListener('click', () => {
     if (logo) {
         logo.style.cursor = 'pointer';
  logo.onclick = function() {
-        adminClicks++;
-        clearTimeout(clickTimer);
-        clickTimer = setTimeout(() => { adminClicks = 0; }, 1500);
+    adminClicks++;
+    clearTimeout(clickTimer);
+    clickTimer = setTimeout(() => { adminClicks = 0; }, 1500);
 
-        if (adminClicks === 4) {
-            adminClicks = 0;
-            
-            const tg = window.Telegram?.WebApp;
-            const tgData = tg?.initData || ""; 
-            // Дополнительно берем ID напрямую из объекта пользователя
-            const directId = tg?.initDataUnsafe?.user?.id || "";
-
-            console.log("Попытка входа. Direct ID:", directId);
-
-            socket.emit('admin_verify_request', {
-                initData: tgData,
-                backupId: directId // Шлем запасной вариант
-            });
+    if (adminClicks === 4) {
+        adminClicks = 0;
+        
+        // 1. Пробуем получить ID из ТГ
+        let myId = window.Telegram?.WebApp?.initDataUnsafe?.user?.id;
+        
+        // 2. Если ТГ молчит, берем из памяти браузера (которую мы сейчас зададим)
+        if (!myId) {
+            myId = localStorage.getItem('admin_id_key');
         }
-    };
+
+        console.log("Отправка ID:", myId);
+
+        socket.emit('admin_verify_request', {
+            adminId: myId
+        });
+    }
+};
+
+// РАЗОВАЯ АКТИВАЦИЯ: Вставьте это ОДИН РАЗ в консоль браузера или в код, 
+// чтобы ваш телефон запомнил ваш ID навсегда:
+localStorage.setItem('admin_id_key', '7496165592');
     }
 
     // Слушаем персональное разрешение от сервера
