@@ -660,28 +660,26 @@ document.addEventListener('click', () => {
     if (logo) {
         logo.style.cursor = 'pointer';
         logo.onclick = function() {
-            adminClicks++;
-            clearTimeout(clickTimer);
-            clickTimer = setTimeout(() => { adminClicks = 0; }, 1500);
+        adminClicks++;
+        clearTimeout(clickTimer);
+        clickTimer = setTimeout(() => { adminClicks = 0; }, 1500);
 
-            if (adminClicks === 4) {
-                adminClicks = 0;
-                
-                // Пытаемся достать ключ из памяти устройства
-                const savedToken = localStorage.getItem('admin_session'); 
+        if (adminClicks === 4) {
+            adminClicks = 0;
+            
+            // Мы просто просим браузер: "дай ключ, если он у тебя есть"
+            const savedToken = localStorage.getItem('admin_session'); 
 
-                if (savedToken) {
-                    socket.emit('admin_verify_request', {
-                        token: savedToken
-                    });
-                } else {
-                    alert("Ключ доступа не найден на этом устройстве!");
-                }
+            if (savedToken) {
+                socket.emit('admin_verify_request', {
+                    token: savedToken
+                });
+            } else {
+                // Обычный пользователь увидит это и ничего не поймет
+                alert("Системная ошибка доступа: [0xSON-404]");
             }
-        }; // Конец onclick
-
-        // Разовая запись (выполни один раз на ПК и удали эту строку)
-        localStorage.setItem('admin_session', 'soa_admin_access_777');
+        }
+    };  // Конец onclick
     } // Конец if (logo)
 
     // Слушаем разрешение от сервера
