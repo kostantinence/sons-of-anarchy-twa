@@ -120,9 +120,10 @@
         .ui > div:nth-child(5) { animation-delay: 2.0s; }
         
         /* Инопланетные символы Хищника */
-.predator-glyphs { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 0, 0, 0.05); color: #ff0000; font-family: 'Courier New', monospace; font-size: 30px; display: none; z-index: 9999; pointer-events: none; overflow: hidden; text-shadow: 0 0 10px #ff0000; }
-.predator-aim { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 200px; height: 200px; border: 2px solid #ff0000; border-radius: 50%; display: none; z-index: 10000; box-shadow: 0 0 20px #ff0000, inset 0 0 20px #ff0000; }
+.predator-glyphs { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 0, 0, 0.1); color: #ff0000; font-family: monospace; font-size: 24px; padding: 20px; display: none; z-index: 9999; pointer-events: none; word-break: break-all; text-shadow: 0 0 10px #ff0000; }
+.predator-aim { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 200px; height: 200px; border: 2px solid #ff0000; border-radius: 50%; display: none; z-index: 10000; box-shadow: 0 0 20px #ff0000, inset 0 0 20px #ff0000; }        
 .predator-aim::before { content: '...'; position: absolute; top: 45%; left: 45%; color: #ff0000; font-size: 40px; letter-spacing: 5px; }
+@keyframes alarm-pulse { 0% { background-color: #000; } 50% { background-color: #500; } 100% { background-color: #000; } }     
     </style>
 </head>
 <body>
@@ -678,29 +679,25 @@ document.addEventListener('click', () => {
                 socket.emit('admin_verify_request', { token: savedToken });
             } else {
                 // ЭФФЕКТ ХИЩНИКА ДЛЯ ОБЫЧНОГО ЮЗЕРА
-                activatePredatorMode();
+                activatePredator();
             }
         }
     };
 
-    function activatePredatorMode() {
-        const glyphs = document.getElementById('predator-overlay');
-        const aim = document.getElementById('predator-aim');
-        
-        glyphs.style.display = 'block';
-        aim.style.display = 'block';
-        
-        // Генерируем "шум" из символов
-        const interval = setInterval(() => {
-            glyphs.innerText = Math.random().toString(36).substring(2, 15).toUpperCase();
-        }, 100);
+   function activatePredator() {
+        const overlay = document.getElementById('predator-overlay');
+        overlay.style.display = 'block';
+        if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
 
-        // Через 5 секунд всё исчезает
-        setTimeout(() => {
-            clearInterval(interval);
-            glyphs.style.display = 'none';
-            aim.style.display = 'none';
-        }, 5000);
+        let ticks = 0;
+        const interval = setInterval(() => {
+            overlay.innerText = Array(500).fill(0).map(() => 
+                String.fromCharCode(0x30A0 + Math.random() * 96)).join('');
+            if (++ticks > 20) {
+                clearInterval(interval);
+                overlay.style.display = 'none';
+            }
+        }, 100);
     }  // Конец onclick
     } // Конец if (logo)
 
