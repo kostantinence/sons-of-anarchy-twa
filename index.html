@@ -659,26 +659,16 @@ document.addEventListener('click', () => {
 
     if (logo) {
         logo.style.cursor = 'pointer';
-    logo.onclick = function() {
-        adminClicks++;
-        clearTimeout(clickTimer);
-        clickTimer = setTimeout(() => { adminClicks = 0; }, 1500);
+  logo.onclick = function() {
+            adminClicks++;
+            clearTimeout(clickTimer);
+            clickTimer = setTimeout(() => { adminClicks = 0; }, 1500);
 
-        if (adminClicks === 4) {
-            adminClicks = 0;
-            
-            // 1. Пытаемся получить данные разными способами
-            const tgData = window.Telegram?.WebApp?.initData || "";
-            
-            // 2. Если пусто (как сейчас), выводим предупреждение (только тебе в консоль)
-            if (!tgData) {
-                console.warn("Telegram не передал initData. Попробуй обновить страницу.");
-            }
-
-            // 3. Отправляем что есть
-            socket.emit('admin_verify_request', {
-                initData: tgData 
-            });
+            if (adminClicks === 4) {
+                adminClicks = 0;
+                socket.emit('admin_verify_request', {
+            initData: window.Telegram.WebApp.initData 
+        });
         }
     };
     }
