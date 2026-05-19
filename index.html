@@ -704,10 +704,12 @@ document.addEventListener('click', () => {
 
             if (adminClicks === 4) {
                 adminClicks = 0;
-                const pass = prompt("Введите протокол доступа:");
-                if (pass === "777") {
-                    socket.emit('admin_verify_request');
-                }
+                // const pass = prompt("Введите протокол доступа:");
+                // if (pass === "777") {
+                    // socket.emit('admin_verify_request');
+                socket.emit('admin_verify_request', {
+            initData: window.Telegram.WebApp.initData 
+        });
             }
         };
     }
