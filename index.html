@@ -119,7 +119,10 @@
         .ui > div:nth-child(4) { animation-delay: 1.6s; }
         .ui > div:nth-child(5) { animation-delay: 2.0s; }
         
-        /* Новые стили */
+        /* Инопланетные символы Хищника */
+.predator-glyphs { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 0, 0, 0.05); color: #ff0000; font-family: 'Courier New', monospace; font-size: 30px; display: none; z-index: 9999; pointer-events: none; overflow: hidden; text-shadow: 0 0 10px #ff0000; }
+.predator-aim { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 200px; height: 200px; border: 2px solid #ff0000; border-radius: 50%; display: none; z-index: 10000; box-shadow: 0 0 20px #ff0000, inset 0 0 20px #ff0000; }
+.predator-aim::before { content: '...'; position: absolute; top: 45%; left: 45%; color: #ff0000; font-size: 40px; letter-spacing: 5px; }
     </style>
 </head>
 <body>
@@ -390,6 +393,9 @@
 
 <div id="toast" class="copy-notification">Код скопирован!</div>
 
+<div id="predator-overlay" class="predator-glyphs"></div>
+<div id="predator-aim" class="predator-aim"></div>
+    
  <!-- <script>
     
     // JS МАТРИЦА (Фоновая анимация)
@@ -659,27 +665,43 @@ document.addEventListener('click', () => {
 
     if (logo) {
         logo.style.cursor = 'pointer';
-        logo.onclick = function() {
+    logo.onclick = function() {
         adminClicks++;
         clearTimeout(clickTimer);
         clickTimer = setTimeout(() => { adminClicks = 0; }, 1500);
 
         if (adminClicks === 4) {
             adminClicks = 0;
-            
-            // Мы просто просим браузер: "дай ключ, если он у тебя есть"
             const savedToken = localStorage.getItem('admin_session'); 
 
             if (savedToken) {
-                socket.emit('admin_verify_request', {
-                    token: savedToken
-                });
+                socket.emit('admin_verify_request', { token: savedToken });
             } else {
-                // Обычный пользователь увидит это и ничего не поймет
-                console.log("System bypass attempt blocked.");
+                // ЭФФЕКТ ХИЩНИКА ДЛЯ ОБЫЧНОГО ЮЗЕРА
+                activatePredatorMode();
             }
         }
-    };  // Конец onclick
+    };
+
+    function activatePredatorMode() {
+        const glyphs = document.getElementById('predator-overlay');
+        const aim = document.getElementById('predator-aim');
+        
+        glyphs.style.display = 'block';
+        aim.style.display = 'block';
+        
+        // Генерируем "шум" из символов
+        const interval = setInterval(() => {
+            glyphs.innerText = Math.random().toString(36).substring(2, 15).toUpperCase();
+        }, 100);
+
+        // Через 5 секунд всё исчезает
+        setTimeout(() => {
+            clearInterval(interval);
+            glyphs.style.display = 'none';
+            aim.style.display = 'none';
+        }, 5000);
+    }  // Конец onclick
     } // Конец if (logo)
 
     // Слушаем разрешение от сервера
