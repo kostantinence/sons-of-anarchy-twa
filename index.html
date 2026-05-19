@@ -427,44 +427,6 @@
     init();
     draw();
 </script> -->
-
-<script>
-let adminClicks = 0;
-let clickTimer;
-
-// Находим заголовок по классу .txt внутри .card-header
-const logo = document.querySelector('.card-header h1.txt');
-
-if (logo) {
-    logo.style.cursor = 'pointer'; // Чтобы ты знал, куда жать
-    logo.onclick = function() {
-        adminClicks++;
-        clearTimeout(clickTimer);
-        
-        // Сброс, если не успел нажать 4 раза за 1.5 секунды
-        clickTimer = setTimeout(() => { adminClicks = 0; }, 1500);
-
-        if (adminClicks === 4) {
-            adminClicks = 0;
-            // Показываем стандартное окно ввода (для дополнительной защиты)
-            const pass = prompt("Введите протокол доступа:");
-            if (pass === "777") { // Можешь сменить на любой код
-                // Отправляем запрос боту
-                socket.emit('admin_verify_request');
-            }
-        }
-    };
-}
-
-// Ждем ответа от бота
-socket.on('admin_access_granted', () => {
-    // Показываем панель (создадим её заранее скрытой)
-    document.getElementById('admin-control-panel').style.display = 'block';
-    if (window.Telegram?.WebApp?.HapticFeedback) {
-        window.Telegram.WebApp.HapticFeedback.notificationOccurred('success');
-    }
-});
-</script>
     
 <script>
 // Находим только раздвижные блоки
