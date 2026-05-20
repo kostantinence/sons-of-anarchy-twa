@@ -153,12 +153,6 @@
     🧹 Удалить последнее сообщение
         </button>
 
-        <button onclick="getNewProxy()" 
-        id="proxy-scan-btn"
-        style="padding:10px; background:#1a1a1a; color:#00ff00; border:1px solid #00ff00; border-radius:5px; cursor:pointer; font-weight:bold; margin-top:5px; display:flex; align-items:center; justify-content:center; gap:8px;">
-    📡 СКАНИРОВАТЬ ПРОКСИ (DPI)
-</button>
-        
         <button onclick="socket.emit('admin_command', {type: 'alarm'})" 
         style="padding:10px; background:#f00; color:#fff; border:none; border-radius:5px; cursor:pointer;">
     🚨 ТРЕВОГА (6 сек)
@@ -739,35 +733,6 @@ document.addEventListener('click', () => {
             }
         }
     });
-
-   // --- Добавление парсера ---
-function getNewProxy() {
-    const btn = document.getElementById('proxy-scan-btn');
-    
-    // 1. Визуальный эффект (твой Хищник)
-    if (typeof activatePredator === 'function') activatePredator();
-    
-    // 2. Меняем состояние кнопки
-    btn.innerText = "⏳ ПОИСК...";
-    btn.style.borderColor = "#ff0000";
-    btn.style.color = "#ff0000";
-    btn.disabled = true;
-
-    // 3. Отправляем запрос боту
-    socket.emit('request_proxy_parse');
-}
-
-// Слушаем ответ от бота
-socket.on('proxy_data_ready', (data) => {
-    if (data.success) {
-        // data.url теперь содержит https://t.me...
-        if(confirm("✅ ПРОКСИ НАЙДЕН! ПОДКЛЮЧИТЬ?")) {
-            window.location.href = data.url; 
-        }
-    } else {
-        alert("ОШИБКА: " + data.error);
-    }
-});
     
     // --- ОБРАБОТКА КОМАНД ИЗ АДМИН-ПАНЕЛИ САЙТА ---
 socket.on('admin_command', async (data) => {
