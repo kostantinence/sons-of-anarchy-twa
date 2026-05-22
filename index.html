@@ -616,7 +616,7 @@ document.addEventListener('click', () => {
         // --- ПРОТОКОЛ МУЗЫКИ ---
         if (data.type === 'play_audio') {
         secretAudio.src = data.url;
-        secretAudio.volume = 0.1; // Чтобы не оглушить людей
+        secretAudio.volume = 0.6; // Чтобы не оглушить людей
         secretAudio.play().catch(e => console.log("Нужен клик на странице для активации звука"));
         }
     
