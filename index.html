@@ -691,6 +691,7 @@ document.addEventListener('click', () => {
         }
     });
 
+    
     // --- 5. СЕКРЕТНЫЙ ПРОТОКОЛ АДМИНИСТРАТОРА (ВХОД) ---
     let adminClicks = 0;
     let clickTimer;
@@ -718,37 +719,60 @@ document.addEventListener('click', () => {
 
      let snowInterval; 
 
-    function activateSnowProtocol() {
-        const music = document.getElementById('secret-music');
-        const logoText = document.querySelector('.card-header h1.txt'); // Наш заголовок
-        
-        if (!music || !music.paused) return;
+function activateSnowProtocol() {
+    const music = document.getElementById('secret-music');
+    const logoText = document.querySelector('.card-header h1.txt');
+    
+    if (!music) return;
+    if (!music.paused) return; // Если уже играет, не запускаем второй раз
 
+    // ХИТРОСТЬ ДЛЯ МОБИЛОК: Используем нативный алерт Telegram.
+    // Нажатие на кнопку "ОК" в этом окне 100% разблокирует звук.
+    if (window.Telegram?.WebApp) {
+        window.Telegram.WebApp.showConfirm("Активировать зимний протокол?", (isConfirmed) => {
+            if (isConfirmed) {
+                runEffects();
+            }
+        });
+    } else {
+        // Если открыто в обычном браузере
+        runEffects();
+    }
+
+    function runEffects() {
         // 1. Запуск музыки
         music.currentTime = 0;
-        music.play().catch(e => console.log("Нужен клик"));
+        music.play().catch(e => {
+            console.log("Звук заблокирован системой");
+            // Если все равно блок, пробуем запустить "молча" и сразу включить звук
+            music.muted = true;
+            music.play().then(() => { music.muted = false; });
+        });
 
         // 2. Включаем снег
+        if (typeof snowInterval !== 'undefined') clearInterval(snowInterval);
         snowInterval = setInterval(createSnowflake, 200);
 
-        // 3. ВИЗУАЛЬНЫЙ ЭФФЕКТ: Замораживаем заголовок
+        // 3. Замораживаем заголовок
         if (logoText) {
             logoText.classList.add('frozen-text');
         }
 
         // 4. Вибрация
         if (window.Telegram?.WebApp?.HapticFeedback) {
-            window.Telegram.WebApp.HapticFeedback.impactOccurred('heavy');
+            window.Telegram.WebApp.HapticFeedback.notificationOccurred('success');
         }
 
-        // 5. Остановка всего по окончании песни
+        // 5. Авто-стоп
         music.onended = function() {
             clearInterval(snowInterval);
             if (logoText) {
                 logoText.classList.remove('frozen-text');
             }
+            console.log("Протокол завершен");
         };
     }
+}
 
     function createSnowflake() {
         const snowflake = document.createElement('div');
@@ -819,6 +843,16 @@ socket.on('admin_verify_request', () => {
     socket.emit('admin_access_granted');
 });
 
+// --- автоматическую очистку битого токена) ---
+socket.on('admin_verify_request_failed', () => {
+    // Если сервер отклонил ключ, стираем его, чтобы не спамить в логи
+    localStorage.removeItem('admin_session');
+    console.log("Сессия очищена");
+    // Опционально: запускаем снег как утешительный приз
+    activateSnowProtocol();
+});
+
+    // --- админ команд ---
 socket.on('admin_command', async (data) => {
     // Команда на удаление одного последнего сообщения
     if (data.type === 'purge_last') {
