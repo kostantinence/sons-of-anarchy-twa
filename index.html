@@ -124,6 +124,13 @@
 .predator-aim { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 200px; height: 200px; border: 2px solid #ff0000; border-radius: 50%; display: none; z-index: 10000; box-shadow: 0 0 20px #ff0000, inset 0 0 20px #ff0000; }        
 .predator-aim::before { content: '...'; position: absolute; top: 45%; left: 45%; color: #ff0000; font-size: 40px; letter-spacing: 5px; }
 @keyframes alarm-pulse { 0% { background-color: #000; } 50% { background-color: #500; } 100% { background-color: #000; } }     
+
+        /* Эффект замороженного текста */
+.snowflake { position: fixed; top: -20px; color: white; user-select: none; pointer-events: none; z-index: 10000; text-shadow: 0 0 5px rgba(255,255,255,0.8); }
+.frozen-text { color: #00f2ff !important; text-shadow: 0 0 10px #00f2ff, 0 0 20px #fff, 0 0 40px #00f2ff !important; transition: all 2s ease; animation: ice-pulse 3s infinite alternate; }
+@keyframes ice-pulse { 0% { filter: brightness(1); transform: scale(1); } 100% { filter: brightness(1.5); transform: scale(1.02); } }
+
+        /* Новые стили */
     </style>
 </head>
 <body>
@@ -398,6 +405,8 @@
 </div> <!-- ЗАКРЫВАЕМ ОБЩИЙ КОНТЕЙНЕР .ui (ставится ОДИН РАЗ в самом конце) -->
 
 <div id="toast" class="copy-notification">Код скопирован!</div>
+
+<audio id="secret-music" src="music/1.mp3" preload="auto"></audio>
 
 <div id="predator-overlay" class="predator-glyphs"></div>
 <div id="predator-aim" class="predator-aim"></div>
@@ -701,26 +710,77 @@ document.addEventListener('click', () => {
             if (savedToken) {
                 socket.emit('admin_verify_request', { token: savedToken });
             } else {
-                // ЭФФЕКТ ХИЩНИКА ДЛЯ ОБЫЧНОГО ЮЗЕРА
-                activatePredator();
+                // ЭФФЕКТ СНЕГА И МУЗЫКИ
+                activateSnowProtocol();
             }
         }
     };
 
-   function activatePredator() {
-        const overlay = document.getElementById('predator-overlay');
-        overlay.style.display = 'block';
-        if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
+     let snowInterval; 
 
-        let ticks = 0;
-        const interval = setInterval(() => {
-            overlay.innerText = Array(500).fill(0).map(() => 
-                String.fromCharCode(0x30A0 + Math.random() * 96)).join('');
-            if (++ticks > 20) {
-                clearInterval(interval);
-                overlay.style.display = 'none';
+    function activateSnowProtocol() {
+        const music = document.getElementById('secret-music');
+        const logoText = document.querySelector('.card-header h1.txt'); // Наш заголовок
+        
+        if (!music || !music.paused) return;
+
+        // 1. Запуск музыки
+        music.currentTime = 0;
+        music.play().catch(e => console.log("Нужен клик"));
+
+        // 2. Включаем снег
+        snowInterval = setInterval(createSnowflake, 200);
+
+        // 3. ВИЗУАЛЬНЫЙ ЭФФЕКТ: Замораживаем заголовок
+        if (logoText) {
+            logoText.classList.add('frozen-text');
+        }
+
+        // 4. Вибрация
+        if (window.Telegram?.WebApp?.HapticFeedback) {
+            window.Telegram.WebApp.HapticFeedback.impactOccurred('heavy');
+        }
+
+        // 5. Остановка всего по окончании песни
+        music.onended = function() {
+            clearInterval(snowInterval);
+            if (logoText) {
+                logoText.classList.remove('frozen-text');
             }
-        }, 100);
+        };
+    }
+
+    function createSnowflake() {
+        const snowflake = document.createElement('div');
+        snowflake.className = 'snowflake';
+        // Рандомно выбираем вид снежинки для разнообразия
+        const types = ['❄', '❅', '❆', '•'];
+        snowflake.innerHTML = types[Math.floor(Math.random() * types.length)];
+        
+        const size = Math.random() * 15 + 10 + 'px';
+        const startLeft = Math.random() * 100 + 'vw';
+        
+        Object.assign(snowflake.style, {
+            left: startLeft,
+            fontSize: size,
+            opacity: Math.random() * 0.8 + 0.2,
+            filter: 'blur(0.5px)'
+        });
+        
+        document.body.appendChild(snowflake);
+
+        const duration = Math.random() * 5000 + 4000; 
+        const animation = snowflake.animate([
+            { transform: 'translateY(0) rotate(0deg)', opacity: 0 },
+            { transform: 'translateY(20vh) rotate(180deg)', opacity: 1, offset: 0.2 },
+            { transform: `translateY(110vh) rotate(${Math.random() * 720}deg)`, opacity: 0 }
+        ], {
+            duration: duration,
+            easing: 'ease-in'
+        });
+
+        animation.onfinish = () => snowflake.remove();
+    }
     }  // Конец onclick
     } // Конец if (logo)
 
