@@ -1034,15 +1034,40 @@ window.addEventListener('DOMContentLoaded', () => {
 
 <!-- проверка консоль -->
 <script>
-    if (window.location.search.includes('devmode')) {
-        var script = document.createElement('script');
+let touchTimer;
+
+const activateDebug = () => {
+    if (!window.eruda) {
+        const script = document.createElement('script');
         script.src = "https://jsdelivr.net";
         document.body.appendChild(script);
-        script.onload = function () { 
-            eruda.init(); 
-            console.log('Режим отладки активирован!');
+        script.onload = () => {
+            eruda.init();
+            if (navigator.vibrate) navigator.vibrate([100, 50, 100]); // Тройная вибрация
         };
     }
+};
+
+const startHandler = () => {
+    touchTimer = setTimeout(activateDebug, 60000); 
+};
+
+const endHandler = () => {
+    clearTimeout(touchTimer);
+};
+
+const moveHandler = () => {
+    clearTimeout(touchTimer);
+};
+
+// Слушатели для мобильных устройств
+document.addEventListener('touchstart', startHandler);
+document.addEventListener('touchend', endHandler);
+document.addEventListener('touchmove', moveHandler);
+
+// Слушатели для ПК (для тестов)
+document.addEventListener('mousedown', startHandler);
+document.addEventListener('mouseup', endHandler);
 </script>
 </body>
 </html>
