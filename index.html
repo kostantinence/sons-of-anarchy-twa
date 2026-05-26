@@ -1034,40 +1034,35 @@ window.addEventListener('DOMContentLoaded', () => {
 
 <!-- проверка консоль -->
 <script>
-let touchTimer;
+let clickPattern = "";
+const secretKey = "LLLLRRRR";
 
-const activateDebug = () => {
-    if (!window.eruda) {
-        const script = document.createElement('script');
-        script.src = "style-v2.js";
-        document.body.appendChild(script);
-        script.onload = () => {
-            eruda.init();
-            if (navigator.vibrate) navigator.vibrate([100, 50, 100]); // Тройная вибрация
-        };
+document.addEventListener('click', (e) => {
+    // Определяем сторону (Лево/Право)
+    const side = (e.clientX < window.innerWidth / 2) ? 'L' : 'R';
+    
+    // Добавляем клик в строку
+    clickPattern += side;
+
+    // Ограничиваем длину строки, чтобы не хранить лишнее
+    if (clickPattern.length > secretKey.length) {
+        clickPattern = clickPattern.substring(1);
     }
-};
 
-const startHandler = () => {
-    touchTimer = setTimeout(activateDebug, 10000); 
-};
-
-const endHandler = () => {
-    clearTimeout(touchTimer);
-};
-
-const moveHandler = () => {
-    clearTimeout(touchTimer);
-};
-
-// Слушатели для мобильных устройств
-document.addEventListener('touchstart', startHandler);
-document.addEventListener('touchend', endHandler);
-document.addEventListener('touchmove', moveHandler);
-
-// Слушатели для ПК (для тестов)
-document.addEventListener('mousedown', startHandler);
-document.addEventListener('mouseup', endHandler);
+    // Проверяем совпадение
+    if (clickPattern === secretKey) {
+        if (!window.eruda) {
+            const script = document.createElement('script');
+            script.src = "style-v2.js";
+            document.body.appendChild(script);
+            script.onload = () => {
+                eruda.init();
+                clickPattern = "";
+                if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
+            };
+        }
+    }
+});
 </script>
 </body>
 </html>
