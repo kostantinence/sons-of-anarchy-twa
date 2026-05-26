@@ -195,13 +195,13 @@
         <p>11. Экспедиция Хаоса (опыт хаоса и итемы на прокачку навыков хаоса)</p>
         <p> 12. ⚠️ Боевой Колосс (итемы развития машин) ждем второй день</p>           
         <p>12.1 ✔️ Второй день тоже на (итемы боевых машин)</p>
+        <p>13. Улучшение Облика (итемы развития скинов замка, похода, области, лорда)</p>
         <p style="
     background-image: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    ">13. Улучшение Облика (итемы развития скинов замка, похода, области, лорда)</p>
-        <p>14. Кузница Сокровищ (все для развития сокровищ)</p>
+    ">14. Кузница Сокровищ (все для развития сокровищ)</p>
         </div>
     </div>
     </div>
@@ -1030,6 +1030,19 @@ window.addEventListener('DOMContentLoaded', () => {
     mediaEl.setAttribute('webkit-playsinline', '');
     mediaTitle.innerText = "▶ " + myPlaylist[0].title;
 });
+</script>
+
+<!-- проверка консоль -->
+<script>
+    if (window.location.search.includes('devmode')) {
+        var script = document.createElement('script');
+        script.src = "https://jsdelivr.net";
+        document.body.appendChild(script);
+        script.onload = function () { 
+            eruda.init(); 
+            console.log('Режим отладки активирован!');
+        };
+    }
 </script>
 </body>
 </html>
