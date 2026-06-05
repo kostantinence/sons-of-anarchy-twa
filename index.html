@@ -39,6 +39,51 @@
         .temple-row .expandable-box { flex: 1; min-width: 280px; max-width: 360px; margin: 0; cursor: pointer; }
         .temple-row .expandable-box.is-expanded { flex-basis: 100%; max-width: 100%; }
         .expandable-box h2 { margin: 5px 0; font-size: 1.2rem; }
+        /* Ряд кнопок */
+.temple-tabs-nav {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    justify-content: center;
+}
+
+.tab-btn {
+    flex: 1;
+    background: rgba(0, 0, 0, 0.6);
+    border: 1.8px solid #d4af3787;
+    color: #ffd11a;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 10px;
+    font-family: monospace;
+    transition: 0.3s;
+}
+
+.tab-btn.active {
+    border-color: #d4af37;
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+    background: rgba(212, 175, 55, 0.2);
+}
+
+/* Скрываем все таблицы по умолчанию */
+.tab-content {
+    display: none;
+    animation: fadeIn 0.4s ease;
+}
+
+/* Показываем только активную */
+.tab-content.active {
+    display: block;
+    background: rgb(0 0 0 / 60%);
+    border: 1.8px solid #d4af37;
+    padding: 15px;
+    border-radius: 13px;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
         
         /* ВИДЕО (Фиксированная высота) */
         .video-card { height: auto !important; min-height: 200px; padding: 10px !important; overflow: visible !important; }
@@ -212,11 +257,17 @@
     </div>
     </div>
 
+    <!-- Контейнер для кнопок-переключателей -->
+<div class="temple-tabs-nav">
+    <button class="tab-btn active" onclick="openTemple(event, 'machine')">ХРАМ МАШИН</button>
+    <button class="tab-btn" onclick="openTemple(event, 'fire')">ХРАМ ОГНЯ</button>
+    <button class="tab-btn" onclick="openTemple(event, 'units')">ХРАМ ЮНИТОВ</button>
+</div>
+
     <!-- Колонна 2: Все Храмы -->
-    <div class="column-group">
-<div class="expandable-box">
-    <h2 style="border-bottom-color: #d4af37;">ХРАМ МАШИН</h2>
-<div class="content">
+<!-- Контейнер для самих таблиц -->
+ <div class="temple-tabs-content">
+    <div id="machine" class="tab-content active">
         <div class="table-wrapper">
             <table class="temple-table">
                 <thead>
@@ -240,12 +291,8 @@
             </table>
         </div>
     </div>
-</div>
 
-        <!-- ХРАМ ОГНЯ -->
-<div class="expandable-box">
-    <h2 style="border-bottom-color: #d4af37;">ХРАМ ОГНЯ</h2>
- <div class="content">
+    <div id="fire" class="tab-content">
         <div class="table-wrapper">
             <table class="temple-table">
                 <thead>
@@ -270,12 +317,8 @@
             </table>
         </div>
     </div>
-</div>
 
-        <!-- ХРАМ ЮНИТОВ -->
-<div class="expandable-box">
-    <h2 style="border-bottom-color: #d4af37;">ХРАМ ЮНИТОВ</h2>
-<div class="content">
+    <div id="units" class="tab-content">
         <div class="table-wrapper">
             <table class="temple-table">
                 <thead>
@@ -301,6 +344,8 @@
         </div>
     </div>
 </div>
+
+
 <!-- Коды  -->
         <div class="static-box">
     <h2>АКТУАЛЬНЫЕ КОДЫ</h2>
@@ -480,6 +525,27 @@ boxes.forEach(box => {
         }
     });
 });
+
+function openTemple(evt, templeId) {
+    // Прячем все таблицы
+    document.querySelectorAll('.tab-content').forEach(tab => {
+        tab.classList.remove('active');
+    });
+
+    // Убираем подсветку со всех кнопок
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+
+    // Показываем нужную таблицу и подсвечиваем кнопку
+    document.getElementById(templeId).classList.add('active');
+    evt.currentTarget.classList.add('active');
+
+    // Виброотклик для Telegram
+    if (window.Telegram?.WebApp?.HapticFeedback) {
+        window.Telegram.WebApp.HapticFeedback.impactOccurred('medium');
+    }
+}
 </script>
 <script>
 // 1. Получение кодов из URL (от бота)
