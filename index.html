@@ -33,6 +33,12 @@
         .expandable-box { display: block; position: relative; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1); margin-bottom: 15px; }
         .expandable-box:not(.is-expanded) { max-height: 60px !important; }
         .expandable-box.is-expanded { max-height: 2000px !important; }
+
+        /* Карточки кнопок */
+        .temple-row { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; width: 100%; }
+        .temple-row .expandable-box { flex: 1; min-width: 280px; max-width: 360px; margin: 0; cursor: pointer; }
+        .temple-row .expandable-box.is-expanded { flex-basis: 100%; max-width: 100%; }
+        .expandable-box h2 { margin: 5px 0; font-size: 1.2rem; }
         
         /* ВИДЕО (Фиксированная высота) */
         .video-card { height: auto !important; min-height: 200px; padding: 10px !important; overflow: visible !important; }
@@ -175,7 +181,7 @@
 </div>
 
     <!-- Колонна 1: Ивенты (самая длинная) -->
-<div class="column-group">
+<div class="temple-row" style="grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; width: 100%;">
          <!-- 1. СТАЦИОНАРНАЯ КАРТОЧКА -->
     <div class="static-box">
         <h2>Порядок двух дневных ивентов</h2>
