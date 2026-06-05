@@ -46,10 +46,10 @@
 .tab-content { display: none; animation: fadeIn 0.4s ease; }
 .tab-content.active { display: block; background: rgb(0 0 0 / 60%); border: 1.8px solid #d4af37; padding: 15px; border-radius: 13px; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-.temple-tabs-content { width: 100%; margin: 0 auto; }
+.temple-tabs-content { width: 100%; margin: 0 auto; margin-top: 20px; }
 .tab-content.active { display: block; width: 100%; box-sizing: border-box; background: rgb(0 0 0 / 60%); border: 1.8px solid #d4af37; padding: 15px; border-radius: 13px; box-shadow: 0 0 25px rgba(212, 175, 55, 0.3); }
 .temple-table { width: 100%; border-collapse: collapse; }
-.temple-tabs-nav { display: flex; gap: 10px; margin-bottom: 10px; width: 100%; }
+.temple-tabs-nav { display: flex; gap: 10px; margin-bottom: 20px; width: 100%; }
 .tab-btn { flex: 1; min-width: 100px; }
         
         /* ВИДЕО (Фиксированная высота) */
@@ -225,7 +225,7 @@
     </div>
 
 <!-- Одна группа для Храмов -->
-<div class="column-group" style="grid-column: 1 / -1; width: 100%;">
+<div class="column-group" style="grid-column: 1 / -1; width: 0;">
     <!-- Контейнер для кнопок-переключателей -->
 <div class="temple-tabs-nav">
     <button class="tab-btn active" onclick="openTemple(event, 'machine')">ХРАМ МАШИН</button>
