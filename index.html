@@ -40,17 +40,14 @@
         .temple-row .expandable-box.is-expanded { flex-basis: 100%; max-width: 100%; }
         .expandable-box h2 { margin: 5px 0; font-size: 1.2rem; }
         /* Ряд кнопок */
-.temple-tabs-nav { display: flex; gap: 10px; margin-bottom: 15px; justify-content: center; }
-.tab-btn { flex: 1; background: rgba(0, 0, 0, 0.6); border: 1.8px solid #d4af3787; color: #ffd11a; padding: 10px; cursor: pointer; border-radius: 10px; font-family: monospace; transition: 0.3s; }
-.tab-btn.active { border-color: #d4af37; box-shadow: 0 0 15px rgba(212, 175, 55, 0.5); background: rgba(212, 175, 55, 0.2); }
-.tab-content { display: none; animation: fadeIn 0.4s ease; }
-.tab-content.active { display: block; background: rgb(0 0 0 / 60%); border: 1.8px solid #d4af37; padding: 15px; border-radius: 13px; }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-.temple-tabs-content { width: 100%; margin: 0 auto;  margin-top: 20px; }
-.tab-content.active { display: block; width: 100%; box-sizing: border-box; background: rgb(0 0 0 / 60%); border: 1.8px solid #d4af37; padding: 15px; border-radius: 13px; box-shadow: 0 0 25px rgba(212, 175, 55, 0.3); }
-.temple-table { width: 100%; border-collapse: collapse; }
-.temple-tabs-nav { display: flex; gap: 10px; margin-bottom: 10px; width: 100%; }
-.tab-btn { flex: 1; min-width: 100px; }
+        .temple-tabs-nav { display: flex; gap: 10px; margin-bottom: 10px; width: 100%; justify-content: center; }
+        .tab-btn { flex: 1; min-width: 100px; background: rgba(0, 0, 0, 0.6); border: 1.8px solid #d4af3787; color: #ffd11a; padding: 10px; cursor: pointer; border-radius: 10px; font-family: monospace; transition: 0.3s; }
+        .tab-btn.active { border-color: #d4af37; box-shadow: 0 0 15px rgba(212, 175, 55, 0.5); background: rgba(212, 175, 55, 0.2); }
+        .temple-tabs-content { width: 100%; margin: 20px auto 0; }
+        .tab-content { display: none; animation: fadeIn 0.4s ease; }
+        .tab-content.active { display: block; width: 100%; box-sizing: border-box; background: rgb(0 0 0 / 60%); border: 1.8px solid #d4af37; padding: 15px; border-radius: 13px; box-shadow: 0 0 25px rgba(212, 175, 55, 0.3); }
+        .temple-table { width: 100%; border-collapse: collapse; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
         /* ВИДЕО (Фиксированная высота) */
         .video-card { height: auto !important; min-height: 200px; padding: 10px !important; overflow: visible !important; }
@@ -193,7 +190,8 @@
 </div>
 
     <!-- Колонна 1: Ивенты (самая длинная) -->
-<div class="temple-row" style="grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; width: 100%;">
+     <!-- <div class="temple-row" style="grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; width: 100%;"> -->
+<div class="temple-row" style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; width: 100%;">
          <!-- 1. СТАЦИОНАРНАЯ КАРТОЧКА -->
     <div class="static-box">
         <h2>Порядок двух дневных ивентов</h2>
@@ -225,7 +223,8 @@
     </div>
 
 <!-- Одна группа для Храмов -->
-<div class="column-group" style="grid-column: 1 / -1; width: 100%;">
+<!-- <div class="column-group" style=" grid-column: 1 / -1; width: 100%;"> -->
+<div class="column-group" style="width: 100%;">
     <!-- Контейнер для кнопок-переключателей -->
 <div class="temple-tabs-nav">
     <button class="tab-btn active" onclick="openTemple(event, 'machine')">ХРАМ МАШИН</button>
