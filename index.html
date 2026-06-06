@@ -40,7 +40,7 @@
         .temple-row .expandable-box.is-expanded { flex-basis: 100%; max-width: 100%; }
         .expandable-box h2 { margin: 5px 0; font-size: 1.2rem; }
         /* Ряд кнопок */
-        /* .temple-tabs-nav { display: flex; gap: 15px; margin-bottom: 25px; flex-wrap: wrap; justify-content: center; } */
+        .temple-tabs-nav { display: flex; gap: 10px; margin-bottom: 1px; width: 100%; justify-content: center; }
         .tab-btn { flex: 1; min-width: 100px; background: rgba(0, 0, 0, 0.6); border: 1.8px solid #d4af3787; color: #ffd11a; padding: 10px; cursor: pointer; border-radius: 10px; font-family: monospace; transition: 0.3s; }
         .tab-btn.active { border-color: #d4af37; box-shadow: 0 0 15px rgba(212, 175, 55, 0.5); background: rgba(212, 175, 55, 0.2); }
         .temple-tabs-content { width: 100%; margin: 20px auto 0; }
@@ -48,94 +48,6 @@
         .tab-content.active { display: block; width: 100%; box-sizing: border-box; background: rgb(0 0 0 / 60%); border: 1.8px solid #d4af37; padding: 15px; border-radius: 13px; box-shadow: 0 0 25px rgba(212, 175, 55, 0.3); }
         .temple-table { width: 100%; border-collapse: collapse; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* Переменные для золотого стиля кнопки */
-        .btn--primary { --btn-bg: #000000; --btn-gradient-from: #111111; --btn-gradient-to: rgba(212, 175, 55, 0.1); --btn-text-color: #ffd11a; --btn-color: #d4af37; --btn-color-from: #fff3ad; --btn-color-to: #8a6d1d; --btn-shadow: rgba(212, 175, 55, 0.2); }
-        .btn.active .btn-blur:before { --transition: 2s; }
-        .btn.active { box-shadow: 0 0 10px 2px #d4af3766, 0 0 20px 4px #d4af3733; }
-  
-
-        /* Обновленный стиль для кнопок-вкладок */
-.btn {
-    --btn-bg: #111111;
-    --btn-color: #d4af37;        /* Золотой луч */
-    --btn-text-color: #ffffff;
-    
-    border: 0 none;
-    border-radius: 9999px;
-    background-color: var(--btn-bg);
-    position: relative;
-    cursor: pointer;
-    flex: 1;
-    min-width: 120px;
-    max-width: 200px;
-    height: 46px;         /* Фиксированная высота */
-    padding: 0;
-    overflow: hidden;     /* КРИТИЧНО: обрезает всё, что вне кнопки */
-    box-shadow: none;     /* Убираем внешнее свечение */
-}
-
-.btn-inner {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1;
-}
-
-.btn-label {
-    position: absolute;
-    /* inset: 2px создает толщину рамки в 2 пикселя */
-    inset: 2px; 
-    border-radius: 9999px;
-    z-index: 10;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: var(--btn-bg); /* Закрывает центр кнопки */
-    color: var(--btn-text-color);
-    font-size: 0.85rem;
-    font-family: monospace;
-    letter-spacing: 1px;
-}
-
-.btn-blur {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    filter: blur(1px); /* Совсем легкое размытие для мягкости */
-}
-
-.btn-blur:before {
-    content: "";
-    position: absolute;
-    z-index: 0;
-    /* Делаем источник света очень большим, чтобы он вращался вокруг центра */
-    top: -150%;
-    left: -150%;
-    right: -150%;
-    bottom: -150%;
-    /* Тонкий яркий сектор (луч) */
-    background-image: conic-gradient(
-        transparent, 
-        var(--btn-color) 10%, 
-        transparent 20%
-    );
-    animation: turn 4s linear infinite;
-}
-
-/* Контейнер для кнопок (чтобы стояли в ряд) */
-.temple-tabs-nav {
-    display: flex;
-    flex-direction: row; /* Строго в ряд */
-    flex-wrap: nowrap;   /* Запрещаем перенос, если хотим в одну линию */
-    gap: 8px;
-    justify-content: center;
-    width: 100%;
-    margin-bottom: 20px;
-}
         
         /* ВИДЕО (Фиксированная высота) */
         .video-card { height: auto !important; min-height: 200px; padding: 10px !important; overflow: visible !important; }
@@ -315,29 +227,9 @@
 <div class="column-group" style="width: 100%;">
     <!-- Контейнер для кнопок-переключателей -->
 <div class="temple-tabs-nav">
-  <!-- Кнопка 1 -->
-  <button class="btn btn--primary active" onclick="openTemple(event, 'machine')">
-    <span class="btn-inner">
-      <span class="btn-label">ХРАМ МАШИН</span>
-      <span class="btn-blur" aria-hidden="true"></span>
-    </span>
-  </button>
-
-  <!-- Кнопка 2 -->
-  <button class="btn btn--primary" onclick="openTemple(event, 'fire')">
-    <span class="btn-inner">
-      <span class="btn-label">ХРАМ ОГНЯ</span>
-      <span class="btn-blur" aria-hidden="true"></span>
-    </span>
-  </button>
-
-  <!-- Кнопка 3 -->
-  <button class="btn btn--primary" onclick="openTemple(event, 'units')">
-    <span class="btn-inner">
-      <span class="btn-label">ХРАМ ЮНИТОВ</span>
-      <span class="btn-blur" aria-hidden="true"></span>
-    </span>
-  </button>
+    <button class="tab-btn active" onclick="openTemple(event, 'machine')">ХРАМ МАШИН</button>
+    <button class="tab-btn" onclick="openTemple(event, 'fire')">ХРАМ ОГНЯ</button>
+    <button class="tab-btn" onclick="openTemple(event, 'units')">ХРАМ ЮНИТОВ</button>
 </div>
 
     <!-- Колонна 2: Все Храмы -->
@@ -608,7 +500,9 @@ function openTemple(evt, templeId) {
     });
 
     // Убираем подсветку со всех кнопок
-    document.querySelectorAll('.btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
 
     // Показываем нужную таблицу и подсвечиваем кнопку
     document.getElementById(templeId).classList.add('active');
