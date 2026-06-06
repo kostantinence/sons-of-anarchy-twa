@@ -58,71 +58,71 @@
         /* Обновленный стиль для кнопок-вкладок */
 .btn {
     --btn-bg: #111111;
-    --btn-gradient-from: #111111;
-    --btn-gradient-to: rgba(212, 175, 55, 0.1);
+    --btn-color: #d4af37;        /* Золотой луч */
     --btn-text-color: #ffffff;
-    --btn-color: #d4af37;        /* Золотой */
-    --btn-color-from: #fff3ad;
-    --btn-color-to: #8a6d1d;
-    --btn-shadow: rgba(212, 175, 55, 0.2);
     
     border: 0 none;
-    appearance: none;
-    border-radius: 9999px; /* Скругление */
+    border-radius: 9999px;
     background-color: var(--btn-bg);
     position: relative;
     cursor: pointer;
-    flex: 1;             /* Чтобы кнопки были одинаковой ширины */
-    min-width: 120px;    /* Чтобы не сжимались слишком сильно */
+    flex: 1;
+    min-width: 120px;
     max-width: 200px;
-    padding: 0;          /* Обнуляем, так как padding будет внутри */
-     overflow: hidden; /* Это "обрежет" бегающий свет до состояния рамки */
-    box-shadow: none; /* Убираем внешнее свечение, как вы хотели */
+    height: 46px;         /* Фиксированная высота */
+    padding: 0;
+    overflow: hidden;     /* КРИТИЧНО: обрезает всё, что вне кнопки */
+    box-shadow: none;     /* Убираем внешнее свечение */
 }
 
 .btn-inner {
     position: relative;
-    border-radius: inherit;
+    width: 100%;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 44px; /* Фиксированная высота кнопки */
     z-index: 1;
 }
 
 .btn-label {
     position: absolute;
-    inset: 2px; /* Создает отступ, через который видна "рамка-луч" */
-    border-radius: inherit;
+    /* inset: 2px создает толщину рамки в 2 пикселя */
+    inset: 2px; 
+    border-radius: 9999px;
     z-index: 10;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: var(--btn-bg); /* Черный фон внутри рамки */
+    background-color: var(--btn-bg); /* Закрывает центр кнопки */
     color: var(--btn-text-color);
     font-size: 0.85rem;
+    font-family: monospace;
+    letter-spacing: 1px;
 }
 
 .btn-blur {
     position: absolute;
-    inset: 0; /* Растягиваем на всю кнопку */
+    inset: 0;
     z-index: 0;
-    transform: none; /* Убираем scaleX */
-    filter: blur(2px); /* Делаем луч более четким */
+    filter: blur(1px); /* Совсем легкое размытие для мягкости */
 }
 
 .btn-blur:before {
-    /* Делаем так, чтобы светился только короткий золотой сектор (луч) */
-    --gradient: transparent, var(--btn-color), transparent 30%; 
     content: "";
     position: absolute;
     z-index: 0;
-    /* Делаем слой больше кнопки, чтобы при вращении он всегда перекрывал углы */
-    top: -100%;
-    left: -100%;
-    right: -100%;
-    bottom: -100%;
-    background-image: conic-gradient(var(--gradient));
+    /* Делаем источник света очень большим, чтобы он вращался вокруг центра */
+    top: -150%;
+    left: -150%;
+    right: -150%;
+    bottom: -150%;
+    /* Тонкий яркий сектор (луч) */
+    background-image: conic-gradient(
+        transparent, 
+        var(--btn-color) 10%, 
+        transparent 20%
+    );
     animation: turn 4s linear infinite;
 }
 
