@@ -80,28 +80,38 @@
 }
 
 .btn-inner {
-    position: relative;
-    border-radius: inherit;
-    font-size: 0.8rem;   /* Уменьшил шрифт для мобилок */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px 5px;   /* Компактный размер */
-    overflow: hidden;
-    color: var(--btn-text-color);
-    min-height: 40px;
+  position: relative;
+  border-radius: inherit;
+  font-size: 0.85rem;   /* Чуть уменьшим для компактности */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 44px;         /* Фиксированная высота для всех кнопок */
+  padding: 0;           /* Убираем лишние отступы */
+  overflow: hidden;
+  color: var(--btn-text-color);
 }
 
 .btn-label {
-    position: absolute;
-    inset: 1px;          /* Заменяет top/bottom/left/right: 1px */
-    border-radius: inherit;
-    z-index: 10;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: var(--btn-bg);
-    background-image: linear-gradient(to bottom, var(--btn-gradient));
+  position: absolute;
+  inset: 1px;           /* Растягиваем ровно по границам */
+  border-radius: inherit;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--btn-bg);
+  background-image: linear-gradient(to bottom, var(--btn-gradient));
+  line-height: 1;       /* Чтобы текст не уезжал вниз */
+}
+
+.btn-blur {
+  position: absolute;
+  inset: 1px;           /* Вместо смещения используем четкие границы */
+  z-index: 0;
+  transform: scaleX(2.0); /* Немного уменьшим растяжение, чтобы не "мылило" соседей */
+  filter: blur(6px);
 }
 
 /* Контейнер для кнопок (чтобы стояли в ряд) */
