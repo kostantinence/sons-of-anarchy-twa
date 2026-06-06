@@ -40,7 +40,7 @@
         .temple-row .expandable-box.is-expanded { flex-basis: 100%; max-width: 100%; }
         .expandable-box h2 { margin: 5px 0; font-size: 1.2rem; }
         /* Ряд кнопок */
-        .temple-tabs-nav { display: flex; gap: 15px; margin-bottom: 25px; flex-wrap: wrap; justify-content: center; }
+        /* .temple-tabs-nav { display: flex; gap: 15px; margin-bottom: 25px; flex-wrap: wrap; justify-content: center; } */
         .tab-btn { flex: 1; min-width: 100px; background: rgba(0, 0, 0, 0.6); border: 1.8px solid #d4af3787; color: #ffd11a; padding: 10px; cursor: pointer; border-radius: 10px; font-family: monospace; transition: 0.3s; }
         .tab-btn.active { border-color: #d4af37; box-shadow: 0 0 15px rgba(212, 175, 55, 0.5); background: rgba(212, 175, 55, 0.2); }
         .temple-tabs-content { width: 100%; margin: 20px auto 0; }
@@ -53,7 +53,67 @@
         .btn--primary { --btn-bg: #000000; --btn-gradient-from: #111111; --btn-gradient-to: rgba(212, 175, 55, 0.1); --btn-text-color: #ffd11a; --btn-color: #d4af37; --btn-color-from: #fff3ad; --btn-color-to: #8a6d1d; --btn-shadow: rgba(212, 175, 55, 0.2); }
         .btn.active .btn-blur:before { --transition: 2s; }
         .btn.active { box-shadow: 0 0 10px 2px #d4af3766, 0 0 20px 4px #d4af3733; }
-        .btn { flex: 1; min-width: 160px; max-width: 250px; cursor: pointer; scale: 0.9; }
+  
+
+        /* Обновленный стиль для кнопок-вкладок */
+.btn {
+    --btn-bg: #111111;
+    --btn-gradient-from: #111111;
+    --btn-gradient-to: rgba(212, 175, 55, 0.1);
+    --btn-text-color: #ffffff;
+    --btn-color: #d4af37;        /* Золотой */
+    --btn-color-from: #fff3ad;
+    --btn-color-to: #8a6d1d;
+    --btn-shadow: rgba(212, 175, 55, 0.2);
+    
+    border: 0 none;
+    appearance: none;
+    border-radius: 9999px; /* Скругление */
+    background-color: var(--btn-bg);
+    position: relative;
+    cursor: pointer;
+    flex: 1;             /* Чтобы кнопки были одинаковой ширины */
+    min-width: 120px;    /* Чтобы не сжимались слишком сильно */
+    max-width: 200px;
+    padding: 0;          /* Обнуляем, так как padding будет внутри */
+    overflow: visible;   /* Чтобы свечение не обрезалось */
+}
+
+.btn-inner {
+    position: relative;
+    border-radius: inherit;
+    font-size: 0.8rem;   /* Уменьшил шрифт для мобилок */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 5px;   /* Компактный размер */
+    overflow: hidden;
+    color: var(--btn-text-color);
+    min-height: 40px;
+}
+
+.btn-label {
+    position: absolute;
+    inset: 1px;          /* Заменяет top/bottom/left/right: 1px */
+    border-radius: inherit;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--btn-bg);
+    background-image: linear-gradient(to bottom, var(--btn-gradient));
+}
+
+/* Контейнер для кнопок (чтобы стояли в ряд) */
+.temple-tabs-nav {
+    display: flex;
+    flex-direction: row; /* Строго в ряд */
+    flex-wrap: nowrap;   /* Запрещаем перенос, если хотим в одну линию */
+    gap: 8px;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 20px;
+}
         
         /* ВИДЕО (Фиксированная высота) */
         .video-card { height: auto !important; min-height: 200px; padding: 10px !important; overflow: visible !important; }
