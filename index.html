@@ -155,17 +155,44 @@
         font-family: 'Courier New', monospace;
     }
 
-    #chat-messages {
-        height: 400px;
-        overflow-y: auto;
-        overflow-x: hidden;
-        background: radial-gradient(circle at center, #0f0f0f 0%, #000 100%);
-        border: 1px solid #d4af3744;
-        border-radius: 10px;
-        margin-bottom: 15px;
-        padding: 20px;
-        perspective: 1000px; /* Глубина для 3D сообщений */
-    }
+#chat-messages {
+    position: relative;
+    height: 400px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 20px;
+    margin-bottom: 15px;
+    
+    /* Стеклянный эффект как у виджета */
+    background: linear-gradient(145deg, #141414 0%, #1a1a1a 100%);
+    border: 1px solid rgba(212, 175, 55, 0.3); /* Золотистая кайма Union Terminal */
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 15px rgba(212, 175, 55, 0.05);
+    
+    /* Чтобы сообщения внутри могли летать в 3D */
+    perspective: 1000px;
+}
+
+/* Добавляем сетку и блик прямо внутрь окна чата */
+#chat-messages::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    background-size: 20px 20px;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Эффект плавающего света внутри окна */
+#chat-messages::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.03) 0%, transparent 70%);
+    pointer-events: none;
+}
 
     /* СТИЛИ ВИДЖЕТА-СООБЩЕНИЯ (Battery Style) */
     .battery-widget-container {
@@ -184,15 +211,23 @@
         animation: float 4s ease-in-out infinite;
     }
 
-    .battery-widget {
-        position: relative;
-        background: linear-gradient(145deg, #141414 0%, #1a1a1a 100%);
-        border-radius: 20px;
-        padding: 20px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        overflow: hidden;
-        border: 1px solid rgba(255,255,255,0.05);
-    }
+.battery-widget {
+    position: relative;
+    /* Полупрозрачный фон */
+    background: rgba(15, 15, 15, 0.6) !important; 
+    /* Эффект матового стекла */
+    backdrop-filter: blur(8px); 
+    -webkit-backdrop-filter: blur(8px); /* Для поддержки в iOS Safari/Telegram */
+    
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    /* Тонкая светящаяся грань */
+    border: 1px solid rgba(212, 175, 55, 0.2); 
+    
+    transition: transform 0.3s ease;
+}
 
     /* Анимации и эффекты внутри сообщения */
     .grid-pattern {
