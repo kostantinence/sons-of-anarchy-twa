@@ -145,7 +145,103 @@
 .frozen-text { color: #00f2ff !important; text-shadow: 0 0 10px #00f2ff, 0 0 20px #fff, 0 0 40px #00f2ff !important; transition: all 2s ease; animation: ice-pulse 3s infinite alternate; }
 @keyframes ice-pulse { 0% { filter: brightness(1); transform: scale(1); } 100% { filter: brightness(1.5); transform: scale(1.02); } }
 
-        /* Новые стили */
+        /* Новый хакерский чат */
+    /* Базовый каркас терминала */
+    #chat-card {
+        background: #0a0a0a;
+        border: 2px solid #d4af37;
+        box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+        padding: 15px;
+        font-family: 'Courier New', monospace;
+    }
+
+    #chat-messages {
+        height: 400px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        background: radial-gradient(circle at center, #0f0f0f 0%, #000 100%);
+        border: 1px solid #d4af3744;
+        border-radius: 10px;
+        margin-bottom: 15px;
+        padding: 20px;
+        perspective: 1000px; /* Глубина для 3D сообщений */
+    }
+
+    /* СТИЛИ ВИДЖЕТА-СООБЩЕНИЯ (Battery Style) */
+    .battery-widget-container {
+        --charging-color: #4ade80;
+        margin-bottom: 30px;
+        width: 100%;
+        display: flex;
+        justify-content: flex-start;
+    }
+
+    .widget-container {
+        position: relative;
+        width: 90%;
+        max-width: 350px;
+        transform-style: preserve-3d;
+        animation: float 4s ease-in-out infinite;
+    }
+
+    .battery-widget {
+        position: relative;
+        background: linear-gradient(145deg, #141414 0%, #1a1a1a 100%);
+        border-radius: 20px;
+        padding: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        overflow: hidden;
+        border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    /* Анимации и эффекты внутри сообщения */
+    .grid-pattern {
+        position: absolute; inset: 0;
+        background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                          linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+        background-size: 15px 15px;
+    }
+
+    .shine {
+        position: absolute; inset: 0;
+        background: linear-gradient(120deg, transparent, rgba(255,255,255,0.05), transparent);
+        transform: translateX(-100%) skewX(-20deg);
+        animation: enhancedShine 6s infinite;
+    }
+
+    .status {
+        display: flex; align-items: center; gap: 8px;
+        color: var(--charging-color); font-size: 10px;
+        letter-spacing: 1px; margin-bottom: 10px;
+    }
+
+    .msg-text {
+        color: #fff; font-size: 13px; line-height: 1.4;
+        position: relative; z-index: 5; margin-bottom: 15px;
+    }
+
+    /* Прогресс-бар из вашего образца */
+    .progress-bar { display: flex; gap: 4px; width: 100%; }
+    .segment { flex: 1; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; }
+    .segment.active { 
+        background: var(--charging-color); 
+        box-shadow: 0 0 10px var(--charging-color);
+        animation: activeSegmentGlow 2s infinite alternate;
+    }
+
+    /* Кнопки и инпуты (Ваш стиль) */
+    .ai-input-container { position: relative; background: #0a0a0a; border: 1px solid #d4af37; border-radius: 4px; padding: 4px; }
+    .ai-input { width: calc(100% - 50px); background: transparent; border: none; color: #d4af37; padding: 10px; outline: none; }
+    .ai-button { background: #d4af37; border: none; cursor: pointer; padding: 5px 10px; }
+
+    /* КЛЮЧЕВЫЕ АНИМАЦИИ */
+    @keyframes float { 0%, 100% { transform: translateY(0) rotateX(2deg); } 50% { transform: translateY(-10px) rotateX(-2deg); } }
+    @keyframes enhancedShine { 0% { transform: translateX(-100%) skewX(-20deg); } 20%, 100% { transform: translateX(200%) skewX(-20deg); } }
+    @keyframes activeSegmentGlow { 0% { opacity: 0.5; } 100% { opacity: 1; } }
+
+    /* Скроллбар */
+    #chat-messages::-webkit-scrollbar { width: 4px; }
+    #chat-messages::-webkit-scrollbar-thumb { background: #d4af37; }
     </style>
 </head>
 <body>
@@ -355,42 +451,31 @@
 </div>
 
     <!-- КАРТОЧКА ЧАТА -->
-    <div class="static-box" id="chat-card">
-        <h2 class="txt">UNION TERMINAL</h2>
-        <div class="content"> 
-            
-            <!-- 1. ПОЛЕ ДЛЯ НИКА (Твой стиль) -->
-            <div class="ai-input-container" style="width: 97%; margin-bottom: 15px; border-color: #d4af37; box-shadow: 0 0 10px #d4af3766;">
-                <div class="ai-input-inner">
-                    <input id="username-input" placeholder="Идентификация..." class="ai-input" type="text" style="color: #d4af37;" />
-                    <label class="ai-label" style="color: #d4af37; border-color: #d4af37;">USER_ID</label>
-                    <div class="digital-noise">
-                        <span style="left: 10%; top: 20%; color: #d4af37;" class="noise-bit">0</span>
-                        <span style="left: 80%; top: 50%; color: #d4af37;" class="noise-bit">1</span>
-                    </div>
-                </div>
+<!-- 2. РАЗМЕТКА (HTML) -->
+<div class="static-box" id="chat-card">
+    <h2 class="txt">UNION TERMINAL</h2>
+    <div class="content"> 
+        <!-- Поле Ника -->
+        <div class="ai-input-container" style="margin-bottom: 10px;">
+            <div class="ai-input-inner">
+                <input id="username-input" placeholder="IDENTIFICATION..." class="ai-input" type="text" value="Guest" />
+                <label class="ai-label">USER_ID</label>
             </div>
+        </div>
 
-            <!-- 2. ОКНО СООБЩЕНИЙ -->
-            <div id="chat-messages" style="height: 300px; overflow-y: auto; text-align: left; padding: 10px; background: rgba(0,0,0,0.8); border-radius: 10px; margin-bottom: 15px; border: 1px solid #d4af3744; font-size: 12px; font-family: 'Courier New', monospace;">
+        <!-- Окно сообщений -->
+        <div id="chat-messages"></div>
+        
+        <!-- Поле ввода -->
+        <div class="ai-input-container">
+            <div class="ai-input-inner">
+                <input id="chat-input" placeholder="EXECUTE COMMAND..." class="ai-input" type="text" />
+                <label class="ai-label">MESSAGE_DATA</label>
+                <button class="ai-button" id="send-btn">↳</button>
             </div>
-            
-            <!-- 3. ПОЛЕ ДЛЯ СООБЩЕНИЯ (Твой стиль) -->
-            <div class="ai-input-container" style="width: 97%;">
-                <div class="ai-input-inner">
-                    <input id="chat-input" placeholder="Execute command..." class="ai-input" type="text" onkeypress="if(event.key === 'Enter') sendMessage()" />
-                    <label class="ai-label">MESSAGE_DATA</label>
-                    <button class="ai-button" onclick="sendMessage()">↳</button>
-                    <div class="digital-noise">
-                        <span style="left: 15%; top: 20%;" class="noise-bit">1</span>
-                        <span style="left: 45%; top: 40%;" class="noise-bit">0</span>
-                        <span style="left: 75%; top: 30%;" class="noise-bit">1</span>
-                    </div>
-                </div>
-            </div>
-
         </div>
     </div>
+</div>
 
         
 <!-- Колонна 4: Контакты штаба -->
@@ -556,6 +641,99 @@ document.querySelectorAll('.copy-target').forEach(item => {
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.8.1/socket.io.min.js"></script>
 
+<script>
+    if (window.Telegram && window.Telegram.WebApp) {
+    const tg = window.Telegram.WebApp;
+    tg.expand(); // Разворачиваем приложение на весь экран
+    tg.ready();  // Сообщаем ТГ, что приложение готово
+    
+    // Подстройка высоты при открытии клавиатуры на телефоне
+    tg.onEvent('viewportChanged', function() {
+        document.body.style.height = window.innerHeight + 'px';
+    });
+}
+
+// 2. ФУНКЦИЯ СОЗДАНИЯ СООБЩЕНИЯ (Battery Style)
+function addBatteryMessage(user, text, color) {
+    const chatMessages = document.getElementById('chat-messages');
+    if (!chatMessages) return;
+
+    const time = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+    const container = document.createElement('div');
+    container.className = 'battery-widget-container';
+    
+    // Используем безопасную склейку строк для VS Code
+    let html = '';
+    html += '<div class="widget-container">';
+    html +=     '<div class="battery-widget" style="--charging-color: ' + (color || "#4ade80") + '">';
+    html +=         '<div class="grid-pattern"></div>';
+    html +=         '<div class="shine"></div>';
+    html +=         '<div class="status">';
+    html +=             '<span>⚡</span>';
+    html +=             '<b>' + user.toUpperCase() + '</b>';
+    html +=             '<span style="margin-left:auto; opacity:0.5;">' + time + '</span>';
+    html +=         '</div>';
+    html +=         '<div class="msg-text">' + text + '</div>';
+    html +=         '<div class="progress-bar">';
+    html +=             '<div class="segment active"></div>';
+    html +=             '<div class="segment active"></div>';
+    html +=             '<div class="segment active"></div>';
+    html +=             '<div class="segment"></div>';
+    html +=             '<div class="segment"></div>';
+    html +=         '</div>';
+    html +=     '</div>';
+    html += '</div>';
+    
+    container.innerHTML = html;
+    chatMessages.appendChild(container);
+    
+    // Плавная прокрутка вниз
+    chatMessages.scrollTo({
+        top: chatMessages.scrollHeight,
+        behavior: 'smooth'
+    });
+}
+
+// 3. ОБРАБОТКА ОТПРАВКИ СООБЩЕНИЙ
+function handleSendMessage() {
+    const chatInput = document.getElementById('chat-input');
+    const nameInput = document.getElementById('username-input');
+    
+    if (chatInput && chatInput.value.trim() !== "") {
+        const text = chatInput.value;
+        const user = nameInput ? nameInput.value : "Guest";
+        
+        // Определяем цвет на основе ника
+        let userColor = "#d4af37"; // Золотой по умолчанию
+        if (user === "Уточка") userColor = "#00ff00";
+        if (user === "Kerber") userColor = "#85ff00";
+        
+        // Вызываем создание сообщения
+        addBatteryMessage(user, text, userColor);
+        
+        // Очищаем поле ввода
+        chatInput.value = "";
+    }
+}
+
+// 4. СЛУШАТЕЛИ СОБЫТИЙ (Клик и Enter)
+document.addEventListener('DOMContentLoaded', function() {
+    const sendBtn = document.getElementById('send-btn');
+    const chatInput = document.getElementById('chat-input');
+
+    if (sendBtn) {
+        sendBtn.onclick = handleSendMessage;
+    }
+
+    if (chatInput) {
+        chatInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                handleSendMessage();
+            }
+        });
+    }
+});
+</script>
 <script>
     const tg = window.Telegram?.WebApp;
     if (tg) tg.expand();
