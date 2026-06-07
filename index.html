@@ -91,12 +91,12 @@
 
         /* кнопка контакты */
         .sci-fi-container { display: flex; flex-direction: column; gap: 25px; padding: 15px 10px; margin-top: 10px; }
-        /* .sci-fi-button { color: #ffffff; font-size: 14px; font-family: monospace; text-align: center; padding: 12px 20px; background-color: rgb(212 175 55 / 0%); border: 2px solid #00f3ff00; border-radius: 10px; position: relative; text-transform: uppercase; cursor: pointer; text-decoration: none; box-shadow: 0 0 10px rgb(212 175 55 / 14%), inset 0 0 10px rgb(0 255 239 / 31%); transition: all 0.3s ease; display: block; }
-        .sci-fi-button:active { scale: 0.95; }
-        .sci-fi-button::before, .sci-fi-button::after { content: ""; position: absolute; width: 100%; height: 100%; border: 1px solid #00d7ff; border-radius: 10px; box-sizing: border-box; opacity: 0.4; transition: all 0.3s ease; }
-        .sci-fi-button::before { top: -6px; left: -6px; }
-        .sci-fi-button::after { bottom: -6px; right: -6px; }
-        .sci-fi-button:hover::before, .sci-fi-button:hover::after { top: 0; left: 0; right: 0; bottom: 0; opacity: 1; } */
+        .sci-fi-button { display: flex; justify-content: center; align-items: center; width: 100%; margin-bottom: 12px; padding: 15px 20px; font-size: 16px; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; text-decoration: none; color: #fff; cursor: pointer; border: 2px solid rgba(212, 175, 55, 0.4); border-radius: 12px; background-color: #1a1a1a; box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.6), inset 2px 2px 5px rgba(212, 175, 55, 0.1); overflow: hidden; transition: all 0.3s ease-in-out; position: relative; box-sizing: border-box; }
+        .sci-fi-button::before { content: ""; position: absolute; top: -150%; left: -150%; width: 600%; height: 600%; background: repeating-linear-gradient(to right, rgb(65 55 212 / 20%) 0, rgb(65 55 212 / 30%) 2px, transparent 2px, transparent 20px), repeating-linear-gradient(to bottom, rgb(55 89 212 / 20%) 0, rgb(65 55 212 / 30%) 2px, transparent 2px, transparent 20px); transform: translate(-50%, -50%) rotateX(45deg) rotateZ(45deg); animation: gridScroll 22s linear infinite; z-index: 1; }
+        .sci-fi-button span { position: relative; display: inline-block; transition: transform 0.3s ease, color 0.3s ease; z-index: 10; pointer-events: none; }
+        .sci-fi-button:hover span { transform: scale(1.15) translateY(-2px); color: #ffd11a; text-shadow: 0 0 8px rgba(212, 175, 55, 0.8); }
+        .sci-fi-button:hover { border-color: #d4af37; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.5), 0 0 15px rgba(212,175,55,0.3); }
+        @keyframes gridScroll { 0% { transform: translate(-27.9%, -50%) rotateX(45deg) rotateZ(45deg) translateY(0); } 100% { transform: translate(-20%, -50%) rotateX(45deg) rotateZ(45deg) translateY(40px); } }
 
          /* хакий чат */
         .ai-input-container { position: relative; width: 300px; padding: 4px; background: #0a0a0a; border: 1px solid #00ff00; box-shadow: 0 0 12px #00ff00; border-radius: 4px; }
@@ -144,73 +144,6 @@
 .snowflake { position: fixed; top: -20px; color: white; user-select: none; pointer-events: none; z-index: 10000; text-shadow: 0 0 5px rgba(255,255,255,0.8); }
 .frozen-text { color: #00f2ff !important; text-shadow: 0 0 10px #00f2ff, 0 0 20px #fff, 0 0 40px #00f2ff !important; transition: all 2s ease; animation: ice-pulse 3s infinite alternate; }
 @keyframes ice-pulse { 0% { filter: brightness(1); transform: scale(1); } 100% { filter: brightness(1.5); transform: scale(1.02); } }
-
-/* 3D Button Styling для ШТАБА */
-.sci-fi-button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  margin-bottom: 12px;
-  padding: 15px 20px;
-  font-size: 16px;
-  font-weight: bold;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  text-decoration: none;
-  color: #fff;
-  cursor: pointer;
-  border: 2px solid rgba(212, 175, 55, 0.4); /* Золотая рамка */
-  border-radius: 12px;
-  background-color: #1a1a1a; /* Темный фон */
-  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.6), inset 2px 2px 5px rgba(212, 175, 55, 0.1);
-  overflow: hidden;
-  transition: all 0.3s ease-in-out;
-  position: relative;
-  box-sizing: border-box;
-}
-
-/* Сетка внутри кнопки (золотая) */
-.sci-fi-button::before {
-  content: "";
-  position: absolute;
-  top: -150%;
-  left: -150%;
-  width: 600%;
-  height: 600%;
-  background: 
-    repeating-linear-gradient(to right, rgba(212, 175, 55, 0.2) 0, rgba(212, 175, 55, 0.3) 2px, transparent 2px, transparent 20px),
-    repeating-linear-gradient(to bottom, rgba(212, 175, 55, 0.2) 0, rgba(212, 175, 55, 0.3) 2px, transparent 2px, transparent 20px);
-  transform: translate(-50%, -50%) rotateX(45deg) rotateZ(45deg);
-  animation: gridScroll 6s linear infinite;
-  z-index: 1;
-}
-
-/* Анимация букв при наведении */
-.sci-fi-button span {
-  position: relative;
-  display: inline-block;
-  transition: transform 0.3s ease, color 0.3s ease;
-  z-index: 10; /* Текст выше сетки */
-  pointer-events: none; /* Чтобы не мешать клику по ссылке */
-}
-
-.sci-fi-button:hover span {
-  transform: scale(1.15) translateY(-2px);
-  color: #ffd11a;
-  text-shadow: 0 0 8px rgba(212, 175, 55, 0.8);
-}
-
-.sci-fi-button:hover {
-  border-color: #d4af37;
-  transform: translateY(-3px);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.5), 0 0 15px rgba(212,175,55,0.3);
-}
-
-@keyframes gridScroll {
-  0% { transform: translate(-27.9%, -50%) rotateX(45deg) rotateZ(45deg) translateY(0); }
-  100% { transform: translate(-20%, -50%) rotateX(45deg) rotateZ(45deg) translateY(40px); }
-}
 
         /* Новые стили */
     </style>
