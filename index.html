@@ -551,57 +551,56 @@
 </div>
 
     <!-- КАРТОЧКА ЧАТА -->
-<!-- 2. РАЗМЕТКА (HTML) -->
-<div class="static-box" id="chat-card">
+<div id="chat-card" class="static-box">
     <h2 class="txt">UNION TERMINAL</h2>
-    <div class="content"> 
-        <!-- Поле Ника -->
-        <div class="ai-input-container" style="margin-bottom: 10px;">
-            <div class="ai-input-inner">
-                <input id="username-input" placeholder="IDENTIFICATION..." class="ai-input" type="text" value="Guest" />
-                <label class="ai-label">USER_ID</label>
-            </div>
-        </div>
-
-        <!-- Окно сообщений -->
-<div id="chat-messages" class="battery-widget-container">
-    <!-- Слой с движущейся сеткой -->
-    <div class="grid-pattern"></div>
-    <!-- Слой с частицами -->
-    <div class="particles" id="radar-particles"></div>
-    <!-- Угловые блики -->
-    <div class="corner-highlight tl"></div>
-    <div class="corner-highlight tr"></div>
-    <div class="corner-highlight bl"></div>
-    <div class="corner-highlight br"></div>
     
-    <!-- Заголовок чата -->
-    <div class="chat-header">
-        <span class="icon">⚡</span> CHATING
-    </div>
+    <!-- Основной виджет чата -->
+    <div class="battery-widget-container">
+        <div class="widget-container">
+            <div class="border-glow"></div>
+            <div class="battery-widget" id="chat-messages">
+                <!-- Визуальные эффекты фона -->
+                <div class="grid-pattern"></div>
+                <div class="wave-bg"></div>
+                <div class="energy-pulse"></div>
+                <div class="mirror-polish"></div>
+                <div class="shine"></div>
+                
+                <!-- Частицы (будут летать на фоне) -->
+                <div class="particles">
+                    <div class="particle"></div><div class="particle"></div>
+                    <div class="particle"></div><div class="particle"></div>
+                    <div class="particle"></div>
+                </div>
 
-    <!-- Сюда JS будет добавлять строки лога -->
-    <div id="log-container"></div>
+                <!-- Угловые элементы -->
+                <div class="corner-highlight tl"></div><div class="corner-highlight tr"></div>
+                <div class="corner-highlight bl"></div><div class="corner-highlight br"></div>
 
-    <!-- Нижний анимированный прогресс-бар -->
-    <div class="progress-bar">
-        <div class="segment active"></div>
-        <div class="segment active"></div>
-        <div class="segment active"></div>
-        <div class="segment"></div>
-        <div class="segment"></div>
-        <div class="segment"></div>
-    </div>
-</div>
-        
-        <!-- Поле ввода -->
-        <div class="ai-input-container">
-            <div class="ai-input-inner">
-                <input id="chat-input" placeholder="EXECUTE COMMAND..." class="ai-input" type="text" />
-                <label class="ai-label">MESSAGE_DATA</label>
-                <button class="ai-button" id="send-btn">↳</button>
+                <!-- Заголовок чата -->
+                <div class="status">
+                    <span class="icon">⚡</span>
+                    <span>CHATING</span>
+                </div>
+
+                <!-- КОНТЕЙНЕР ДЛЯ СООБЩЕНИЙ (Ваша info-row) -->
+                <div class="info-row" id="real-log-container">
+                    <!-- Сюда JS будет добавлять сообщения -->
+                </div>
+
+                <!-- Нижний прогресс-бар -->
+                <div class="progress-bar">
+                    <div class="segment active"></div><div class="segment active"></div>
+                    <div class="segment active"></div><div class="segment"></div>
+                    <div class="segment"></div><div class="segment"></div>
+                </div>
             </div>
         </div>
+    </div>
+
+    <!-- Поле ввода (Message Data) -->
+    <div class="ai-input-container" style="margin-top: 20px;">
+        <!-- Ваш стандартный input и кнопка -->
     </div>
 </div>
 
@@ -783,38 +782,28 @@ document.querySelectorAll('.copy-target').forEach(item => {
 
 // 2. ФУНКЦИЯ СОЗДАНИЯ СООБЩЕНИЯ (Battery Style)
 function addBatteryMessage(user, text, color) {
-    const chatMessages = document.getElementById('chat-messages');
-    if (!chatMessages) return;
+    const logContainer = document.getElementById('real-log-container');
+    if (!logContainer) return;
 
-    // 1. Создаем строку сообщения
-    const entry = document.createElement('div');
-    entry.className = 'log-entry';
-    entry.innerHTML = `
-        <b class="log-user" style="color: ${color}; text-shadow: 0 0 10px ${color}66;">${user.toUpperCase()}</b>
-        <span class="log-text">${text}</span>
+    // Создаем элемент сообщения в стиле вашего макета
+    const messageDiv = document.createElement('div');
+    // Используем класс из вашего макета для анимации парения
+    messageDiv.className = 'health-info'; 
+    messageDiv.style.marginBottom = "10px";
+    messageDiv.style.animation = "infoRowFloat 5s infinite ease-in-out, scanIn 0.3s ease-out forwards";
+
+    messageDiv.innerHTML = `
+        <span class="icon" style="color: ${color}; font-weight: bold; text-shadow: 0 0 8px ${color}66;">
+            ${user}:
+        </span>
+        <span style="color: rgba(255,255,255,0.8); margin-left: 8px;">${text}</span>
     `;
-    chatMessages.appendChild(entry);
 
-    // 2. СОЗДАЕМ ЗЕЛЕНУЮ ТОЧКУ (РАДАРНУЮ ЦЕЛЬ)
-    const dot = document.createElement('div');
-    dot.className = 'radar-dot';
-    
-    // Случайные координаты внутри окна чата
-    const posX = Math.random() * 90; // от 0 до 90%
-    const posY = Math.random() * 90;
-    
-    dot.style.left = posX + '%';
-    dot.style.top = posY + '%';
-    
-    chatMessages.appendChild(dot);
+    logContainer.appendChild(messageDiv);
 
-    // Удаляем точку через 3 секунды, чтобы не грузить память
-    setTimeout(() => {
-        dot.remove();
-    }, 3000);
-
-    // Прокрутка вниз
-    chatMessages.scrollTop = chatMessages.scrollHeight;
+    // Автопрокрутка внутри виджета
+    const chatWindow = document.getElementById('chat-messages');
+    chatWindow.scrollTop = chatWindow.scrollHeight;
 }
 
 // 3. ОБРАБОТКА ОТПРАВКИ СООБЩЕНИЙ
