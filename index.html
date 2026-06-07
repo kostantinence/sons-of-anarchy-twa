@@ -156,26 +156,22 @@
 }
 
 /* КАРКАС */
+/* 1. Общий контейнер — выстраиваем всё в колонку */
 #chat-card {
-    background: var(--bg-dark);
-    border: 2px solid var(--gold);
-    box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
-    padding: 15px;
-    font-family: 'Courier New', monospace;
-    border-radius: 15px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px; /* Четкий интервал между блоками */
+    display: flex !important;
+    flex-direction: column !important;
+    height: auto !important;
+    min-height: 500px;
+    padding: 20px !important;
+    gap: 15px !important; /* Четкий отступ между блоками */
 }
 
 /* ХАКЕРСКИЕ ПОЛЯ ВВОДА */
+/* 4. Поля ввода — убираем фиксированную ширину 300px */
 .ai-input-container {
-    position: relative;
-    width: 100%;
-    background: #050505;
-    border: 1px solid var(--green);
-    border-radius: 4px;
-    padding: 2px;
+    position: relative !important;
+    width: 100% !important; /* Теперь они будут по ширине чата */
+    margin: 0 !important;
 }
 
 .ai-input-inner {
@@ -210,17 +206,21 @@
 
 /* ОКНО ЧАТА (БАТАРЕЙНЫЙ ВИДЖЕТ) */
 .battery-widget-container {
-    position: relative;
-    width: 100%;
-    height: 350px; /* Фиксированная высота для мобильных */
-    perspective: 1000px;
+    position: relative !important; /* НЕ absolute */
+    width: 100% !important;
+    height: 350px !important; /* Фиксируем высоту окна чата */
+    margin: 0 !important;
+    top: auto !important;
+    left: auto !important;
+    transform: none !important;
 }
 
+/* 3. Внутренний контейнер виджета */
 .widget-container {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    transform-style: preserve-3d;
+    position: relative !important;
+    width: 100% !important;
+    height: 100% !important;
+    transform: none !important;
 }
 
 .battery-widget {
