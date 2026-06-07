@@ -99,77 +99,18 @@
         @keyframes gridScroll { 0% { transform: translate(-27.5%, -50%) rotateX(45deg) rotateZ(45deg) translateY(0); } 100% { transform: translate(-20%, -50%) rotateX(45deg) rotateZ(45deg) translateY(40px); } }
 
          /* хакий чат */
-       .ai-input-container { 
-    position: relative; 
-    width: 100%; /* ИЗМЕНИЛИ: теперь на всю ширину карточки */
-    max-width: 100%; /* Чтобы не вылезало за края */
-    padding: 4px; 
-    background: #0a0a0a; 
-    border: 1px solid #00ff00; 
-    box-shadow: 0 0 12px #00ff00; 
-    border-radius: 4px; 
-    box-sizing: border-box; /* Важно для мобилок */
-}
-
- .ai-input-inner { 
-    position: relative; 
-    display: flex; 
-    align-items: center; 
-    background: repeating-linear-gradient( 0deg, rgba(0, 255, 0, 0.05), rgba(0, 255, 0, 0.05) 2px, transparent 2px, transparent 10px ); 
-    animation: grid-shift 2s linear infinite; 
-    border-radius: 2px; 
-}
-     .ai-input { 
-    flex: 1; /* ИЗМЕНИЛИ: занимает всё свободное место */
-    padding: 12px 15px; 
-    background: transparent; 
-    border: none; 
-    color: #00ff00; 
-    font-family: "Courier New", monospace; 
-    font-size: 16px; 
-    outline: none; 
-    caret-color: #00ff00; 
-    transition: all 0.6s ease; 
-    z-index: 1; 
-    width: 100%; /* Для стабильности */
-}
+        .ai-input-container { position: relative; width: 300px; padding: 4px; background: #0a0a0a; border: 1px solid #00ff00; box-shadow: 0 0 12px #00ff00; border-radius: 4px; }
+        .ai-input-inner { position: relative; display: flex; align-items: center; background: repeating-linear-gradient( 0deg, rgba(0, 255, 0, 0.05), rgba(0, 255, 0, 0.05) 2px, transparent 2px, transparent 10px ); animation: grid-shift 2s linear infinite; border-radius: 2px; }
+        .ai-input { width: calc(100% - 50px); padding: 12px 15px; background: transparent; border: none; color: #00ff00; font-family: "Courier New", monospace; font-size: 16px; outline: none; caret-color: #00ff00; transition: all 6.0s ease; z-index: 1; }
         .ai-input:placeholder-shown { color: transparent; }
         .ai-input:focus::placeholder { color: #00ff0088; }
         .ai-input:not(:placeholder-shown)::placeholder { color: transparent; }
         .ai-input:focus { box-shadow: inset 0 0 10px #00ff00, 0 0 20px #00ff00; animation: glitch-input 0.3s infinite; }
-       .ai-label { 
-    position: absolute; 
-    top: -12px; /* ИЗМЕНИЛИ: чуть ниже, чтобы не висело в воздухе */
-    left: 10px; 
-    color: #00ff00; 
-    font-size: 10px; /* ИЗМЕНИЛИ: чуть меньше для аккуратности */
-    text-shadow: 0 0 5px #00ff00; 
-    background: #0a0a0a; 
-    padding: 0 4px; 
-    z-index: 2; 
-    pointer-events: none; /* Чтобы не мешала кликать в инпут */
-}
+        .ai-label { position: absolute; top: -18px; left: 10px; color: #00ff00; font-size: 12px; text-shadow: 0 0 5px #00ff00; background: #0a0a0a; padding: 0 4px; z-index: 2; }
         .ai-input:placeholder-shown + .ai-label { top: -18px; }
         .ai-input:focus + .ai-label,
         .ai-input:not(:placeholder-shown) + .ai-label { animation: flicker-label 1s infinite; }
-        .ai-button { 
-    width: 42px; /* ИЗМЕНИЛИ: чуть крупнее для пальца */
-    height: 42px; 
-    background: #00ff00; 
-    border: none; 
-    color: #0a0a0a; 
-    font-family: "Courier New", monospace; 
-    font-size: 20px; 
-    cursor: pointer; 
-    margin-right: 2px; 
-    position: relative; 
-    overflow: hidden; 
-    transition: all 0.2s ease; 
-    z-index: 1; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center;
-}
+        .ai-button { width: 36px; height: 36px; background: #00ff00; border: none; color: #0a0a0a; font-family: "Courier New", monospace; font-size: 18px; cursor: pointer; margin-right: 6px; position: relative; overflow: hidden; transition: all 0.2s ease; z-index: 1; }
         .ai-button:hover { background: #00cc00; box-shadow: 0 0 15px #00ff00; animation: pulse-button 0.5s infinite; }
         .ai-button::before { content: ""; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient( 120deg, transparent, rgba(255, 255, 255, 0.3), transparent ); animation: swipe 1.5s infinite; }
         .ai-input-inner::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 1px; background: #00ff00; opacity: 0.3; animation: scanline 8s infinite linear; }
@@ -204,135 +145,7 @@
 .frozen-text { color: #00f2ff !important; text-shadow: 0 0 10px #00f2ff, 0 0 20px #fff, 0 0 40px #00f2ff !important; transition: all 2s ease; animation: ice-pulse 3s infinite alternate; }
 @keyframes ice-pulse { 0% { filter: brightness(1); transform: scale(1); } 100% { filter: brightness(1.5); transform: scale(1.02); } }
 
-        /* Новый хакерский чат */
-/* --- 1. ПЕРЕМЕННЫЕ И ОСНОВА --- */
-:root {
-  --gold: #d4af37;
-  --green: #00ff00;
-  --bg-dark: #0a0a0a;
-  --charging-color: #4ade80;
-  --progress-bg: rgba(255, 255, 255, 0.1);
-}
-
-/* КАРКАС */
-/* 1. Общий контейнер — выстраиваем всё в колонку */
-#chat-card {
-    display: flex !important;
-    flex-direction: column !important; /* Строго друг под другом */
-    gap: 15px !important;              /* Зазор между блоками */
-    height: auto !important;
-    min-height: 500px;
-    padding: 20px !important;
-}
-
-
-/* ХАКЕРСКИЕ ПОЛЯ ВВОДА */
-/* 4. Поля ввода — убираем фиксированную ширину 300px */
-.ai-input-container {
-    position: relative !important;
-    width: 100% !important;            /* Теперь на всю ширину */
-    margin: 0 !important;
-    z-index: 10;                       /* Чтобы были поверх эффектов */
-}
-
-.ai-input-inner {
-    position: relative;
-    display: flex;
-    align-items: center;
-    background: repeating-linear-gradient(0deg, rgba(0, 255, 0, 0.03) 0px, rgba(0, 255, 0, 0.03) 2px, transparent 2px, transparent 10px);
-    border-radius: 2px;
-}
-
-.ai-input {
-    width: 100%;
-    padding: 10px 12px;
-    background: transparent;
-    border: none;
-    color: var(--green);
-    font-family: inherit;
-    outline: none;
-}
-
-.ai-label {
-    top: -10px !important; /* Поднимаем метку чуть выше, чтобы не пересекалась с рамкой */
-    font-weight: bold;
-    letter-spacing: 1px;
-}
-
-.ai-button {
-    height: 100% !important;
-    min-width: 45px !important;
-    border-radius: 4px !important;
-    margin-left: 5px !important;
-}
-
-/* ОКНО ЧАТА (БАТАРЕЙНЫЙ ВИДЖЕТ) */
-.battery-widget-container {
-    position: relative !important;
-    min-height: auto !important;       /* Убираем 100vh! */
-    height: auto !important;
-    width: 100% !important;
-    display: block !important;
-    transform: none !important;
-}
-
-/* 3. Внутренний контейнер виджета */
-.widget-container {
-    position: relative !important;
-    width: 100% !important;
-    height: 100% !important;
-    transform: none !important;
-}
-
-.battery-widget {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    border-radius: 28px;
-    background: linear-gradient(145deg, #141414 0%, #1a1a1a 100%);
-    box-shadow: inset 0 0 30px rgba(0,0,0,0.5);
-    padding: 20px;
-    overflow-y: auto;
-    overflow-x: hidden;
-    border: 1px solid rgba(255,255,255,0.05);
-}
-
-/* ЭФФЕКТЫ ВНУТРИ ЧАТА */
-.grid-pattern {
-    position: absolute; inset: 0;
-    background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-                      linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-    background-size: 20px 20px;
-    animation: gridScroll 20s linear infinite;
-}
-
-.shine {
-    position: absolute; inset: 0;
-    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.05), transparent);
-    animation: enhancedShine 6s infinite;
-}
-
-/* АНИМАЦИИ @KEYFRAMES */
-@keyframes gridScroll { from { background-position: 0 0; } to { background-position: 20px 20px; } }
-@keyframes enhancedShine { 0% { transform: translateX(-100%) skewX(-20deg); } 30%, 100% { transform: translateX(200%) skewX(-20deg); } }
-@keyframes scanIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-
-/* СТИЛИЗАЦИЯ ЛОГОВ */
-.log-entry { display: flex; gap: 8px; margin-bottom: 10px; font-size: 13px; position: relative; z-index: 10; animation: scanIn 0.3s forwards; }
-
-#chat-messages {
-    position: relative !important;     /* Убираем absolute, если был */
-    height: 380px !important;          /* Фиксируем высоту */
-    width: 100% !important;
-    margin: 10px 0 !important;         /* Отступы, чтобы не липло */
-    border-radius: 35px !important;
-    overflow-y: auto !important;
-    background: rgba(15, 15, 15, 0.95) !important;
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
-}
-/* СКРОЛЛБАР */
-#chat-messages::-webkit-scrollbar { width: 3px; }
-#chat-messages::-webkit-scrollbar-thumb { background: var(--green); }
+        /* Новые стили */
     </style>
 </head>
 <body>
@@ -541,43 +354,43 @@
         <!-- Сюда JS добавит список -->
 </div>
 
-<div class="static-box" id="chat-card">
-    <h2 style="text-align: center; color: var(--gold); margin: 0; font-size: 18px;">UNION TERMINAL</h2>
-    
-    <!-- 1. ПОЛЕ USER_ID (ЗОЛОТОЕ) -->
-    <div class="ai-input-container" style="border-color: var(--gold); box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);">
-        <div class="ai-input-inner">
-            <input id="username-input" class="ai-input" type="text" style="color: var(--gold);" value="Уточка" />
-            <label class="ai-label" style="color: var(--gold); text-shadow: 0 0 5px var(--gold);">USER_ID</label>
-        </div>
-    </div>
-
-    <!-- 2. ОКНО ЧАТА (РАДАР) -->
-    <div class="battery-widget-container">
-        <div class="widget-container">
-            <div class="border-glow"></div>
-            <div class="battery-widget" id="chat-messages">
-                <div class="grid-pattern"></div>
-                <div class="shine"></div>
-                <!-- Заголовок чата -->
-                <div style="color: var(--charging-color); font-size: 10px; margin-bottom: 15px; display: flex; align-items: center; gap: 5px;">
-                    <span style="animation: iconPulse 2s infinite;">⚡</span> CHATING
+    <!-- КАРТОЧКА ЧАТА -->
+    <div class="static-box" id="chat-card">
+        <h2 class="txt">UNION TERMINAL</h2>
+        <div class="content"> 
+            
+            <!-- 1. ПОЛЕ ДЛЯ НИКА (Твой стиль) -->
+            <div class="ai-input-container" style="width: 97%; margin-bottom: 15px; border-color: #d4af37; box-shadow: 0 0 10px #d4af3766;">
+                <div class="ai-input-inner">
+                    <input id="username-input" placeholder="Идентификация..." class="ai-input" type="text" style="color: #d4af37;" />
+                    <label class="ai-label" style="color: #d4af37; border-color: #d4af37;">USER_ID</label>
+                    <div class="digital-noise">
+                        <span style="left: 10%; top: 20%; color: #d4af37;" class="noise-bit">0</span>
+                        <span style="left: 80%; top: 50%; color: #d4af37;" class="noise-bit">1</span>
+                    </div>
                 </div>
-                <!-- Контейнер для сообщений -->
-                <div id="real-log-container"></div>
             </div>
-        </div>
-    </div>
 
-    <!-- 3. ПОЛЕ MESSAGE_DATA (ЗЕЛЕНОЕ) -->
-    <div class="ai-input-container">
-        <div class="ai-input-inner">
-            <input id="chat-input" placeholder="Execute command..." class="ai-input" type="text" />
-            <label class="ai-label">MESSAGE_DATA</label>
-            <button onclick="sendMessage()" style="background: var(--green); border: none; padding: 8px 12px; cursor: pointer; color: #000; font-weight: bold; border-radius: 2px;">↳</button>
+            <!-- 2. ОКНО СООБЩЕНИЙ -->
+            <div id="chat-messages" style="height: 300px; overflow-y: auto; text-align: left; padding: 10px; background: rgba(0,0,0,0.8); border-radius: 10px; margin-bottom: 15px; border: 1px solid #d4af3744; font-size: 12px; font-family: 'Courier New', monospace;">
+            </div>
+            
+            <!-- 3. ПОЛЕ ДЛЯ СООБЩЕНИЯ (Твой стиль) -->
+            <div class="ai-input-container" style="width: 97%;">
+                <div class="ai-input-inner">
+                    <input id="chat-input" placeholder="Execute command..." class="ai-input" type="text" onkeypress="if(event.key === 'Enter') sendMessage()" />
+                    <label class="ai-label">MESSAGE_DATA</label>
+                    <button class="ai-button" onclick="sendMessage()">↳</button>
+                    <div class="digital-noise">
+                        <span style="left: 15%; top: 20%;" class="noise-bit">1</span>
+                        <span style="left: 45%; top: 40%;" class="noise-bit">0</span>
+                        <span style="left: 75%; top: 30%;" class="noise-bit">1</span>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
-</div>
 
         
 <!-- Колонна 4: Контакты штаба -->
@@ -744,84 +557,6 @@ document.querySelectorAll('.copy-target').forEach(item => {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.8.1/socket.io.min.js"></script>
 
 <script>
-    if (window.Telegram && window.Telegram.WebApp) {
-    const tg = window.Telegram.WebApp;
-    tg.expand(); // Разворачиваем приложение на весь экран
-    tg.ready();  // Сообщаем ТГ, что приложение готово
-    
-    // Подстройка высоты при открытии клавиатуры на телефоне
-    tg.onEvent('viewportChanged', function() {
-        document.body.style.height = window.innerHeight + 'px';
-    });
-}
-
-// 2. ФУНКЦИЯ СОЗДАНИЯ СООБЩЕНИЯ (Battery Style)
-function addBatteryMessage(user, text, color) {
-    const logContainer = document.getElementById('real-log-container');
-    if (!logContainer) return;
-
-    // Создаем элемент сообщения в стиле вашего макета
-    const messageDiv = document.createElement('div');
-    // Используем класс из вашего макета для анимации парения
-    messageDiv.className = 'health-info'; 
-    messageDiv.style.marginBottom = "10px";
-    messageDiv.style.animation = "infoRowFloat 5s infinite ease-in-out, scanIn 0.3s ease-out forwards";
-
-    messageDiv.innerHTML = `
-        <span class="icon" style="color: ${color}; font-weight: bold; text-shadow: 0 0 8px ${color}66;">
-            ${user}:
-        </span>
-        <span style="color: rgba(255,255,255,0.8); margin-left: 8px;">${text}</span>
-    `;
-
-    logContainer.appendChild(messageDiv);
-
-    // Автопрокрутка внутри виджета
-    const chatWindow = document.getElementById('chat-messages');
-    chatWindow.scrollTop = chatWindow.scrollHeight;
-}
-
-// 3. ОБРАБОТКА ОТПРАВКИ СООБЩЕНИЙ
-function handleSendMessage() {
-    const chatInput = document.getElementById('chat-input');
-    const nameInput = document.getElementById('username-input');
-    
-    if (chatInput && chatInput.value.trim() !== "") {
-        const text = chatInput.value;
-        const user = nameInput ? nameInput.value : "Guest";
-        
-        // Определяем цвет на основе ника
-        let userColor = "#d4af37"; // Золотой по умолчанию
-        if (user === "Уточка") userColor = "#00ff00";
-        if (user === "Kerber") userColor = "#85ff00";
-        
-        // Вызываем создание сообщения
-        addBatteryMessage(user, text, userColor);
-        
-        // Очищаем поле ввода
-        chatInput.value = "";
-    }
-}
-
-// 4. СЛУШАТЕЛИ СОБЫТИЙ (Клик и Enter)
-document.addEventListener('DOMContentLoaded', function() {
-    const sendBtn = document.getElementById('send-btn');
-    const chatInput = document.getElementById('chat-input');
-
-    if (sendBtn) {
-        sendBtn.onclick = handleSendMessage;
-    }
-
-    if (chatInput) {
-        chatInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                handleSendMessage();
-            }
-        });
-    }
-});
-</script>
-<script>
     const tg = window.Telegram?.WebApp;
     if (tg) tg.expand();
 
@@ -880,22 +615,30 @@ document.addEventListener('click', () => {
     }
 
     // 3. ПРИЕМ СООБЩЕНИЙ (с цветовым разделением)
-socket.on('chat_msg', (msg) => {
-    // 1. Логика цветов (оставляем)
-    let nameColor = "#d4af37";
-    if (msg.from_tg) nameColor = "#0088cc";
-    if (msg.user === "Уточка") nameColor = "#00ff00";
-    if (msg.user === "Kerber") nameColor = "#85ff00";
+    socket.on('chat_msg', (msg) => {
+        const div = document.createElement('div');
+        div.style.marginBottom = "8px";
+        div.style.fontFamily = "'Courier New', monospace"; // Хакерский шрифт для сообщений
+        
+        const time = new Date(msg.date).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        
+        // Цвет: Синий для ТГ, Золотой для WebApp, Зеленый для тебя (Уточка)
+        let nameColor = "#d4af37";
+        if (msg.from_tg) nameColor = "#0088cc";
+        if (msg.user === "Уточка") nameColor = "#00ff00";
+        if (msg.user === "Kerber") nameColor = "#85ff00";
 
-    // 2. ВЫЗОВ ТОЛЬКО ВИДЖЕТА
-    // Функция сама создаст контейнер и добавит его в chatMessages
-    addBatteryMessage(msg.user, msg.text, nameColor);
-
-    // 3. Автопрокрутка
-    if (chatMessages) {
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-    }
-});
+        div.innerHTML = `
+            <span style="color:#666">[${time}]</span> 
+            <b style="color:${nameColor}">${msg.user}:</b> 
+            <span style="color:#fff">${msg.text}</span>
+        `;
+        
+        if (chatMessages) {
+            chatMessages.appendChild(div);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+    });
 
     // 4. СЛУШАТЕЛИ СОБЫТИЙ
     if (chatInput) {
