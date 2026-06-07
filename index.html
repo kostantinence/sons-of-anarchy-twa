@@ -793,32 +793,22 @@ document.addEventListener('click', () => {
     }
 
     // 3. ПРИЕМ СООБЩЕНИЙ (с цветовым разделением)
-    socket.on('chat_msg', (msg) => {
-        const div = document.createElement('div');
-        div.style.marginBottom = "8px";
-        div.style.fontFamily = "'Courier New', monospace"; // Хакерский шрифт для сообщений
-        
-        const time = new Date(msg.date).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-        
-        // Цвет: Синий для ТГ, Золотой для WebApp, Зеленый для тебя (Уточка)
-        let nameColor = "#d4af37";
-        if (msg.from_tg) nameColor = "#0088cc";
-        if (msg.user === "Уточка") nameColor = "#00ff00";
-        if (msg.user === "Kerber") nameColor = "#85ff00";
+socket.on('chat_msg', (msg) => {
+    // 1. Логика цветов (оставляем)
+    let nameColor = "#d4af37";
+    if (msg.from_tg) nameColor = "#0088cc";
+    if (msg.user === "Уточка") nameColor = "#00ff00";
+    if (msg.user === "Kerber") nameColor = "#85ff00";
 
-        addBatteryMessage(msg.user, msg.text, nameColor);
+    // 2. ВЫЗОВ ТОЛЬКО ВИДЖЕТА
+    // Функция сама создаст контейнер и добавит его в chatMessages
+    addBatteryMessage(msg.user, msg.text, nameColor);
 
-        div.innerHTML = `
-            <span style="color:#666">[${time}]</span> 
-            <b style="color:${nameColor}">${msg.user}:</b> 
-            <span style="color:#fff">${msg.text}</span>
-        `;
-        
-        if (chatMessages) {
-            chatMessages.appendChild(div);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-    });
+    // 3. Автопрокрутка
+    if (chatMessages) {
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+});
 
     // 4. СЛУШАТЕЛИ СОБЫТИЙ
     if (chatInput) {
