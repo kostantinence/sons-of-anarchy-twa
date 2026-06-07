@@ -157,32 +157,37 @@
 
 #chat-messages {
     position: relative;
-    height: 400px;
+    height: 450px; /* или по вашему макету */
+    background: rgba(15, 15, 15, 0.9); 
+    border-radius: 40px; /* Глубокое скругление как на картинке */
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 30px;
     overflow-y: auto;
-    overflow-x: hidden;
-    padding: 20px;
-    margin-bottom: 15px;
     
-    /* Стеклянный эффект как у виджета */
-    background: linear-gradient(145deg, #141414 0%, #1a1a1a 100%);
-    border: 1px solid rgba(212, 175, 55, 0.3); /* Золотистая кайма Union Terminal */
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 15px rgba(212, 175, 55, 0.05);
+    /* Сетка радара */
+    background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 30px 30px;
+    background-position: center;
     
-    /* Чтобы сообщения внутри могли летать в 3D */
-    perspective: 1000px;
+    /* Тень и внутреннее свечение */
+    box-shadow: 
+        0 20px 50px rgba(0,0,0,0.8),
+        inset 0 0 20px rgba(255,255,255,0.02);
 }
 
-/* Добавляем сетку и блик прямо внутрь окна чата */
+/* Эффект блика на стекле (диагональная полоса) */
 #chat-messages::before {
     content: "";
     position: absolute;
-    inset: 0;
-    background-image: linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-                      linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-    background-size: 20px 20px;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(135deg, 
+        rgba(255,255,255,0.05) 0%, 
+        rgba(255,255,255,0) 50%, 
+        rgba(255,255,255,0.02) 100%);
     pointer-events: none;
-    z-index: 0;
+    border-radius: 40px;
 }
 
 /* Эффект плавающего света внутри окна */
@@ -195,13 +200,10 @@
 }
 
     /* СТИЛИ ВИДЖЕТА-СООБЩЕНИЯ (Battery Style) */
-    .battery-widget-container {
-        --charging-color: #4ade80;
-        margin-bottom: 30px;
-        width: 100%;
-        display: flex;
-        justify-content: flex-start;
-    }
+.battery-widget-container {
+    margin-bottom: 15px;
+    animation: fadeInLog 0.3s ease-out;
+}
 
     .widget-container {
         position: relative;
@@ -230,6 +232,18 @@
 }
 
     /* Анимации и эффекты внутри сообщения */
+
+    .user-name {
+    font-weight: bold;
+    font-size: 14px;
+    text-shadow: 0 0 8px currentColor; /* Свечение в цвет имени */
+}
+
+.message-body {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 14px;
+}
+
     .grid-pattern {
         position: absolute; inset: 0;
         background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
@@ -249,6 +263,13 @@
         color: var(--charging-color); font-size: 10px;
         letter-spacing: 1px; margin-bottom: 10px;
     }
+
+    .status-line {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    font-family: 'Courier New', monospace;
+}
 
     .msg-text {
         color: #fff; font-size: 13px; line-height: 1.4;
@@ -273,6 +294,10 @@
     @keyframes float { 0%, 100% { transform: translateY(0) rotateX(2deg); } 50% { transform: translateY(-10px) rotateX(-2deg); } }
     @keyframes enhancedShine { 0% { transform: translateX(-100%) skewX(-20deg); } 20%, 100% { transform: translateX(200%) skewX(-20deg); } }
     @keyframes activeSegmentGlow { 0% { opacity: 0.5; } 100% { opacity: 1; } }
+    @keyframes fadeInLog {
+    from { opacity: 0; transform: translateX(-10px); }
+    to { opacity: 1; transform: translateX(0); }
+}
 
     /* Скроллбар */
     #chat-messages::-webkit-scrollbar { width: 4px; }
