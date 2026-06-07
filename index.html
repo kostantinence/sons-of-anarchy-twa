@@ -806,6 +806,8 @@ document.addEventListener('click', () => {
         if (msg.user === "Уточка") nameColor = "#00ff00";
         if (msg.user === "Kerber") nameColor = "#85ff00";
 
+        addBatteryMessage(msg.user, msg.text, nameColor);
+
         div.innerHTML = `
             <span style="color:#666">[${time}]</span> 
             <b style="color:${nameColor}">${msg.user}:</b> 
