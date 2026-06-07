@@ -300,6 +300,48 @@
 #chat-messages::-webkit-scrollbar { width: 4px; }
 #chat-messages::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 10px; }
 
+/* АНИМАЦИЯ ПАРИЯНИЯ ТЕКСТА */
+.log-entry {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px;
+    position: relative;
+    z-index: 5;
+    /* Добавляем эффект парения */
+    animation: floatText 4s ease-in-out infinite, scanIn 0.3s ease-out forwards;
+}
+
+/* Разное время анимации для четных и нечетных строк, чтобы они плавали вразнобой */
+.log-entry:nth-child(even) {
+    animation-delay: 1s;
+}
+
+@keyframes floatText {
+    0%, 100% { transform: translateY(0) translateX(0); }
+    50% { transform: translateY(-3px) translateX(2px); }
+}
+
+/* СТИЛЬ ЗЕЛЕНЫХ ТОЧЕК (РАДАРНЫЕ ЦЕЛИ) */
+.radar-dot {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: #4ade80;
+    border-radius: 50%;
+    box-shadow: 0 0 12px #4ade80, 0 0 4px #fff;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 1;
+    /* Анимация вспышки из ваших стилей */
+    animation: dotPulse 3s ease-out forwards;
+}
+
+@keyframes dotPulse {
+    0% { transform: scale(0); opacity: 0; }
+    20% { transform: scale(1.5); opacity: 1; }
+    100% { transform: scale(1); opacity: 0; }
+}
+
     </style>
 </head>
 <body>
@@ -741,26 +783,38 @@ document.querySelectorAll('.copy-target').forEach(item => {
 
 // 2. ФУНКЦИЯ СОЗДАНИЯ СООБЩЕНИЯ (Battery Style)
 function addBatteryMessage(user, text, color) {
-    const logContainer = document.getElementById('log-container');
-    const chatWindow = document.getElementById('chat-messages');
+    const chatMessages = document.getElementById('chat-messages');
+    if (!chatMessages) return;
 
-    // Создаем импульс энергии при новом сообщении
-    const pulse = document.createElement('div');
-    pulse.className = 'energy-pulse';
-    chatWindow.appendChild(pulse);
-    setTimeout(() => pulse.remove(), 4000); // Удаляем после анимации
-
-    // Добавляем строку текста
-    const line = document.createElement('div');
-    line.className = 'log-entry';
-    line.innerHTML = `
-        <b style="color: ${color}; text-shadow: 0 0 10px ${color};">${user.toUpperCase()}</b> 
-        <span style="color: rgba(255,255,255,0.8);">${text}</span>
+    // 1. Создаем строку сообщения
+    const entry = document.createElement('div');
+    entry.className = 'log-entry';
+    entry.innerHTML = `
+        <b class="log-user" style="color: ${color}; text-shadow: 0 0 10px ${color}66;">${user.toUpperCase()}</b>
+        <span class="log-text">${text}</span>
     `;
-    logContainer.appendChild(line);
+    chatMessages.appendChild(entry);
 
-    // Прокрутка
-    chatWindow.scrollTop = chatWindow.scrollHeight;
+    // 2. СОЗДАЕМ ЗЕЛЕНУЮ ТОЧКУ (РАДАРНУЮ ЦЕЛЬ)
+    const dot = document.createElement('div');
+    dot.className = 'radar-dot';
+    
+    // Случайные координаты внутри окна чата
+    const posX = Math.random() * 90; // от 0 до 90%
+    const posY = Math.random() * 90;
+    
+    dot.style.left = posX + '%';
+    dot.style.top = posY + '%';
+    
+    chatMessages.appendChild(dot);
+
+    // Удаляем точку через 3 секунды, чтобы не грузить память
+    setTimeout(() => {
+        dot.remove();
+    }, 3000);
+
+    // Прокрутка вниз
+    chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
 // 3. ОБРАБОТКА ОТПРАВКИ СООБЩЕНИЙ
