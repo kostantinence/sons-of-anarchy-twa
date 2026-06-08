@@ -246,17 +246,6 @@
         }
 
         /* 3. ДИЗАЙН КАРТОЧКИ (БАТАРЕЯ) */
-        .battery-widget {
-            position: relative;
-            background: linear-gradient(145deg, #141414 0%, #1a1a1a 100%);
-            border-radius: 24px;
-            padding: 30px 20px;
-            border: 1px solid rgba(212, 175, 55, 0.2);
-            box-shadow: 0 10px 40px rgba(0,0,0,0.8);
-            z-index: 2;
-            overflow: hidden;
-        }
-
         .border-glow {
             position: absolute;
             inset: -2px;
@@ -370,7 +359,8 @@
 
         /* 7. НОВЫЕ СТИЛИ ЧАТА */
         
-        .battery-widget-container {
+.battery-widget-container {
+  /* Переменные оставляем */
   --bg-color: #212121;
   --card-bg: #1a1a1a;
   --card-highlight: #2a2a2a;
@@ -380,11 +370,11 @@
   --charging-color: #4ade80;
   --progress-color: #4ade80;
   --progress-bg: rgba(255, 255, 255, 0.1);
-  background-color: var(--bg-color);
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  --gold: #d4af37; /* Добавим для удобства */
+
+  /* Убираем центрирование на весь экран, чтобы вписаться в колонку */
+  width: 100%;
+  position: relative;
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
   perspective: 1000px;
 }
@@ -424,8 +414,10 @@
 }
 .battery-widget-container .battery-widget {
   position: relative;
-  width: 260px;
-  height: 500px;
+  width: 100%; 
+  max-width: 360px; 
+  height: auto; 
+  min-height: 480px; 
   border-radius: 28px;
   background: linear-gradient(
     145deg,
@@ -434,14 +426,23 @@
     var(--card-highlight) 65%,
     var(--card-shadow) 100%
   );
+  border: 1px solid rgba(212, 175, 55, 0.3); 
   box-shadow:
     0 10px 30px rgba(0, 0, 0, 0.5),
-    inset 0 1px 1px rgba(255, 255, 255, 0.05);
-  padding: 30px 25px;
+    inset 0 1px 1px rgba(255, 255, 255, 0.05),
+    0 0 20px rgba(212, 175, 55, 0.1); 
+    
+  padding: 35px 20px 20px; 
   z-index: 2;
-  overflow: hidden;
+  overflow: visible; 
   transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   transform-style: preserve-3d;
+}
+
+/* Добавляем эффект при наведении, чтобы 3D работало */
+.battery-widget:hover {
+  transform: rotateX(5deg) rotateY(-5deg);
+  border-color: rgba(212, 175, 55, 0.6);
 }
 /* Enhanced hover effects */
 .battery-widget-container .battery-widget:hover {
