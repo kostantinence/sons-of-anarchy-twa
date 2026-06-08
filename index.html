@@ -226,23 +226,29 @@
 }
 
 /* Контейнер теперь не центрирует, а просто занимает свою колонку */
+/* Основной контейнер — запрещаем ему расширяться */
 .battery-widget-container {
     width: 100%;
+    max-width: 100vw; /* Строго не шире экрана */
     position: relative;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     perspective: 1000px;
     margin: 0; 
     padding: 0;
     display: block;
+    overflow-x: hidden; /* ГЛАВНОЕ: убирает горизонтальный скролл */
 }
 
+/* Оболочка виджета с запасом под 3D-повороты */
 .battery-widget-container .widget-container {
     position: relative;
-    width: 100%;
+    /* Используем 95%, чтобы при повороте края не касались границ экрана */
+    width: 95%; 
     max-width: 360px;
     margin: 0 auto;
     perspective: 1000px;
-    display: block; /* Убираем flex, чтобы не глючило выравнивание */
+    display: block;
+    box-sizing: border-box;
 }
 
 /* 2. КАРТОЧКА ЧАТА (Оптимизировано для FPS) */
@@ -315,9 +321,11 @@
 /* 5. ЛЕГКИЕ АНИМАЦИИ (Без фризов) */
 .border-glow {
     position: absolute;
+    box-sizing: border-box;
     inset: -1px;
     border: 2px solid var(--gold);
     border-radius: 28px;
+    max-width: 100%;
     opacity: 0.6;
     animation: simpleGlow 4s infinite alternate;
     pointer-events: none;
