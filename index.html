@@ -401,6 +401,22 @@
     pointer-events: none !important; /* Клик будет пролетать сквозь них */
     z-index: 1;
 }
+.message-entry {
+    animation: floatMessage 4s ease-in-out infinite alternate;
+    will-change: transform;
+}
+
+/* Сделаем так, чтобы сообщения плавали вразнобой (одно быстрее, другое медленнее) */
+.message-entry:nth-child(even) {
+    animation-duration: 5s;
+    animation-delay: 1s;
+}
+
+@keyframes floatMessage {
+    0% { transform: translateY(0) translateX(0); }
+    50% { transform: translateY(-3px) translateX(2px); }
+    100% { transform: translateY(0) translateX(-1px); }
+}
     </style>
 </head>
 <body>
