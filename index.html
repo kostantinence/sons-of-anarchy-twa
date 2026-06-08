@@ -258,11 +258,12 @@
     min-height: 480px;
     background: linear-gradient(145deg, #14141469 0%, #1a1a1a 30%);
     border-radius: 24px;
+    background-clip: padding-box;
     border: 2px solid #d4af372e;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8), inset 0 0 15px rgba(212, 175, 55, 0.1);
     padding: 40px 15px 20px;
     z-index: 2;
-    overflow: visible;
+    overflow: hidden;
     box-sizing: border-box;
 }
 
@@ -446,6 +447,15 @@
     will-change: transform;
     width: 100%;
     display: block;
+    backface-visibility: hidden;
+    transform: translateZ(0); /* Задействуем GPU для плавания */
+    perspective: 1000px;
+}
+
+.pulse-icon {
+    margin-right: 10px;
+    display: inline-block;
+    filter: drop-shadow(0 0 5px var(--gold));
 }
 
 /* Сделаем так, чтобы сообщения плавали вразнобой (одно быстрее, другое медленнее) */
