@@ -15,7 +15,7 @@
     <style>
         /* 1. БАЗОВЫЕ СТИЛИ И СКРОЛЛ */
         body::-webkit-scrollbar { display: none; }
-        body { -ms-overflow-style: none; scrollbar-width: none; margin: 0; padding: 0; width: 100%; min-height: 100vh; background: #000; font-family: monospace; color: #ffd11a; overflow-x: hidden; scroll-behavior: smooth; }
+        body { -ms-overflow-style: none; scrollbar-width: none; margin: 0; padding: 0; width: 100%; min-height: 100vh; background: #000; position: relative; font-family: monospace; color: #ffd11a; overflow-x: hidden !important; scroll-behavior: smooth; }
         
         /* 2. ФОНОВЫЕ СЛОИ */
         canvas { position: fixed; top: 0; left: 0; z-index: 1; pointer-events: none; }
@@ -130,12 +130,12 @@
     pointer-events: auto !important;
     cursor: text;
     width: 100%; /* Убрали calc, используем flex */
-    padding: 12px 15px; 
+    padding: 8px 10px; 
     background: rgba(0,0,0,0.2) !important;
     border: none; 
     color: var(--gold); 
     font-family: "Courier New", monospace; 
-    font-size: 16px; 
+    font-size: 12px !important;
     outline: none; 
     caret-color: var(--gold); 
     z-index: 1; 
@@ -236,7 +236,7 @@
     margin: 0; 
     padding: 0;
     display: block;
-    overflow-x: hidden; /* ГЛАВНОЕ: убирает горизонтальный скролл */
+    overflow-x: hidden !important; /* ГЛАВНОЕ: убирает горизонтальный скролл */
 }
 
 /* Оболочка виджета с запасом под 3D-повороты */
@@ -285,6 +285,12 @@
     gap: 8px;
     z-index: 20;
     font-family: 'Courier New', monospace;
+    word-wrap: break-word;      /* Перенос длинных слов */
+    overflow-wrap: break-word;
+    word-break: break-word;
+    white-space: normal;        /* Запрещаем тексту вытягиваться в одну линию */
+    width: 100%;
+    box-sizing: border-box;
     scroll-behavior: smooth;
 }
 
@@ -379,6 +385,40 @@
     background-size: 25px 25px;
     pointer-events: none;
 } 
+
+.particles {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1; /* Чтобы были ПОД текстом */
+}
+
+.particle {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: #4ade80; /* Тот самый зеленый неон */
+    border-radius: 50%;
+    box-shadow: 0 0 8px #4ade80; /* Свечение точек */
+    opacity: 0;
+    bottom: 0;
+    animation: particleUp 5s infinite ease-in;
+}
+
+@keyframes particleUp {
+    0% { transform: translateY(0) scale(1); opacity: 0; }
+    20% { opacity: 0.6; }
+    80% { opacity: 0.3; }
+    100% { transform: translateY(-300px) scale(0.5); opacity: 0; }
+}
+
+/* Расставляем точки вразнобой */
+.particle:nth-child(1) { left: 15%; animation-duration: 4s; }
+.particle:nth-child(2) { left: 45%; animation-duration: 6s; animation-delay: 1s; }
+.particle:nth-child(3) { left: 75%; animation-duration: 5s; animation-delay: 2s; }
+.particle:nth-child(4) { left: 30%; animation-duration: 7s; animation-delay: 0.5s; }
+.particle:nth-child(5) { left: 90%; animation-duration: 4.5s; animation-delay: 1.5s; }
+
 .mirror-polish, .particles, .shine, .energy-pulse {
     pointer-events: none !important; /* Чтобы клик пролетал сквозь них в инпут */
 }
@@ -404,6 +444,8 @@
 .message-entry {
     animation: floatMessage 4s ease-in-out infinite alternate;
     will-change: transform;
+    width: 100%;
+    display: block;
 }
 
 /* Сделаем так, чтобы сообщения плавали вразнобой (одно быстрее, другое медленнее) */
@@ -632,6 +674,8 @@
         <div class="battery-widget">
             <!-- Частицы -->
             <div class="particles">
+                <div class="particle"></div>
+                <div class="particle"></div>
                 <div class="particle" style="left:20%; animation-delay: 0s;"></div>
                 <div class="particle" style="left:50%; animation-delay: 1s;"></div>
                 <div class="particle" style="left:80%; animation-delay: 2s;"></div>
