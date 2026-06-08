@@ -158,8 +158,10 @@
   --progress-bg: rgba(255, 255, 255, 0.1);
   background-color: var(--bg-color);
   min-height: auto !important;
+  width: 100%;
   display: flex;
-  justify-content: center;
+    justify-content: center;
+    margin: 10px 0;
   align-items: center;
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
   perspective: 1000px;
@@ -202,7 +204,7 @@
 .battery-widget-container .battery-widget {
   position: relative;
   width: 260px;
-  height: 320px !important;
+  height: 350px !important;
   border-radius: 28px;
   background: linear-gradient(
     145deg,
@@ -214,12 +216,12 @@
   box-shadow:
     0 10px 30px rgba(0, 0, 0, 0.5),
     inset 0 1px 1px rgba(255, 255, 255, 0.05);
-  padding: 30px 25px;
+  padding: 20px !important;
   z-index: 2;
-  overflow-y: auto;
-  display: flex;
+  overflow: hidden !important; 
+  display: flex !important;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: flex-end;
   transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   transform-style: preserve-3d;
 }
@@ -843,6 +845,30 @@
   .battery-widget-container .widget-container {
     transform: scale(0.9);
   }
+}
+
+/* 2. Контейнер сообщений */
+#chat-messages {
+    flex: 1; /* Занимает всё свободное место */
+    overflow-y: auto; /* Скролл только ТУТ */
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column; /* Сообщения по порядку */
+    justify-content: flex-start;
+    padding-bottom: 10px;
+    margin-bottom: 40px; /* Оставляем место под прогресс-бар снизу */
+}
+
+/* 3. Убираем горизонтальный скролл (серые полосы внизу) */
+#chat-messages::-webkit-scrollbar {
+    width: 4px;
+}
+#chat-messages::-webkit-scrollbar-track {
+    background: transparent;
+}
+#chat-messages::-webkit-scrollbar-thumb {
+    background: #d4af37;
+    border-radius: 10px;
 }
 
     </style>
