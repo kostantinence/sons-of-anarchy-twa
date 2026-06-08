@@ -202,874 +202,172 @@
 .frozen-text { color: #00f2ff !important; text-shadow: 0 0 10px #00f2ff, 0 0 20px #fff, 0 0 40px #00f2ff !important; transition: all 2s ease; animation: ice-pulse 3s infinite alternate; }
 @keyframes ice-pulse { 0% { filter: brightness(1); transform: scale(1); } 100% { filter: brightness(1.5); transform: scale(1.02); } }
 
-        /* Новый чат */
-                /* 1. БАЗОВЫЕ ПЕРЕМЕННЫЕ И ТЕМА */
-        :root {
-            --bg-color: #0a0a0a;
-            --card-bg: #1a1a1a;
-            --text-primary: #ffffff;
-            --text-secondary: rgba(255, 255, 255, 0.7);
-            --gold: #d4af37;
-            --gold-glow: rgba(212, 175, 55, 0.4);
-            --charging-color: #4ade80; /* Зеленый неон */
-            --progress-bg: rgba(255, 255, 255, 0.1);
-        }
+/* НОВЫЙ ЧАТ */
+/* 1. ПЕРЕМЕННЫЕ И ОСНОВНОЙ КОНТЕЙНЕР */
+:root {
+    --card-bg: #1a1a1a;
+    --card-highlight: #2a2a2a;
+    --card-shadow: #141414;
+    --text-primary: #ffffff;
+    --text-secondary: rgba(255, 255, 255, 0.7);
+    --gold: #d4af37;
+    --gold-glow: rgba(212, 175, 55, 0.4);
+    --charging-color: #4ade80;
+    --progress-bg: rgba(255, 255, 255, 0.1);
+}
 
-        /* body, html {
-            margin: 0;
-            padding: 0;
-            background-color: var(--bg-color);
-            color: var(--text-primary);
-            font-family: 'Courier New', monospace;
-            overflow: hidden;
-        }
-        body { padding-top: var(--tg-viewport-stable-height, 20px); } */
-
-        /* 2. КОНТЕЙНЕР ВИДЖЕТА */
-        .battery-widget-container {
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 10px;
-            box-sizing: border-box;
-            background-image: linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-                              linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-            background-size: 30px 30px;
-        }
-
-        /* 3. ДИЗАЙН КАРТОЧКИ (БАТАРЕЯ) */
-        .border-glow {
-            position: absolute;
-            inset: -2px;
-            border-radius: 26px;
-            background: transparent;
-            border: 2px solid var(--gold);
-            clip-path: path("M 40 0 C 20 0 0 20 0 40 V 90 M 0 200 V 260 C 0 280 20 300 40 300 H 100 M 200 300 H 260 C 280 300 300 280 300 260 V 200 M 300 100 V 40 C 300 20 280 0 260 0 H 200");
-            animation: glowPulse 4s infinite alternate;
-            pointer-events: none;
-        }
-
-        /* 4. ОКНО СООБЩЕНИЙ */
-        #chat-messages {
-            position: relative;
-            height: 320px;
-            background: rgba(0, 0, 0, 0.6);
-            border-radius: 12px;
-            border: 1px solid rgba(212, 175, 55, 0.1);
-            margin: 15px 0;
-            padding: 15px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            -webkit-overflow-scrolling: touch;
-            z-index: 20;
-        }
-
-        #chat-messages::-webkit-scrollbar { width: 3px; }
-        #chat-messages::-webkit-scrollbar-thumb { background: var(--gold); }
-
-        .message-entry { border-bottom: 1px solid rgba(212, 175, 55, 0.05); padding-bottom: 4px; }
-        .m-time { color: #666; font-size: 10px; margin-right: 5px; }
-        .m-text { color: #eee; font-size: 13px; line-height: 1.4; word-wrap: break-word; }
-
-        /* 5. ИНПУТЫ (ТЕРМИНАЛЬНЫЙ СТИЛЬ) */
-        .ai-input-container {
-            position: relative;
-            background: #050505;
-            border: 1px solid var(--gold);
-            border-radius: 4px;
-            margin-bottom: 15px;
-            padding: 2px;
-        }
-
-        .ai-input-inner {
-            display: flex !important;
-            align-items: center;
-            background: repeating-linear-gradient(0deg, rgba(212, 175, 55, 0.03) 0px, transparent 2px);
-        }
-
-        .ai-input {
-            width: 100%;
-            background: transparent;
-            border: none;
-            color: var(--gold);
-            padding: 10px 12px;
-            font-family: inherit;
-            font-size: 14px;
-            outline: none;
-        }
-
-        .ai-label {
-            position: absolute;
-            top: -10px;
-            left: 10px;
-            background: #1a1a1a;
-            color: var(--gold);
-            font-size: 9px;
-            padding: 0 5px;
-            text-transform: uppercase;
-        }
-
-        .ai-button {
-            background: var(--gold);
-            border: none;
-            color: #000;
-            padding: 8px 15px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: 0.2s;
-        }
-
-        .ai-button:active { transform: scale(0.9); }
-
-        /* 6. ГРАФИКА И АНИМАЦИИ */
-        .particles .particle {
-            position: absolute;
-            width: 3px; height: 3px;
-            background: var(--charging-color);
-            border-radius: 50%;
-            opacity: 0;
-            animation: particleFloat 4s infinite;
-        }
-
-        @keyframes glowPulse { 
-            0% { opacity: 0.5; box-shadow: 0 0 5px var(--gold-glow); } 
-            100% { opacity: 1; box-shadow: 0 0 15px var(--gold-glow); } 
-        }
-
-        @keyframes particleFloat {
-            0% { transform: translateY(100px) scale(0); opacity: 0; }
-            50% { opacity: 0.6; }
-            100% { transform: translateY(-100px) scale(1.5); opacity: 0; }
-        }
-
-        /* 7. ПРОГРЕСС-БАР */
-        .progress-bar { display: flex; gap: 4px; margin-top: 10px; }
-        .segment { flex: 1; height: 3px; background: var(--progress-bg); border-radius: 2px; }
-        .segment.active { background: var(--charging-color); box-shadow: 0 0 5px var(--charging-color); }
-
-        /* 7. НОВЫЕ СТИЛИ ЧАТА */
-        
+/* Контейнер теперь не центрирует, а просто занимает свою колонку */
 .battery-widget-container {
-  /* Переменные оставляем */
-  --bg-color: #212121;
-  --card-bg: #1a1a1a;
-  --card-highlight: #2a2a2a;
-  --card-shadow: #141414;
-  --text-primary: #ffffff;
-  --text-secondary: rgba(255, 255, 255, 0.7);
-  --charging-color: #4ade80;
-  --progress-color: #4ade80;
-  --progress-bg: rgba(255, 255, 255, 0.1);
-  --gold: #d4af37; /* Добавим для удобства */
-
-  /* Убираем центрирование на весь экран, чтобы вписаться в колонку */
-  width: 100%;
-  position: relative;
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-  perspective: 1000px;
+    width: 100%;
+    position: relative;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    perspective: 1000px;
+    margin: 0; 
+    padding: 0;
+    display: block;
 }
-/* Основной контейнер виджета внутри колонки */
+
 .battery-widget-container .widget-container {
-  position: relative;
-  /* Убираем жесткие 300px, ставим 100% для адаптивности */
-  width: 100%; 
-  max-width: 400px; /* Ограничиваем максимальную ширину */
-  height: auto; /* Высота подстраивается под контент (сообщения) */
-  
-  /* Flexbox нужен только если внутри один элемент и его надо центрировать */
-  display: flex;
-  flex-direction: column; 
-  justify-content: flex-start;
-  align-items: center;
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    transform-style: preserve-3d;
+}
 
-  /* Эффекты глубины */
-  perspective: 1000px;
-  transform-style: preserve-3d;
-  
-  /* Отступ, чтобы не прилипало к другим блокам сайта */
-  margin: 0 auto; 
-}
-.battery-widget-container .border-glow {
-  position: absolute;
-  width: 280px;
-  height: 280px;
-  border-radius: 28px;
-  pointer-events: none;
-  z-index: 1;
-  background: transparent;
-  box-shadow: 0 0 15px rgba(255, 255, 255, 0.15);
-  clip-path: path(
-    "M 28 0 C 12 0 0 12 0 28 V 90 M 0 190 V 252 C 0 268 12 280 28 280 H 90 M 190 280 H 252 C 268 280 280 268 280 252 V 190 M 280 90 V 28 C 280 12 268 0 252 0 H 190"
-  );
-  animation: glowPulse 6s ease-in-out infinite alternate;
-}
-@keyframes glowPulse {
-  0% {
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.15);
-  }
-  50% {
-    box-shadow: 0 0 25px rgba(255, 255, 255, 0.25);
-  }
-  100% {
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.15);
-  }
-}
+/* 2. КАРТОЧКА ЧАТА (Оптимизировано для FPS) */
 .battery-widget-container .battery-widget {
-  position: relative;
-  width: 100%; 
-  max-width: 360px; 
-  height: auto; 
-  min-height: 480px; 
-  border-radius: 28px;
-  background: linear-gradient(
-    145deg,
-    var(--card-shadow) 0%,
-    var(--card-bg) 40%,
-    var(--card-highlight) 65%,
-    var(--card-shadow) 100%
-  );
-  border: 1px solid rgba(212, 175, 55, 0.3); 
-  box-shadow:
-    0 10px 30px rgba(0, 0, 0, 0.5),
-    inset 0 1px 1px rgba(255, 255, 255, 0.05),
-    0 0 20px rgba(212, 175, 55, 0.1); 
-    
-  padding: 35px 20px 20px; 
-  z-index: 2;
-  overflow: visible; 
-  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  transform-style: preserve-3d;
+    position: relative;
+    width: 100%;
+    height: auto;
+    min-height: 480px;
+    border-radius: 28px;
+    background: linear-gradient(145deg, var(--card-shadow) 0%, var(--card-bg) 40%, var(--card-highlight) 65%, var(--card-shadow) 100%);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    padding: 45px 15px 20px;
+    z-index: 2;
+    overflow: visible;
+    transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    will-change: transform;
+    backface-visibility: hidden;
 }
 
-/* Добавляем эффект при наведении, чтобы 3D работало */
 .battery-widget:hover {
-  transform: rotateX(5deg) rotateY(-5deg);
-  border-color: rgba(212, 175, 55, 0.6);
-}
-/* Enhanced hover effects */
-.battery-widget-container .battery-widget:hover {
-  transform: scale(1.02) rotateX(5deg) rotateY(5deg);
-  box-shadow:
-    0 15px 40px rgba(0, 0, 0, 0.6),
-    0 0 60px rgba(74, 222, 128, 0.2);
-  animation: subtleShake 0.5s ease-in-out infinite alternate;
-}
-@keyframes subtleShake {
-  0% {
-    transform: scale(1.02) rotateX(5deg) rotateY(5deg) translateY(0);
-  }
-  100% {
-    transform: scale(1.02) rotateX(5deg) rotateY(5deg) translateY(-5px);
-  }
-}
-/* Floating animation for the entire card */
-@keyframes float {
-  0%,
-  100% {
-    transform: translateY(0) rotateX(0) rotateY(0);
-  }
-  50% {
-    transform: translateY(-10px) rotateX(2deg) rotateY(2deg);
-  }
-}
-.battery-widget-container .widget-container:hover .battery-widget {
-  animation: float 3s ease-in-out infinite;
-}
-/* Enhanced border glow on hover */
-.battery-widget-container .widget-container:hover .border-glow {
-  animation: hoverGlow 1.5s ease-in-out infinite alternate;
-}
-@keyframes hoverGlow {
-  0% {
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.15);
-  }
-  100% {
-    box-shadow: 0 0 30px rgba(74, 222, 128, 0.4);
-  }
-}
-/* Particle system enhancement */
-.battery-widget-container .particles {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  overflow: hidden;
-}
-.battery-widget-container .particle {
-  position: absolute;
-  width: 4px;
-  height: 4px;
-  background: var(--charging-color);
-  border-radius: 50%;
-  animation: particleFloat 3s infinite;
-  opacity: 0;
-}
-/* Enhanced particle animation */
-@keyframes particleFloat {
-  0%,
-  100% {
-    transform: translate(0, 0) scale(0.5);
-    opacity: 0;
-  }
-  20% {
-    opacity: 0.8;
-  }
-  50% {
-    transform: translate(var(--float-x), var(--float-y)) scale(1.2);
-    opacity: 0.5;
-  }
-  80% {
-    opacity: 0;
-  }
-}
-/* Create more particles */
-.battery-widget-container .particle:nth-child(1) {
-  --float-x: 50px;
-  --float-y: -30px;
-  left: 20%;
-  top: 30%;
-  animation-delay: 0s;
-}
-.battery-widget-container .particle:nth-child(2) {
-  --float-x: -40px;
-  --float-y: 60px;
-  left: 50%;
-  top: 60%;
-  animation-delay: 0.2s;
-}
-.battery-widget-container .particle:nth-child(3) {
-  --float-x: 30px;
-  --float-y: 40px;
-  left: 80%;
-  top: 40%;
-  animation-delay: 0.4s;
-}
-.battery-widget-container .particle:nth-child(4) {
-  --float-x: -60px;
-  --float-y: -50px;
-  left: 30%;
-  top: 70%;
-  animation-delay: 0.6s;
-}
-.battery-widget-container .particle:nth-child(5) {
-  --float-x: 45px;
-  --float-y: 55px;
-  left: 60%;
-  top: 20%;
-  animation-delay: 0.8s;
-}
-.battery-widget-container .particle:nth-child(6) {
-  --float-x: -20px;
-  --float-y: 30px;
-  left: 40%;
-  top: 50%;
-  animation-delay: 1s;
-}
-.battery-widget-container .particle:nth-child(7) {
-  --float-x: 25px;
-  --float-y: -40px;
-  left: 70%;
-  top: 30%;
-  animation-delay: 1.2s;
-}
-.battery-widget-container .particle:nth-child(8) {
-  --float-x: -30px;
-  --float-y: 20px;
-  left: 10%;
-  top: 80%;
-  animation-delay: 1.4s;
-}
-.battery-widget-container .particle:nth-child(9) {
-  --float-x: 15px;
-  --float-y: -25px;
-  left: 90%;
-  top: 60%;
-  animation-delay: 1.6s;
-}
-.battery-widget-container .particle:nth-child(10) {
-  --float-x: -15px;
-  --float-y: 35px;
-  left: 25%;
-  top: 20%;
-  animation-delay: 1.8s;
-}
-/* Enhanced shine effect */
-.battery-widget-container .shine {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    120deg,
-    transparent 0%,
-    rgba(255, 255, 255, 0.03) 20%,
-    rgba(255, 255, 255, 0.1) 40%,
-    rgba(255, 255, 255, 0.03) 60%,
-    transparent 100%
-  );
-  z-index: 3;
-  pointer-events: none;
-  animation: enhancedShine 6s infinite;
-  transform: translateX(-100%) skewX(-20deg);
-}
-@keyframes enhancedShine {
-  0%,
-  100% {
-    opacity: 0;
-    transform: translateX(-100%) skewX(-20deg);
-  }
-  20% {
-    opacity: 0.5;
-  }
-  50% {
-    opacity: 0.8;
-    transform: translateX(100%) skewX(-20deg);
-  }
-  80% {
-    opacity: 0;
-  }
-}
-/* Mirror polish enhancement */
-.battery-widget-container .mirror-polish {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(
-    circle at 30% 30%,
-    rgba(255, 255, 255, 0.1) 0%,
-    transparent 60%
-  );
-  z-index: 4;
-  pointer-events: none;
-  animation: polishMove 15s infinite alternate;
-}
-@keyframes polishMove {
-  0% {
-    background: radial-gradient(
-      circle at 30% 30%,
-      rgba(255, 255, 255, 0.1) 0%,
-      transparent 60%
-    );
-  }
-  25% {
-    background: radial-gradient(
-      circle at 70% 30%,
-      rgba(255, 255, 255, 0.1) 0%,
-      transparent 60%
-    );
-  }
-  50% {
-    background: radial-gradient(
-      circle at 70% 70%,
-      rgba(255, 255, 255, 0.1) 0%,
-      transparent 60%
-    );
-  }
-  75% {
-    background: radial-gradient(
-      circle at 30% 70%,
-      rgba(255, 255, 255, 0.1) 0%,
-      transparent 60%
-    );
-  }
-  100% {
-    background: radial-gradient(
-      circle at 30% 30%,
-      rgba(255, 255, 255, 0.1) 0%,
-      transparent 60%
-    );
-  }
-}
-/* Content animations */
-.battery-widget-container .percentage {
-  font-size: 64px;
-  font-weight: 500;
-  color: var(--text-primary);
-  margin-bottom: 5px;
-  position: relative;
-  z-index: 5;
-  text-shadow: 0 0 10px rgba(74, 222, 128, 0.3);
-  animation:
-    percentageGlow 3s infinite alternate,
-    subtleBounce 4s infinite ease-in-out;
-}
-@keyframes percentageGlow {
-  0% {
-    text-shadow: 0 0 10px rgba(74, 222, 128, 0.3);
-  }
-  100% {
-    text-shadow: 0 0 20px rgba(74, 222, 128, 0.6);
-  }
-}
-@keyframes subtleBounce {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-5px);
-  }
-}
-.battery-widget-container .status {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  color: var(--text-secondary);
-  font-size: 12px;
-  letter-spacing: 0.5px;
-  margin-bottom: 25px;
-  position: relative;
-  z-index: 5;
-  animation: statusSlide 6s infinite ease-in-out;
-}
-@keyframes statusSlide {
-  0%,
-  100% {
-    transform: translateX(0);
-  }
-  25% {
-    transform: translateX(5px);
-  }
-  50% {
-    transform: translateX(0);
-  }
-  75% {
-    transform: translateX(-5px);
-  }
-}
-.battery-widget-container .icon {
-  display: inline-block;
-  opacity: 0.8;
-  animation: iconPulse 2s infinite ease-in-out;
-}
-@keyframes iconPulse {
-  0%,
-  100% {
-    transform: scale(1);
-    opacity: 0.8;
-  }
-  50% {
-    transform: scale(1.2);
-    opacity: 1;
-  }
-}
-.battery-widget-container .info-row {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  margin-bottom: 25px;
-  position: relative;
-  z-index: 5;
-  /* animation: infoRowFloat 5s infinite ease-in-out; */
-}
-/* @keyframes infoRowFloat {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-3px);
-  }
-} */
-.battery-widget-container .health-info,
-.battery-widget-container .cycles-info {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  color: var(--text-secondary);
-  font-size: 12px;
-  letter-spacing: 0.5px;
-}
-.battery-widget-container .health-info {
-  animation: healthInfoSlide 7s infinite ease-in-out;
-}
-@keyframes healthInfoSlide {
-  0%,
-  100% {
-    transform: translateX(0);
-  }
-  33% {
-    transform: translateX(3px);
-  }
-  66% {
-    transform: translateX(-3px);
-  }
-}
-.battery-widget-container .cycles-info {
-  animation: cyclesInfoSlide 8s infinite ease-in-out;
-}
-@keyframes cyclesInfoSlide {
-  0%,
-  100% {
-    transform: translateX(0);
-  }
-  25% {
-    transform: translateX(4px);
-  }
-  75% {
-    transform: translateX(-4px);
-  }
-}
-/* Enhanced progress bar animation */
-.battery-widget-container .progress-bar {
-  display: flex;
-  gap: 4px;
-  width: 100%;
-  margin-top: auto;
-  position: relative;
-  z-index: 5;
-  animation: progressBarBounce 5s infinite ease-in-out;
-}
-@keyframes progressBarBounce {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-3px);
-  }
-}
-.battery-widget-container .segment {
-  flex: 1;
-  height: 4px;
-  background-color: var(--progress-bg);
-  border-radius: 2px;
-  animation:
-    segmentFall 3s infinite,
-    /* segmentGlow 4s infinite alternate; */
-}
-.battery-widget-container .segment.active {
-  background-color: var(--progress-color);
-  box-shadow: 0 0 8px rgba(74, 222, 128, 0.3);
-  animation:
-    segmentFall 3s infinite,
-    activeSegmentGlow 2s infinite alternate;
-}
-@keyframes segmentFall {
-  0%,
-  100% {
-    transform: scaleY(1) translateY(0);
-  }
-  50% {
-    transform: scaleY(0.5) translateY(20px);
-  }
-}
-/* @keyframes segmentGlow {
-  0% {
-    opacity: 0.7;
-  }
-  100% {
-    opacity: 1;
-  }
-} */
-@keyframes activeSegmentGlow {
-  0% {
-    box-shadow: 0 0 8px rgba(74, 222, 128, 0.3);
-  }
-  100% {
-    box-shadow: 0 0 15px rgba(74, 222, 128, 0.6);
-  }
-}
-.battery-widget-container .segment:nth-child(1) {
-  animation-delay: 0s;
-}
-.battery-widget-container .segment:nth-child(2) {
-  animation-delay: 0.1s;
-}
-.battery-widget-container .segment:nth-child(3) {
-  animation-delay: 0.2s;
-}
-.battery-widget-container .segment:nth-child(4) {
-  animation-delay: 0.3s;
-}
-.battery-widget-container .segment:nth-child(5) {
-  animation-delay: 0.4s;
-}
-.battery-widget-container .segment:nth-child(6) {
-  animation-delay: 0.5s;
-}
-.battery-widget-container .segment:nth-child(7) {
-  animation-delay: 0.6s;
-}
-.battery-widget-container .segment:nth-child(8) {
-  animation-delay: 0.7s;
-}
-/* Background grid pattern */
-.battery-widget-container .grid-pattern {
-  position: absolute;
-  inset: 0;
-  background-image: linear-gradient(
-      rgba(255, 255, 255, 0.03) 1px,
-      transparent 1px
-    ),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-  background-size: 20px 20px;
-  z-index: 0;
-  pointer-events: none;
-  animation: gridScroll 20s linear infinite;
-}
-@keyframes gridScroll {
-  0% {
-    background-position: 0 0;
-  }
-  100% {
-    background-position: 20px 20px;
-  }
-}
-/* Charging bolt animation */
-.battery-widget-container .status .icon {
-  animation: boltCharge 2s infinite ease-in-out;
-}
-@keyframes boltCharge {
-  0%,
-  100% {
-    transform: scale(1) rotate(0deg);
-    opacity: 0.8;
-  }
-  25% {
-    transform: scale(1.2) rotate(10deg);
-    opacity: 1;
-  }
-  50% {
-    transform: scale(1) rotate(0deg);
-    opacity: 0.8;
-  }
-  75% {
-    transform: scale(1.2) rotate(-10deg);
-    opacity: 1;
-  }
-}
-/* Battery health icon animation */
-.battery-widget-container .health-info .icon {
-  animation: batteryPulse 3s infinite ease-in-out;
-}
-@keyframes batteryPulse {
-  0%,
-  100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.1);
-  }
-}
-/* Cycles icon animation */
-.battery-widget-container .cycles-info .icon {
-  animation: cycleSpin 4s infinite linear;
-}
-@keyframes cycleSpin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-/* Subtle background waves */
-.battery-widget-container .wave-bg {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 30%;
-  background: linear-gradient(
-    to top,
-    rgba(74, 222, 128, 0.05) 0%,
-    transparent 100%
-  );
-  z-index: 1;
-  pointer-events: none;
-  animation: waveMove 8s infinite ease-in-out;
-}
-@keyframes waveMove {
-  0%,
-  100% {
-    transform: translateY(0);
-    height: 30%;
-  }
-  50% {
-    transform: translateY(-10px);
-    height: 35%;
-  }
-}
-/* Corner highlights */
-.battery-widget-container .corner-highlight {
-  position: absolute;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: radial-gradient(
-    circle,
-    rgba(255, 255, 255, 0.1) 0%,
-    transparent 70%
-  );
-  z-index: 3;
-  pointer-events: none;
-}
-.battery-widget-container .corner-highlight.tl {
-  top: 10px;
-  left: 10px;
-  animation: cornerPulse 4s infinite ease-in-out;
-}
-.battery-widget-container .corner-highlight.tr {
-  top: 10px;
-  right: 10px;
-  animation: cornerPulse 4s infinite ease-in-out 1s;
-}
-.battery-widget-container .corner-highlight.bl {
-  bottom: 10px;
-  left: 10px;
-  animation: cornerPulse 4s infinite ease-in-out 2s;
-}
-.battery-widget-container .corner-highlight.br {
-  bottom: 10px;
-  right: 10px;
-  animation: cornerPulse 4s infinite ease-in-out 3s;
-}
-@keyframes cornerPulse {
-  0%,
-  100% {
-    opacity: 0.5;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.3);
-  }
-}
-/* Energy pulse effect */
-.battery-widget-container .energy-pulse {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  border-radius: 28px;
-  background: radial-gradient(
-    circle,
-    rgba(74, 222, 128, 0.1) 0%,
-    transparent 70%
-  );
-  z-index: 2;
-  pointer-events: none;
-  animation: energyPulse 4s infinite ease-out;
-  opacity: 0;
-}
-@keyframes energyPulse {
-  0% {
-    transform: scale(0.5);
-    opacity: 0;
-  }
-  50% {
-    opacity: 0.3;
-  }
-  100% {
-    transform: scale(1.5);
-    opacity: 0;
-  }
-}
-/* Responsive adjustments */
-@media (max-width: 400px) {
-  .battery-widget-container .widget-container {
-    transform: scale(0.9);
-  }
-}       
+    transform: rotateX(3deg) rotateY(-3deg) scale(1.01);
+}
+
+/* 3. ОКНО СООБЩЕНИЙ */
+#chat-messages {
+    position: relative;
+    height: 320px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 12px;
+    border: 1px solid rgba(212, 175, 55, 0.15);
+    margin: 15px 0;
+    padding: 15px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    z-index: 20;
+    font-family: 'Courier New', monospace;
+    scroll-behavior: smooth;
+}
+
+#chat-messages::-webkit-scrollbar { width: 3px; }
+#chat-messages::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 10px; }
+
+/* 4. ИНПУТЫ */
+.ai-input-container {
+    position: relative;
+    background: #050505;
+    border: 1px solid var(--gold);
+    border-radius: 4px;
+    margin-bottom: 15px;
+    padding: 2px;
+    z-index: 30;
+}
+
+.ai-input-inner { display: flex !important; align-items: center; }
+
+.ai-input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    color: var(--gold);
+    padding: 10px 12px;
+    font-size: 14px;
+    outline: none;
+}
+
+.ai-label {
+    position: absolute;
+    top: -10px;
+    left: 10px;
+    background: #1a1a1a;
+    color: var(--gold);
+    font-size: 10px;
+    padding: 0 5px;
+}
+
+/* 5. ЛЕГКИЕ АНИМАЦИИ (Без фризов) */
+.border-glow {
+    position: absolute;
+    inset: -1px;
+    border: 2px solid var(--gold);
+    border-radius: 28px;
+    opacity: 0.6;
+    animation: simpleGlow 4s infinite alternate;
+    pointer-events: none;
+}
+
+@keyframes simpleGlow {
+    from { opacity: 0.4; }
+    to { opacity: 1; }
+}
+
+/* Частицы теперь летают плавно */
+.particle {
+    will-change: transform, opacity;
+    animation: lightFloat 4s infinite linear !important;
+}
+
+@keyframes lightFloat {
+    0% { transform: translateY(30px); opacity: 0; }
+    50% { opacity: 0.4; }
+    100% { transform: translateY(-30px); opacity: 0; }
+}
+
+/* Фикс сегментов прогресс-бара */
+.segment {
+    flex: 1;
+    height: 4px;
+    background-color: var(--progress-bg);
+    border-radius: 2px;
+}
+
+.segment.active {
+    background-color: var(--charging-color);
+    animation: activePulse 2s infinite alternate;
+}
+
+@keyframes activePulse {
+    0% { opacity: 0.6; box-shadow: 0 0 5px var(--charging-color); }
+    100% { opacity: 1; box-shadow: 0 0 12px var(--charging-color); }
+}
+
+/* Фоновая сетка */
+.grid-pattern {
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+    background-size: 25px 25px;
+    pointer-events: none;
+} 
     </style>
 </head>
 <body>
