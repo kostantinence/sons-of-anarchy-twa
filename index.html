@@ -99,18 +99,24 @@
         @keyframes gridScroll { 0% { transform: translate(-27.5%, -50%) rotateX(45deg) rotateZ(45deg) translateY(0); } 100% { transform: translate(-20%, -50%) rotateX(45deg) rotateZ(45deg) translateY(40px); } }
 
          /* хакий чат */
-        .ai-input-container { 
-    position: relative; 
-    width: 100%; /* Стало резиновым */
-    padding: 4px; 
-    background: #0a0a0a; 
-    border: 1px solid var(--gold); /* Цвет из новых стилей */
-    box-shadow: 0 0 12px var(--gold-glow); 
-    border-radius: 4px; 
-    box-sizing: border-box; /* Чтобы padding не раздувал ширину */
-    z-index: 100;
+        .ai-input-container {
+    position: relative;
+    width: 100%;
+    background: #050505;
+    border: 1px solid var(--gold);
+    border-radius: 4px;
+    margin-bottom: 15px;
+    padding: 3px;
+    
+    /* ГЛАВНОЕ: ставим Z-index выше всех анимаций */
+    z-index: 999 !important;
+    
+    /* РАЗРЕШАЕМ КЛИКИ: гарантирует, что инпут нажмется */
     pointer-events: auto !important;
-    margin-bottom: 20px;
+    box-sizing: border-box;
+    
+    /* Свечение */
+    box-shadow: 0 0 10px var(--gold-glow);
 }
     .ai-input-inner { 
     position: relative; 
@@ -281,16 +287,6 @@
 #chat-messages::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 10px; }
 
 /* 4. ИНПУТЫ */
-.ai-input-container {
-    position: relative;
-    background: #050505;
-    border: 1px solid var(--gold);
-    border-radius: 4px;
-    margin-bottom: 15px;
-    padding: 2px;
-    z-index: 999 !important;
-    pointer-events: auto !important;
-}
 
 .ai-input-inner { display: flex !important; align-items: center; }
 
@@ -300,8 +296,11 @@
     border: none;
     color: var(--gold);
     padding: 10px 12px;
-    font-size: 14px;
+    font-family: inherit;
+    font-size: 16px !important; /* Важно для iOS, чтобы не было зума */
     outline: none;
+    pointer-events: auto !important;
+    cursor: text !important;
 }
 
 .ai-label {
@@ -385,6 +384,15 @@
     border-radius: 10px;
     overflow: hidden;
     padding: 2px;
+}
+.border-glow, 
+.particles, 
+.mirror-polish, 
+.shine, 
+.wave-bg, 
+.energy-pulse {
+    pointer-events: none !important; /* Клик будет пролетать сквозь них */
+    z-index: 1;
 }
     </style>
 </head>
