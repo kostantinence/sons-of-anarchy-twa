@@ -169,7 +169,7 @@
     background: #b8952d; 
 }
         .ai-button:hover { background: #00cc00; box-shadow: 0 0 15px #00ff00; animation: pulse-button 0.5s infinite; }
-        .ai-button::before { content: ""; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient( 120deg, transparent, rgba(255, 255, 255, 0.3), transparent ); animation: swipe 1.5s infinite; }
+        /* .ai-button::before { content: ""; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient( 120deg, transparent, rgba(255, 255, 255, 0.3), transparent ); animation: swipe 1.5s infinite; } */
         .ai-input-inner::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 1px; background: #00ff00; opacity: 0.3; animation: scanline 8s infinite linear; }
         .digital-noise { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
         .noise-bit { position: absolute; color: #00ff00; font-size: 10px; opacity: 0; animation: noise-flash 0.8s infinite; }
@@ -236,13 +236,6 @@
             background-image: linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
                               linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
             background-size: 30px 30px;
-        }
-
-        .widget-container {
-            position: relative;
-            width: 100%;
-            max-width: 400px;
-            perspective: 1000px;
         }
 
         /* 3. ДИЗАЙН КАРТОЧКИ (БАТАРЕЯ) */
@@ -378,14 +371,26 @@
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
   perspective: 1000px;
 }
+/* Основной контейнер виджета внутри колонки */
 .battery-widget-container .widget-container {
   position: relative;
-  width: 300px;
-  height: 300px;
+  /* Убираем жесткие 300px, ставим 100% для адаптивности */
+  width: 100%; 
+  max-width: 400px; /* Ограничиваем максимальную ширину */
+  height: auto; /* Высота подстраивается под контент (сообщения) */
+  
+  /* Flexbox нужен только если внутри один элемент и его надо центрировать */
   display: flex;
-  justify-content: center;
+  flex-direction: column; 
+  justify-content: flex-start;
   align-items: center;
+
+  /* Эффекты глубины */
+  perspective: 1000px;
   transform-style: preserve-3d;
+  
+  /* Отступ, чтобы не прилипало к другим блокам сайта */
+  margin: 0 auto; 
 }
 .battery-widget-container .border-glow {
   position: absolute;
