@@ -853,11 +853,11 @@
     flex: 1; /* Занимает всё свободное место */
     overflow-y: auto !important; /* Скролл только ТУТ */
     overflow-x: hidden !important;
+    padding-right: 10px;
+    margin-bottom: 40px; /* Оставляем место под прогресс-бар снизу */
     display: flex;
     flex-direction: column; /* Сообщения по порядку */
-    justify-content: flex-start;
-    padding-bottom: 10px;
-    margin-bottom: 40px; /* Оставляем место под прогресс-бар снизу */
+    justify-content: flex-end;
 }
 
 /* 3. Убираем горизонтальный скролл (серые полосы внизу) */
@@ -870,6 +870,14 @@
 #chat-messages::-webkit-scrollbar-thumb {
     background: #d4af37;
     border-radius: 10px;
+}
+
+.particles, .shine, .grid-pattern, .wave-bg {
+    position: absolute !important;
+    pointer-events: none !important;
+    /* Гарантируем, что они не раздувают контейнер */
+    max-width: 100% !important;
+    max-height: 100% !important;
 }
 
     </style>
