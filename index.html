@@ -266,7 +266,7 @@
   }
 }
 /* Floating animation for the entire card */
-@keyframes float {
+/* @keyframes float {
   0%,
   100% {
     transform: translateY(0) rotateX(0) rotateY(0);
@@ -274,7 +274,7 @@
   50% {
     transform: translateY(-10px) rotateX(2deg) rotateY(2deg);
   }
-}
+} */
 .battery-widget-container .widget-container:hover .battery-widget {
   animation: float 3s ease-in-out infinite;
 }
@@ -753,16 +753,16 @@
 }
 /* Cycles icon animation */
 .battery-widget-container .cycles-info .icon {
-  animation: cycleSpin 4s infinite linear;
+  animation: cycleSpin 0s infinite linear;
 }
-@keyframes cycleSpin {
+/* @keyframes cycleSpin {
   0% {
     transform: rotate(0deg);
   }
   100% {
     transform: rotate(360deg);
   }
-}
+} */
 /* Subtle background waves */
 .battery-widget-container .wave-bg {
   position: absolute;
