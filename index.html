@@ -849,9 +849,10 @@
 
 /* 2. Контейнер сообщений */
 #chat-messages {
+    height: 300px;
     flex: 1; /* Занимает всё свободное место */
-    overflow-y: auto; /* Скролл только ТУТ */
-    overflow-x: hidden;
+    overflow-y: auto !important; /* Скролл только ТУТ */
+    overflow-x: hidden !important;
     display: flex;
     flex-direction: column; /* Сообщения по порядку */
     justify-content: flex-start;
