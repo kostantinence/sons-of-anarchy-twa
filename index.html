@@ -253,6 +253,9 @@
 
 /* 2. КАРТОЧКА ЧАТА (Оптимизировано для FPS) */
 .battery-widget-container .battery-widget {
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    -webkit-transform: translate3d(0, 0, 0);
     position: relative;
     width: 100%;
     min-height: 600px !important;
@@ -265,6 +268,7 @@
     z-index: 2;
     overflow: hidden;
     box-sizing: border-box;
+    outline: 1px solid transparent; 
 }
 
 /* .battery-widget:hover {
