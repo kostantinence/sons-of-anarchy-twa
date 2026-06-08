@@ -108,8 +108,8 @@
     box-shadow: 0 0 12px var(--gold-glow); 
     border-radius: 4px; 
     box-sizing: border-box; /* Чтобы padding не раздувал ширину */
-    z-index: 999 !important;
-    pointer-events: auto !important; 
+    z-index: 100;
+    pointer-events: auto !important;
     margin-bottom: 20px;
 }
     .ai-input-inner { 
@@ -121,9 +121,11 @@
     border-radius: 2px; 
 }
         .ai-input { 
+    pointer-events: auto !important;
+    cursor: text;
     width: 100%; /* Убрали calc, используем flex */
     padding: 12px 15px; 
-    background: transparent; 
+    background: rgba(0,0,0,0.2) !important;
     border: none; 
     color: var(--gold); 
     font-family: "Courier New", monospace; 
@@ -231,30 +233,26 @@
 .battery-widget-container .widget-container {
     position: relative;
     width: 100%;
-    max-width: 360px !important;
+    max-width: 360px;
     margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    transform-style: preserve-3d;
+    perspective: 1000px;
+    display: block; /* Убираем flex, чтобы не глючило выравнивание */
 }
 
 /* 2. КАРТОЧКА ЧАТА (Оптимизировано для FPS) */
 .battery-widget-container .battery-widget {
-    box-sizing: border-box;
     position: relative;
     width: 100%;
-    height: auto;
     min-height: 480px;
-    border-radius: 28px;
-    background: linear-gradient(145deg, var(--card-shadow) 0%, var(--card-bg) 40%, var(--card-highlight) 65%, var(--card-shadow) 100%);
-    border: 1px solid rgba(212, 175, 55, 0.3);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    padding: 45px 15px 20px;
+    background: linear-gradient(145deg, #141414 0%, #1a1a1a 100%);
+    border-radius: 24px;
+    /* ЗОЛОТАЯ РАМКА: теперь она часть карточки, а не отдельный глючный слой */
+    border: 2px solid var(--gold);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.8), inset 0 0 15px rgba(212, 175, 55, 0.1);
+    padding: 40px 15px 20px;
     z-index: 2;
-    overflow: visible;
-    transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-    will-change: transform;
-    backface-visibility: hidden;
+    overflow: visible; /* Чтобы USER_ID было видно */
+    box-sizing: border-box;
 }
 
 .battery-widget:hover {
@@ -325,6 +323,7 @@
     opacity: 0.6;
     animation: simpleGlow 4s infinite alternate;
     pointer-events: none;
+    display: none !important;
 }
 
 @keyframes simpleGlow {
@@ -353,8 +352,11 @@
 }
 
 .segment.active {
+    background: #4ade80;
     background-color: var(--charging-color);
     animation: activePulse 2s infinite alternate;
+    box-shadow: 0 0 10px #4ade80;
+    flex: 1;
 }
 
 @keyframes activePulse {
@@ -371,6 +373,19 @@
     background-size: 25px 25px;
     pointer-events: none;
 } 
+.mirror-polish, .particles, .shine, .energy-pulse {
+    pointer-events: none !important; /* Чтобы клик пролетал сквозь них в инпут */
+}
+.progress-bar {
+    display: flex;
+    gap: 4px;
+    height: 6px;
+    margin-top: 15px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 10px;
+    overflow: hidden;
+    padding: 2px;
+}
     </style>
 </head>
 <body>
