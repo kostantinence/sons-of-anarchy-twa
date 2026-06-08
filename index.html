@@ -221,12 +221,13 @@
             background-color: var(--bg-color);
             color: var(--text-primary);
             font-family: 'Courier New', monospace;
-            overflow-x: hidden;
+            overflow: hidden;
         }
+        body { padding-top: var(--tg-viewport-stable-height, 20px); }
 
         /* 2. КОНТЕЙНЕР ВИДЖЕТА */
         .battery-widget-container {
-            min-height: 100vh;
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -269,6 +270,7 @@
 
         /* 4. ОКНО СООБЩЕНИЙ */
         #chat-messages {
+            position: relative;
             height: 320px;
             background: rgba(0, 0, 0, 0.6);
             border-radius: 12px;
@@ -280,6 +282,7 @@
             flex-direction: column;
             gap: 8px;
             -webkit-overflow-scrolling: touch;
+            z-index: 20;
         }
 
         #chat-messages::-webkit-scrollbar { width: 3px; }
