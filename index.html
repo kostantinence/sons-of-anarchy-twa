@@ -176,6 +176,11 @@
   align-items: center;
   transform-style: preserve-3d;
 }
+.widget-container {
+    overflow: hidden !important; /* Больше никаких полос тут */
+    display: flex;
+    flex-direction: column;
+}
 .battery-widget-container .border-glow {
   position: absolute;
   width: 280px;
@@ -224,6 +229,25 @@
   justify-content: flex-end;
   transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   transform-style: preserve-3d;
+}
+.battery-widget {
+    flex: 1;
+    overflow-y: auto !important;   /* Только вертикальный скролл */
+    overflow-x: hidden !important;  /* УБИРАЕТ ту самую нижнюю полосу */
+    position: relative;
+    padding-right: 5px;             /* Отступ для скроллбара */
+}
+.battery-widget::-webkit-scrollbar {
+    width: 4px;
+}
+
+.battery-widget::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.battery-widget::-webkit-scrollbar-thumb {
+    background: #d4af37; /* Золотой скролл под Union Terminal */
+    border-radius: 10px;
 }
 /* Enhanced hover effects */
 .battery-widget-container .battery-widget:hover {
@@ -875,9 +899,11 @@
 .particles, .shine, .grid-pattern, .wave-bg {
     position: absolute !important;
     pointer-events: none !important;
+    inset: 0;
     /* Гарантируем, что они не раздувают контейнер */
     max-width: 100% !important;
     max-height: 100% !important;
+     z-index: 1;
 }
 
     </style>
