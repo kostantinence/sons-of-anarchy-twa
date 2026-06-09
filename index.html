@@ -464,9 +464,20 @@
 }
 
 /* Сделаем так, чтобы сообщения плавали вразнобой (одно быстрее, другое медленнее) */
-.message-entry:nth-child(even) {
-    /* animation-duration: 12s; */
+/* .message-entry:nth-child(even) {
+    animation-duration: 12s;
     animation-delay: 6s;
+} */
+/* не четные */
+/* .message-entry:nth-child(odd) {
+    animation: none;
+    transform: none;
+} */
+
+/* четные even */
+.message-entry:nth-child(even) {
+    animation: none;
+    transform: none; /* Чтобы строка стояла ровно */
 }
 
 @keyframes floatMessage {
