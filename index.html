@@ -461,21 +461,30 @@
 } */
 
 /* 1. Новая версия которая должна сгладить анимацию */
-.message-entry {
+/* .message-entry { */
     /* 1. Сначала отключаем анимацию для всех */
-    animation: none; 
+    /* animation: none; 
     
-    will-change: transform;
+    will-change: transform; */
     /* Убираем 100%, если текст короткий — это главный источник тормозов */
-    width: fit-content; 
+    /* width: fit-content; 
     max-width: 100%;
     display: block;
-    
+     */
     /* Оптимизация для плавности */
-    backface-visibility: hidden;
+    /* backface-visibility: hidden;
     transform: translateZ(0); 
     perspective: 1000px;
     -webkit-font-smoothing: subpixel-antialiased;
+} */
+ 
+/* 1. Полное отключение анимации */
+.message-entry {
+    width: 100%;
+    display: block;
+    /* Убираем всё, что связано с анимацией и GPU-подготовкой */
+    transform: none !important;
+    will-change: auto;
 }
 
 /* 2. Включаем анимацию ТОЛЬКО для каждой 7-й строки (одна плавает, шесть стоят) */
