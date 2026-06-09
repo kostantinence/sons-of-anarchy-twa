@@ -303,6 +303,19 @@
 #chat-messages::-webkit-scrollbar { width: 3px; }
 #chat-messages::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 10px; }
 
+/* Анимация смены цветов для курсора */
+@keyframes caretRainbow {
+    0% { caret-color: var(--gold); }
+    33% { caret-color: #00ff00; } /* Зеленый */
+    66% { caret-color: #ff00ff; } /* Розовый/Фиолетовый */
+    100% { caret-color: var(--gold); }
+}
+
+#chat-input {
+    /* Применяем анимацию к курсору */
+    animation: caretRainbow 3s infinite;
+}
+
 /* 4. ИНПУТЫ */
 
 .ai-input-inner { display: flex !important; align-items: center; }
