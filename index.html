@@ -500,6 +500,21 @@
     transform: none !important;
 }
 
+/* Каждая первая в цикле из 5 */
+.message-entry:nth-child(5n+1) { margin-left: 8px; opacity: 0.9; }
+
+/* Каждая вторая */
+.message-entry:nth-child(5n+2) { margin-left: 2px; }
+
+/* Каждая третья (сдвиг влево) */
+.message-entry:nth-child(5n+3) { margin-left: -4px; opacity: 0.85; }
+
+/* Каждая четвертая */
+.message-entry:nth-child(5n+4) { margin-left: 11px; }
+
+/* Каждая пятая */
+.message-entry:nth-child(5n+5) { margin-left: 4px; }
+
 /* 2. Включаем анимацию ТОЛЬКО для каждой 7-й строки (одна плавает, шесть стоят) */
 /* .message-entry:nth-child(7n+1) {
     animation: floatMessage 22s ease-in-out infinite alternate;
