@@ -477,14 +477,27 @@
     perspective: 1000px;
     -webkit-font-smoothing: subpixel-antialiased;
 } */
- 
+
 /* 1. Полное отключение анимации */
 .message-entry {
-    width: 100%;
-    display: block;
-    /* Убираем всё, что связано с анимацией и GPU-подготовкой */
+    /* Возвращаем видимость и стандартное отображение */
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    
+    /* Полностью убираем движение */
+    animation: none !important;
     transform: none !important;
-    will-change: auto;
+    will-change: auto !important;
+    
+    /* Убираем ограничения по ширине для теста */
+    width: 100%; 
+}
+
+/* Обязательно очистите этот селектор, если он был в коде! */
+.message-entry:nth-child(7n+1) {
+    animation: none !important;
+    transform: none !important;
 }
 
 /* 2. Включаем анимацию ТОЛЬКО для каждой 7-й строки (одна плавает, шесть стоят) */
@@ -493,16 +506,16 @@
 } */
 
 /* Если «микро-глюки» все равно заметны, попробуйте изменить ease-in-out на linear. Это уберет математические расчеты ускорения и замедления: */
-.message-entry:nth-child(7n+1) {
+/* .message-entry:nth-child(7n+1) {
     animation: floatMessage 22s linear infinite alternate;
-}
+} */
 
-/* Оптимизируем саму анимацию (минимальные сдвиги меньше нагружают GPU) */
-@keyframes floatMessage {
+/* Важно Оптимизируем саму анимацию (минимальные сдвиги меньше нагружают GPU) */
+/* @keyframes floatMessage {
     0% { transform: translate3d(0, 0, 0); }
     50% { transform: translate3d(4px, 0, 0); }
     100% { transform: translate3d(-3px, 0, 0); }
-}
+} */
 
 /* А. Замените width: 100% и display: blockАнимация элементов, которые занимают всю ширину экрана, нагружает систему сильнее. Если текст короткий, попробуйте: width: fit-content Ширина только по тексту, margin: 0 auto Центрирование, если нужно */
 /* .message-entry {
