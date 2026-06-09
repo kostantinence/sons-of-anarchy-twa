@@ -263,7 +263,7 @@
     border-radius: 24px;
     background-clip: padding-box;
     border: 2px solid #d4af370a;
-    box-shadow: 0 10px 40px rgb(0 0 0 / 9%), inset 0 0 15px rgba(212, 175, 55, 0.1);
+    box-shadow: 0 10px 40px rgb(0 0 0 / 0%), inset 0 0 15px rgb(0 0 0 / 0%);
     padding: 40px 15px 20px;
     z-index: 2;
     overflow: hidden;
@@ -352,14 +352,14 @@
 /* Частицы теперь летают плавно */
 .particle {
     will-change: transform, opacity;
-    animation: lightFloat 4s infinite linear !important;
+    /* animation: lightFloat 4s infinite linear !important; */
 }
 
-@keyframes lightFloat {
+/* @keyframes lightFloat {
     0% { transform: translateY(30px); opacity: 0; }
     50% { opacity: 0.4; }
     100% { transform: translateY(-30px); opacity: 0; }
-}
+} */
 
 /* Фикс сегментов прогресс-бара */
 .segment {
@@ -473,6 +473,10 @@
     0% { transform: translateY(0) translateX(0); }
     50% { transform: translateY(-3px) translateX(2px); }
     100% { transform: translateY(0) translateX(-1px); }
+}
+
+.energy-pulse, .shine, .mirror-polish {
+    display: none !important; /* Убираем тяжелые блики и пульсации */
 }
     </style>
 </head>
@@ -691,9 +695,9 @@
             <div class="particles">
                 <div class="particle"></div>
                 <div class="particle"></div>
-                <div class="particle" style="left:20%; animation-delay: 0s;"></div>
+                <!-- <div class="particle" style="left:20%; animation-delay: 0s;"></div>
                 <div class="particle" style="left:50%; animation-delay: 1s;"></div>
-                <div class="particle" style="left:80%; animation-delay: 2s;"></div>
+                <div class="particle" style="left:80%; animation-delay: 2s;"></div> -->
             </div>
 
             <!-- Заголовок -->
