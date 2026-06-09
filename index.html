@@ -486,8 +486,8 @@
 /* Оптимизируем саму анимацию (минимальные сдвиги меньше нагружают GPU) */
 @keyframes floatMessage {
     0% { transform: translate3d(0, 0, 0); }
-    50% { transform: translate3d(2px, -3px, 0); }
-    100% { transform: translate3d(-1px, 0, 0); }
+    50% { transform: translate3d(4px, 0, 0); }
+    100% { transform: translate3d(-3px, 0, 0); }
 }
 
 /* А. Замените width: 100% и display: blockАнимация элементов, которые занимают всю ширину экрана, нагружает систему сильнее. Если текст короткий, попробуйте: width: fit-content Ширина только по тексту, margin: 0 auto Центрирование, если нужно */
