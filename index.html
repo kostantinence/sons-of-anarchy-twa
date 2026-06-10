@@ -1064,26 +1064,28 @@ document.querySelectorAll('.copy-target').forEach(item => {
 
     // 2. ОТПРАВКА
     function sendMessage() {
-        const text = chatInput.value.trim();
-        const userName = nameInput.value.trim() || "Guest";
+    const text = chatInput.value.trim();
+    const userName = nameInput.value.trim() || "Guest";
 
-        if (text) {
-            localStorage.setItem('soa_chat_name', userName);
-            socket.emit('client_message', {
-                user: userName,
-                text: text
-            });
-            chatInput.value = '';
-            chatInput.focus();
-        }
+    if (text) {
+        localStorage.setItem('soa_chat_name', userName);
+        socket.emit('client_message', {
+            user: userName,
+            text: text,
+            timestamp: new Date().getTime() // Добавляем точное время отправки
+        });
+        chatInput.value = '';
+        chatInput.focus();
     }
+}
 
     // 3. ПРИЕМ СООБЩЕНИЙ
     socket.on('chat_msg', (msg) => {
         const div = document.createElement('div');
         div.className = "message-entry";
         
-        const time = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        const msgDate = msg.timestamp ? new Date(msg.timestamp) : new Date();
+        const time = msgDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
                 // Цвет: Синий для ТГ, Золотой для WebApp, Зеленый для тебя (Уточка)
         let nameColor = "#d4af37";
         if (msg.from_tg) nameColor = "#0088cc";
