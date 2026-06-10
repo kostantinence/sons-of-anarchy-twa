@@ -1138,8 +1138,8 @@ document.querySelectorAll('.copy-target').forEach(item => {
         const div = document.createElement('div');
         div.className = "message-entry";
         
-        const msgDate = msg.timestamp ? new Date(msg.timestamp) : new Date();
-        const time = msgDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        const rawDate = msg.date || msg.timestamp || new Date();
+        const time = new Date(rawDate).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
                 // Цвет: Синий для ТГ, Золотой для WebApp, Зеленый для тебя (Уточка)
         let nameColor = "#d4af37";
         if (msg.from_tg) nameColor = "#0088cc";
