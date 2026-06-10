@@ -92,33 +92,32 @@
         /* кнопка контакты */
         .sci-fi-container {
     display: flex;
-    flex-direction: column;
-    gap: 15px; /* Уменьшил отступ для компактности */
-    padding: 15px 10px;
+    flex-direction: row; /* Ряд вместо колонки */
+    flex-wrap: wrap;     /* Если не влезут в одну строку — перенесутся */
+    justify-content: center; /* Центрируем кнопки */
+    gap: 10px;           /* Небольшой отступ между ними */
+    padding: 15px 5px;
 }
-        .sci-fi-button {
+
+/* Кнопки теперь подстраиваются под контент */
+.sci-fi-button {
     display: flex;
+    flex: 1 1 auto;      /* Кнопки будут тянуться, заполняя место */
+    min-width: 100px;    /* Минимальная ширина, чтобы не были слишком узкими */
     justify-content: center;
     align-items: center;
-    width: 100%;
-    padding: 18px 20px; /* Сделал чуть выше */
-    font-size: 14px;
-    font-weight: bold;
+    padding: 12px 10px;  /* Чуть меньше падинги, чтобы влезли */
+    font-size: 11px;     /* Уменьшил шрифт для компактности */
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
     text-decoration: none;
     color: #fff;
     cursor: pointer;
-    
-    /* Граница теперь светится */
     border: 1px solid rgba(212, 175, 55, 0.3);
-    border-radius: 12px;
+    border-radius: 8px;
     background: rgba(20, 20, 20, 0.8);
-    
-    overflow: hidden;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    position: relative;
-    box-sizing: border-box;
+    transition: all 0.3s ease;
+    white-space: nowrap; /* Текст не будет переноситься на вторую строку */
 }
 
         .sci-fi-button::before {
@@ -144,11 +143,9 @@
         /* .sci-fi-button:hover span { transform: scale(1.15) translateY(-2px); color: #ffd11a; text-shadow: 0 0 8px rgba(212, 175, 55, 0.8); } */
        .sci-fi-button:hover {
     border-color: #d4af37;
-    color: #ffd700;
-    background: rgba(212, 175, 55, 0.05);
-    transform: translateY(-2px) scale(1.02);
-    box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
-    text-shadow: 0 0 8px rgba(212, 175, 55, 0.6);
+    background: rgba(212, 175, 55, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
 }
         /* @keyframes gridScroll { 0% { transform: translate(-27.5%, -50%) rotateX(45deg) rotateZ(45deg) translateY(0); } 100% { transform: translate(-20%, -50%) rotateX(45deg) rotateZ(45deg) translateY(40px); } } */
 
