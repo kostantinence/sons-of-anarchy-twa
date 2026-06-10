@@ -191,13 +191,14 @@
     font-size: 12px !important;
     outline: none; 
     caret-color: var(--gold); 
+    transition: all 6.0s ease;
     z-index: 1; 
 }
 
         .ai-input:placeholder-shown { color: transparent; }
         .ai-input:focus::placeholder { color: #00ff0088; }
         .ai-input:not(:placeholder-shown)::placeholder { color: transparent; }
-        .ai-input:focus { box-shadow: inset 0 0 10px #00ff00, 0 0 20px #00ff00; animation: glitch-input 6.0s infinite; }
+        .ai-input:focus { box-shadow: inset 0 0 10px #00ff00, 0 0 20px #00ff00; animation: glitch-input 0.3s infinite; }
        .ai-label { 
     position: absolute; 
     top: -15px; 
