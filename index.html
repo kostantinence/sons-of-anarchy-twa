@@ -90,148 +90,19 @@
         .copy-notification { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #d4af37; color: #000; padding: 10px 20px; border-radius: 20px; display: none; z-index: 1000; font-weight: bold; }
 
         /* кнопка контакты */
-.sci-fi-container { 
-    display: flex; 
-    flex-direction: row; /* Строго в ряд */
-    justify-content: space-between; /* Равномерно распределяем */
-    gap: 8px; 
-    margin-top: 15px;
-    width: 100%; 
-    box-sizing: border-box;
-}
-
-/* Кнопки теперь подстраиваются под контент */
-.sci-fi-button { 
-    flex: 1;
-    position: relative; /* ОБЯЗАТЕЛЬНО для работы блика ::before */
-    background: rgba(0, 0, 0, 0.6); 
-    border: 1.5px solid #d4af3787; 
-    color: #ffd11a; 
-    padding: 8px 2px;
-    cursor: pointer; 
-    border-radius: 8px; 
-    font-family: monospace; 
-    font-size: 10px;
-    text-decoration: none;
-    text-align: center;
-    transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    white-space: nowrap;
-    overflow: hidden; /* Обрезает блик по краям кнопки */
-}
-
-        .sci-fi-button::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-        120deg,
-        transparent,
-        rgba(212, 175, 55, 0.2),
-        transparent
-    );
-    transition: 0.6s;
-}
-
-.sci-fi-button:hover::before {
-    left: 100%;
-}
-        .sci-fi-button span { position: relative; display: inline-block; transition: transform 0.3s ease, color 0.3s ease; z-index: 10; pointer-events: none; }
-        /* .sci-fi-button:hover span { transform: scale(1.15) translateY(-2px); color: #ffd11a; text-shadow: 0 0 8px rgba(212, 175, 55, 0.8); } */
-.sci-fi-button:hover { 
-    border-color: #d4af37; 
-    background: rgba(212, 175, 55, 0.2); 
-    box-shadow: 0 0 12px rgba(212, 175, 55, 0.3);
-    color: #fff;
-}
-        /* @keyframes gridScroll { 0% { transform: translate(-27.5%, -50%) rotateX(45deg) rotateZ(45deg) translateY(0); } 100% { transform: translate(-20%, -50%) rotateX(45deg) rotateZ(45deg) translateY(40px); } } */
-
-         /* хакий чат */
-        .ai-input-container {
-    position: relative;
-    width: 100%;
-    background: #0505052b;
-    border: 1px solid var(--gold);
-    border-radius: 4px;
-    margin-bottom: 15px;
-    padding: 3px;
-    
-    /* ГЛАВНОЕ: ставим Z-index выше всех анимаций */
-    z-index: 999 !important;
-    
-    /* РАЗРЕШАЕМ КЛИКИ: гарантирует, что инпут нажмется */
-    pointer-events: auto !important;
-    box-sizing: border-box;
-    
-    /* Свечение */
-    box-shadow: 0 0 10px var(--gold-glow);
-}
-    .ai-input-inner { 
-    position: relative; 
-    display: flex; 
-    align-items: center; 
-    background: repeating-linear-gradient( 0deg, rgba(212, 175, 55, 0.05), rgba(212, 175, 55, 0.05) 2px, transparent 2px, transparent 10px ); 
-    /* animation: grid-shift 2s linear infinite;  */
-    border-radius: 2px; 
-}
-        .ai-input { 
-    pointer-events: auto !important;
-    cursor: text;
-    width: 100%; /* Убрали calc, используем flex */
-    padding: 8px 10px; 
-    background: rgba(0,0,0,0.2) !important;
-    border: none; 
-    color: var(--gold); 
-    font-family: "Courier New", monospace; 
-    font-size: 12px !important;
-    outline: none; 
-    caret-color: var(--gold); 
-    transition: all 6.0s ease;
-    z-index: 1; 
-}
-
-        .ai-input:placeholder-shown { color: transparent; }
-        .ai-input:focus::placeholder { color: #00ff0088; }
-        .ai-input:not(:placeholder-shown)::placeholder { color: transparent; }
-        .ai-input:focus { box-shadow: inset 0 0 10px #00ff00, 0 0 20px #00ff00; animation: glitch-input 0.3s infinite; }
-       .ai-label { 
-    position: absolute; 
-    top: -15px; 
-    left: 10px; 
-    color: var(--gold); 
-    font-size: 11px; 
-    text-shadow: 0 0 5px var(--gold); 
-    background: #1a1a1a; /* Цвет фона из 2.1 */
-    padding: 0 6px; 
-    z-index: 2; 
-}
-        .ai-input:placeholder-shown + .ai-label { top: -18px; }
-        .ai-input:focus + .ai-label,
-        .ai-input:not(:placeholder-shown) + .ai-label { animation: flicker-label 6s infinite; }
-      .ai-button { 
-    width: 45px; 
-    height: 40px; 
-    background: #42d327a8;
-    border: none; 
-    border-radius: 8px;
-    color: #0a0a0a; 
-    font-size: 20px; 
-    cursor: pointer; 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 6.0s ease; 
-    z-index: 5;
-}
-/* .ai-button:active { 
-    transform: scale(0.9); 
-    background: #b8952d; 
-} */
+        /* Кнопки теперь подстраиваются под контент */
+        .sci-fi-container {  display: flex;  flex-direction: row; /* Строго в ряд */ justify-content: space-between; /* Равномерно распределяем */ gap: 8px;  margin-top: 15px; width: 100%;  box-sizing: border-box; } 
+        .sci-fi-button {  flex: 1; position: relative; /* ОБЯЗАТЕЛЬНО для работы блика ::before */ background: rgba(0, 0, 0, 0.6);  border: 1.5px solid #d4af3787;  color: #ffd11a;  padding: 8px 2px; cursor: pointer;  border-radius: 8px;  font-family: monospace;  font-size: 10px; text-decoration: none; text-align: center; transition: background 0.3s, border-color 0.3s, box-shadow 0.3s; display: flex; justify-content: center; align-items: center; white-space: nowrap; overflow: hidden; /* Обрезает блик по краям кнопки */ } 
+        .sci-fi-button::before { content: ""; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient( 120deg, transparent, rgba(212, 175, 55, 0.2), transparent ); transition: 0.6s; } 
+        .sci-fi-button:hover::before { left: 100%; } 
+        .sci-fi-button span { position: relative; display: inline-block; transition: transform 0.3s ease, color 0.3s ease; z-index: 10; pointer-events: none; } /* .sci-fi-button:hover span { transform: scale(1.15) translateY(-2px); color: #ffd11a; text-shadow: 0 0 8px rgba(212, 175, 55, 0.8); } */
+        .sci-fi-button:hover {  border-color: #d4af37;  background: rgba(212, 175, 55, 0.2);  box-shadow: 0 0 12px rgba(212, 175, 55, 0.3); color: #fff; } 
+        /* @keyframes gridScroll { 0% { transform: translate(-27.5%, -50%) rotateX(45deg) rotateZ(45deg) translateY(0); } 100% { transform: translate(-20%, -50%) rotateX(45deg) rotateZ(45deg) translateY(40px); } } */ /* хакий чат */ .ai-input-container { position: relative; width: 100%; background: #0505052b; border: 1px solid var(--gold); border-radius: 4px; margin-bottom: 15px; padding: 3px; /* ГЛАВНОЕ: ставим Z-index выше всех анимаций */ z-index: 999 !important; /* РАЗРЕШАЕМ КЛИКИ: гарантирует, что инпут нажмется */ pointer-events: auto !important; box-sizing: border-box; /* Свечение */ box-shadow: 0 0 10px var(--gold-glow); } 
+        .ai-input-inner {  position: relative;  display: flex;  align-items: center;  background: repeating-linear-gradient( 0deg, rgba(212, 175, 55, 0.05), rgba(212, 175, 55, 0.05) 2px, transparent 2px, transparent 10px );  /* animation: grid-shift 2s linear infinite;  */ border-radius: 2px; } 
+        .ai-input {  pointer-events: auto !important; cursor: text; width: 100%; /* Убрали calc, используем flex */ padding: 8px 10px;  background: rgba(0,0,0,0.2) !important; border: none;  color: var(--gold);  font-family: "Courier New", monospace;  font-size: 12px !important; outline: none;  caret-color: var(--gold);  transition: all 6.0s ease; z-index: 1; } 
+        .ai-input:placeholder-shown { color: transparent; } .ai-input:focus::placeholder { color: #00ff0088; } .ai-input:not(:placeholder-shown)::placeholder { color: transparent; } .ai-input:focus { box-shadow: inset 0 0 10px #00ff00, 0 0 20px #00ff00; animation: glitch-input 0.3s infinite; } .ai-label {  position: absolute;  top: -15px;  left: 10px;  color: var(--gold);  font-size: 11px;  text-shadow: 0 0 5px var(--gold);  background: #1a1a1a; /* Цвет фона из 2.1 */ padding: 0 6px;  z-index: 2; } 
+        .ai-input:placeholder-shown + .ai-label { top: -18px; } .ai-input:focus + .ai-label, .ai-input:not(:placeholder-shown) + .ai-label { animation: flicker-label 6s infinite; } .ai-button {  width: 45px;  height: 40px;  background: #42d327a8; border: none;  border-radius: 8px; color: #0a0a0a;  font-size: 20px;  cursor: pointer;  display: flex; align-items: center; justify-content: center; transition: all 6.0s ease;  z-index: 5; }
+        /* .ai-button:active { transform: scale(0.9);  background: #b8952d; } */
         /* .ai-button:hover { background: #00cc00; box-shadow: 0 0 15px #00ff00; animation: pulse-button 2.0s infinite; } */
         /* .ai-button::before { content: ""; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient( 120deg, transparent, rgba(255, 255, 255, 0.3), transparent ); animation: swipe 1.5s infinite; } */
         .ai-input-inner::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 1px; background: #00ff00; opacity: 0.3; animation: scanline 8s infinite linear; }
@@ -239,7 +110,7 @@
         .noise-bit { position: absolute; color: #00ff00; font-size: 10px; opacity: 0; animation: noise-flash 0.8s infinite; }
 
         /* @keyframes grid-shift { 0% { background-position: 0 0; } 100% { background-position: 0 10px; } } */
-        @keyframes glitch-input { 0% { transform: translate(0); } 20% { transform: translate(-2px, 2px); } 40% { transform: translate(2px, -2px); } 60% { transform: translate(-1px, 1px); } 80% { transform: translate(1px, -1px); } 100% { transform: translate(0); } }
+        /* @keyframes glitch-input { 0% { transform: translate(0); } 20% { transform: translate(-2px, 2px); } 40% { transform: translate(2px, -2px); } 60% { transform: translate(-1px, 1px); } 80% { transform: translate(1px, -1px); } 100% { transform: translate(0); } } */
         /* @keyframes flicker-label { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } } */
         /* @keyframes pulse-button { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } } */
         @keyframes swipe { 0% { left: -100%; } 20% { left: 100%; } 100% { left: 100%; } }
@@ -256,411 +127,84 @@
         .ui > div:nth-child(5) { animation-delay: 2.0s; }
         
         /* Инопланетные символы Хищника */
-.predator-glyphs { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 0, 0, 0.1); color: #ff0000; font-family: monospace; font-size: 24px; padding: 20px; display: none; z-index: 9999; pointer-events: none; word-break: break-all; text-shadow: 0 0 10px #ff0000; }
-.predator-aim { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 200px; height: 200px; border: 2px solid #ff0000; border-radius: 50%; display: none; z-index: 10000; box-shadow: 0 0 20px #ff0000, inset 0 0 20px #ff0000; }        
-.predator-aim::before { content: '...'; position: absolute; top: 45%; left: 45%; color: #ff0000; font-size: 40px; letter-spacing: 5px; }
-@keyframes alarm-pulse { 0% { background-color: #000; } 50% { background-color: #500; } 100% { background-color: #000; } }     
+        .predator-glyphs { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 0, 0, 0.1); color: #ff0000; font-family: monospace; font-size: 24px; padding: 20px; display: none; z-index: 9999; pointer-events: none; word-break: break-all; text-shadow: 0 0 10px #ff0000; }
+        .predator-aim { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 200px; height: 200px; border: 2px solid #ff0000; border-radius: 50%; display: none; z-index: 10000; box-shadow: 0 0 20px #ff0000, inset 0 0 20px #ff0000; }        
+        .predator-aim::before { content: '...'; position: absolute; top: 45%; left: 45%; color: #ff0000; font-size: 40px; letter-spacing: 5px; }
+        @keyframes alarm-pulse { 0% { background-color: #000; } 50% { background-color: #500; } 100% { background-color: #000; } }     
 
         /* Эффект замороженного текста */
-.snowflake { position: fixed; top: -20px; color: white; user-select: none; pointer-events: none; z-index: 10000; text-shadow: 0 0 5px rgba(255,255,255,0.8); }
-.frozen-text { color: #00f2ff !important; text-shadow: 0 0 10px #00f2ff, 0 0 20px #fff, 0 0 40px #00f2ff !important; transition: all 2s ease; animation: ice-pulse 3s infinite alternate; }
-@keyframes ice-pulse { 0% { filter: brightness(1); transform: scale(1); } 100% { filter: brightness(1.5); transform: scale(1.02); } }
+        .snowflake { position: fixed; top: -20px; color: white; user-select: none; pointer-events: none; z-index: 10000; text-shadow: 0 0 5px rgba(255,255,255,0.8); }
+        .frozen-text { color: #00f2ff !important; text-shadow: 0 0 10px #00f2ff, 0 0 20px #fff, 0 0 40px #00f2ff !important; transition: all 2s ease; animation: ice-pulse 3s infinite alternate; }
+        @keyframes ice-pulse { 0% { filter: brightness(1); transform: scale(1); } 100% { filter: brightness(1.5); transform: scale(1.02); } }
+        
+        /* НОВЫЙ ЧАТ */
+        /* 1. ПЕРЕМЕННЫЕ И ОСНОВНОЙ КОНТЕЙНЕР */
+        :root { --card-bg: #1a1a1a; --card-highlight: #2a2a2a; --card-shadow: #141414; --text-primary: #ffffff; --text-secondary: rgba(255, 255, 255, 0.7); --gold: #d4af37; --gold-glow: rgba(212, 175, 55, 0.4); --charging-color: #4ade80; --progress-bg: rgba(255, 255, 255, 0.1); }
 
-/* НОВЫЙ ЧАТ */
-/* 1. ПЕРЕМЕННЫЕ И ОСНОВНОЙ КОНТЕЙНЕР */
-:root {
-    --card-bg: #1a1a1a;
-    --card-highlight: #2a2a2a;
-    --card-shadow: #141414;
-    --text-primary: #ffffff;
-    --text-secondary: rgba(255, 255, 255, 0.7);
-    --gold: #d4af37;
-    --gold-glow: rgba(212, 175, 55, 0.4);
-    --charging-color: #4ade80;
-    --progress-bg: rgba(255, 255, 255, 0.1);
-}
-
-/* Контейнер теперь не центрирует, а просто занимает свою колонку */
-/* Основной контейнер — запрещаем ему расширяться */
-.battery-widget-container {
-    width: 100%;
-    max-width: 100vw; /* Строго не шире экрана */
-    position: relative;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    perspective: 1000px;
-    margin: 0; 
-    padding: 0;
-    display: block;
-    overflow-x: hidden !important; /* ГЛАВНОЕ: убирает горизонтальный скролл */
-}
-
-/* Оболочка виджета с запасом под 3D-повороты */
-.battery-widget-container .widget-container {
-    position: relative;
-    /* Используем 95%, чтобы при повороте края не касались границ экрана */
-    width: 100%; 
-    max-width: 360px;
-    margin: 0 auto;
-    perspective: 1000px;
-    display: block;
-    box-sizing: border-box;
-}
-
-/* 2. КАРТОЧКА ЧАТА (Оптимизировано для FPS) */
-.battery-widget-container .battery-widget {
-    -webkit-backface-visibility: hidden;
-    -moz-backface-visibility: hidden;
-    -webkit-transform: translate3d(0, 0, 0);
-    position: relative;
-    width: 100%;
-    min-height: 600px !important;
-    background: linear-gradient(145deg, #14141452 0%, #1a1a1a5c 30%);
-    border-radius: 24px;
-    background-clip: padding-box;
-    border: 2px solid #d4af370a;
-    box-shadow: 0 10px 40px rgb(0 0 0 / 0%), inset 0 0 15px rgb(0 0 0 / 0%);
-    padding: 40px 15px 20px;
-    z-index: 2;
-    overflow: hidden;
-    box-sizing: border-box;
-    outline: 1px solid transparent;
-}
-
-/* .battery-widget:hover {
-    transform: rotateX(3deg) rotateY(-3deg) scale(1.01);
-} */
-
-/* 3. ОКНО СООБЩЕНИЙ */
-#chat-messages {
-    position: relative;
-    height: 420px !important;
-    background: rgb(0 0 0 / 13%);
-    border-radius: 12px;
-    border: 1px solid rgba(212, 175, 55, 0.15);
-    margin: 15px 0;
-    padding: 15px;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    z-index: 20;
-    font-size: 13px;
-    font-family: 'Courier New', monospace;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    word-break: break-word;
-    white-space: normal;
-    width: 100%;
-    box-sizing: border-box;
-    scroll-behavior: smooth;
-}
-
-#chat-messages::-webkit-scrollbar { width: 3px; }
-#chat-messages::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 10px; }
-
-/* Анимация смены цветов для курсора */
-@keyframes caretRainbow {
-    0% { caret-color: var(--gold); }
-    33% { caret-color: #00ff00; } /* Зеленый */
-    66% { caret-color: #ff00ff; } /* Розовый/Фиолетовый */
-    100% { caret-color: var(--gold); }
-}
-
-#chat-input {
-    /* Применяем анимацию к курсору */
-    animation: caretRainbow 3s infinite;
-}
-
-/* 4. ИНПУТЫ */
-
-.ai-input-inner { display: flex !important; align-items: center; }
-
-.ai-input {
-    width: 100%;
-    background: transparent;
-    border: none;
-    color: var(--gold);
-    padding: 10px 12px;
-    font-family: inherit;
-    font-size: 13px !important; /* Важно для iOS, чтобы не было зума */
-    outline: none;
-    pointer-events: auto !important;
-    cursor: text !important;
-}
-
-.ai-label {
-    position: absolute;
-    top: -10px;
-    left: 10px;
-    background: #1a1a1a;
-    color: var(--gold);
-    font-size: 10px;
-    padding: 0 5px;
-}
-
-/* 5. ЛЕГКИЕ АНИМАЦИИ (Без фризов) */
-.border-glow {
-    position: absolute;
-    box-sizing: border-box;
-    inset: -1px;
-    border: 2px solid var(--gold);
-    border-radius: 28px;
-    max-width: 100%;
-    opacity: 0.6;
-    /* animation: simpleGlow 4s infinite alternate; */
-    pointer-events: none;
-    display: none !important;
-}
-
-/* @keyframes simpleGlow {
-    from { opacity: 0.4; }
-    to { opacity: 1; }
-} */
-
-/* Частицы теперь летают плавно */
-.particle {
-    will-change: transform, opacity;
-    /* animation: lightFloat 4s infinite linear !important; */
-}
-
-/* @keyframes lightFloat {
-    0% { transform: translateY(30px); opacity: 0; }
-    50% { opacity: 0.4; }
-    100% { transform: translateY(-30px); opacity: 0; }
-} */
-
-/* Фикс сегментов прогресс-бара */
-.segment {
-    flex: 1;
-    height: 4px;
-    background-color: var(--progress-bg);
-    border-radius: 2px;
-}
-
-.segment.active {
-    background: #4ade80;
-    background-color: var(--charging-color);
-    /* animation: activePulse 2s infinite alternate; */
-    box-shadow: 0 0 10px #4ade80;
-    flex: 1;
-}
-
-/* @keyframes activePulse {
-    0% { opacity: 0.6; box-shadow: 0 0 5px var(--charging-color); }
-    100% { opacity: 1; box-shadow: 0 0 12px var(--charging-color); }
-} */
-
-/* Фоновая сетка */
-.grid-pattern {
-    position: absolute;
-    inset: 0;
-    background-image: linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-                      linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-    background-size: 25px 25px;
-    pointer-events: none;
-} 
-
-/* .particles {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    z-index: 1;
-} */
-
-/* .particle {
-    position: absolute;
-    width: 3px;
-    height: 3px;
-    background: #4ade80;
-    border-radius: 50%;
-    box-shadow: 0 0 8px #4ade80;
-    opacity: 0;
-    bottom: 0;
-    animation: particleUp 5s infinite ease-in;
-} */
-
-/* @keyframes particleUp {
-    0% { transform: translateY(0) scale(1); opacity: 0; }
-    20% { opacity: 0.6; }
-    80% { opacity: 0.3; }
-    100% { transform: translateY(-300px) scale(0.5); opacity: 0; }
-} */
-
-/* Расставляем точки вразнобой */
-/* .particle:nth-child(1) { left: 15%; animation-duration: 4s; }
-.particle:nth-child(2) { left: 45%; animation-duration: 6s; animation-delay: 1s; }
-.particle:nth-child(3) { left: 75%; animation-duration: 5s; animation-delay: 2s; }
-.particle:nth-child(4) { left: 30%; animation-duration: 7s; animation-delay: 0.5s; }
-.particle:nth-child(5) { left: 90%; animation-duration: 4.5s; animation-delay: 1.5s; } */
-
-.mirror-polish, .particles, .shine, .energy-pulse {
-    pointer-events: none !important; /* Чтобы клик пролетал сквозь них в инпут */
-}
-.progress-bar {
-    display: flex;
-    gap: 4px;
-    height: 6px;
-    margin-top: 15px;
-    background: rgba(255,255,255,0.05);
-    border-radius: 10px;
-    overflow: hidden;
-    padding: 2px;
-}
-.border-glow, 
-.particles, 
-.mirror-polish, 
-.shine, 
-.wave-bg, 
-.energy-pulse {
-    pointer-events: none !important; /* Клик будет пролетать сквозь них */
-    z-index: 1;
-}
-
-/* 1. Старая версия для всей строчки анимация */
-/* .message-entry {
-    animation: floatMessage 22s ease-in-out infinite alternate;
-    will-change: transform;
-    image-rendering: -webkit-optimize-contrast;
-    width: 100%;
-    display: block;
-    backface-visibility: hidden;
-    transform: translateZ(0);
-    perspective: 1000px;
-} */
-
-/* 1. Новая версия которая должна сгладить анимацию */
-/* .message-entry { */
-    /* 1. Сначала отключаем анимацию для всех */
-    /* animation: none; 
-    
-    will-change: transform; */
-    /* Убираем 100%, если текст короткий — это главный источник тормозов */
-    /* width: fit-content; 
-    max-width: 100%;
-    display: block;
-     */
-    /* Оптимизация для плавности */
-    /* backface-visibility: hidden;
-    transform: translateZ(0); 
-    perspective: 1000px;
-    -webkit-font-smoothing: subpixel-antialiased;
-} */
-
-/* 1. Полное отключение анимации */
-.message-entry {
-    /* Возвращаем видимость и стандартное отображение */
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    
-    /* Полностью убираем движение */
-    animation: none !important;
-    transform: none !important;
-    will-change: auto !important;
-    
-    /* Убираем ограничения по ширине для теста */
-    width: 100%; 
-}
-
-/* Обязательно очистите этот селектор, если он был в коде! */
-.message-entry:nth-child(7n+1) {
-    animation: none !important;
-    transform: none !important;
-}
-
-.message-entry:hover {
-    background: rgba(255, 215, 0, 0.1); /* Легкое золотистое подсвечивание строки */
-    transition: background 0.3s ease;
-    cursor: pointer;
-}
-
-/* Каждая первая в цикле из 5 */
-.message-entry:nth-child(5n+1) { margin-left: 0px; opacity: 0.9; }
-
-/* Каждая вторая */
-.message-entry:nth-child(5n+2) { margin-left: 0px; }
-
-/* Каждая третья (сдвиг влево) */
-.message-entry:nth-child(5n+3) { margin-left: 0px; opacity: 0.85; }
-
-/* Каждая четвертая */
-.message-entry:nth-child(5n+4) { margin-left: 0px; }
-
-/* Каждая пятая */
-.message-entry:nth-child(5n+5) { margin-left: 0px; }
-
-/* 2. Включаем анимацию ТОЛЬКО для каждой 7-й строки (одна плавает, шесть стоят) */
-/* .message-entry:nth-child(7n+1) {
-    animation: floatMessage 22s ease-in-out infinite alternate;
-} */
-
-/* Если «микро-глюки» все равно заметны, попробуйте изменить ease-in-out на linear. Это уберет математические расчеты ускорения и замедления: */
-/* .message-entry:nth-child(7n+1) {
-    animation: floatMessage 22s linear infinite alternate;
-} */
-
-/* Важно Оптимизируем саму анимацию (минимальные сдвиги меньше нагружают GPU) */
-/* @keyframes floatMessage {
-    0% { transform: translate3d(0, 0, 0); }
-    50% { transform: translate3d(4px, 0, 0); }
-    100% { transform: translate3d(-3px, 0, 0); }
-} */
-
-/* А. Замените width: 100% и display: blockАнимация элементов, которые занимают всю ширину экрана, нагружает систему сильнее. Если текст короткий, попробуйте: width: fit-content Ширина только по тексту, margin: 0 auto Центрирование, если нужно */
-/* .message-entry {
-    width: fit-content; 
-    margin: 0 auto;
-} */
-
-/* Б. Упростите KeyframesВ вашем коде 50% анимации меняет и translateY, и translateX. Попробуйте оставить движение только по одной оси (например, только вверх-вниз) — это в два раза снизит нагрузку на расчеты. */ 
-/* В. "Магическое" свойство для сглаживанияДобавьте это в .message-entry, чтобы заставить браузер отрисовывать анимацию более плавно: */
-/* .message-entry {
-    will-change: transform;
-    image-rendering: -webkit-optimize-contrast;
-    backface-visibility: hidden;
-} */
-/* Г. Крайняя мера: Полная остановкаЕсли тормоза не уходят (особенно на мобильных устройствах или в тяжелых браузерах), лучше действительно полностью убрать анимацию, так как дергающееся "плавание" выглядит хуже, чем статичный текст. */
-/* .message-entry {
-    animation: none !important;
-    transform: none !important;
-} */
-.pulse-icon {
-    margin-right: 10px;
-    display: inline-block;
-    filter: drop-shadow(0 0 5px var(--gold));
-}
-
-/* Сделаем так, чтобы сообщения плавали вразнобой (одно быстрее, другое медленнее) */
-/* .message-entry:nth-child(even) {
-    animation-duration: 12s;
-    animation-delay: 6s;
-} */
-/* не четные */
-/* .message-entry:nth-child(odd) {
-    animation: none;
-    transform: none;
-} */
-
-/* четные even */
-/* .message-entry:nth-child(even) {
-    animation: none;
-    transform: none;
-} */
-
-/* новая версия */
-/* .message-entry:nth-child(7n+1) {
-    animation: floatMessage 22s ease-in-out infinite alternate;
-} */
-/* старая анимация плавающего текста */
-/* @keyframes floatMessage {
-    0% { transform: translateY(0) translateX(0); }
-    50% { transform: translateY(-3px) translateX(2px); }
-    100% { transform: translateY(0) translateX(-1px); }
-} */
-
-.energy-pulse, .shine, .mirror-polish {
-    display: none !important; /* Убираем тяжелые блики и пульсации */
-}
+        /* Контейнер теперь не центрирует, а просто занимает свою колонку */
+        /* Основной контейнер — запрещаем ему расширяться */
+        .battery-widget-container { width: 100%; max-width: 100vw; /* Строго не шире экрана */ position: relative; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; perspective: 1000px; margin: 0;  padding: 0; display: block; overflow-x: hidden !important; /* ГЛАВНОЕ: убирает горизонтальный скролл */ }
+        
+        /* Оболочка виджета с запасом под 3D-повороты */
+        .battery-widget-container .widget-container { position: relative; /* Используем 95%, чтобы при повороте края не касались границ экрана */ width: 100%;  max-width: 360px; margin: 0 auto; perspective: 1000px; display: block; box-sizing: border-box; }
+        
+        /* 2. КАРТОЧКА ЧАТА (Оптимизировано для FPS) */
+        .battery-widget-container .battery-widget { -webkit-backface-visibility: hidden; -moz-backface-visibility: hidden; -webkit-transform: translate3d(0, 0, 0); position: relative; width: 100%; min-height: 600px !important; background: linear-gradient(145deg, #14141452 0%, #1a1a1a5c 30%); border-radius: 24px; background-clip: padding-box; border: 2px solid #d4af370a; box-shadow: 0 10px 40px rgb(0 0 0 / 0%), inset 0 0 15px rgb(0 0 0 / 0%); padding: 40px 15px 20px; z-index: 2; overflow: hidden; box-sizing: border-box; outline: 1px solid transparent; }
+        /* .battery-widget:hover { transform: rotateX(3deg) rotateY(-3deg) scale(1.01); } */
+        /* 3. ОКНО СООБЩЕНИЙ */
+        #chat-messages { position: relative; height: 420px !important; background: rgb(0 0 0 / 13%); border-radius: 12px; border: 1px solid rgba(212, 175, 55, 0.15); margin: 15px 0; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; z-index: 20; font-size: 13px; font-family: 'Courier New', monospace; word-wrap: break-word; overflow-wrap: break-word; word-break: break-word; white-space: normal; width: 100%; box-sizing: border-box; scroll-behavior: smooth; }
+        #chat-messages::-webkit-scrollbar { width: 3px; }
+        #chat-messages::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 10px; }
+        /* Анимация смены цветов для курсора */
+        @keyframes caretRainbow { 0% { caret-color: var(--gold); } 33% { caret-color: #00ff00; } /* Зеленый */ 66% { caret-color: #ff00ff; } /* Розовый/Фиолетовый */ 100% { caret-color: var(--gold); } } #chat-input { /* Применяем анимацию к курсору */ animation: caretRainbow 3s infinite; } /* 4. ИНПУТЫ */ .ai-input-inner { display: flex !important; align-items: center; } .ai-input { width: 100%; background: transparent; border: none; color: var(--gold); padding: 10px 12px; font-family: inherit; font-size: 13px !important; /* Важно для iOS, чтобы не было зума */ outline: none; pointer-events: auto !important; cursor: text !important; } .ai-label { position: absolute; top: -10px; left: 10px; background: #1a1a1a; color: var(--gold); font-size: 10px; padding: 0 5px; } /* 5. ЛЕГКИЕ АНИМАЦИИ (Без фризов) */ .border-glow { position: absolute; box-sizing: border-box; inset: -1px; border: 2px solid var(--gold); border-radius: 28px; max-width: 100%; opacity: 0.6; /* animation: simpleGlow 4s infinite alternate; */ pointer-events: none; display: none !important; } /* @keyframes simpleGlow { from { opacity: 0.4; } to { opacity: 1; } } */ /* Частицы теперь летают плавно */ .particle { will-change: transform, opacity; /* animation: lightFloat 4s infinite linear !important; */ } /* @keyframes lightFloat { 0% { transform: translateY(30px); opacity: 0; } 50% { opacity: 0.4; } 100% { transform: translateY(-30px); opacity: 0; } } */ /* Фикс сегментов прогресс-бара */ .segment { flex: 1; height: 4px; background-color: var(--progress-bg); border-radius: 2px; } .segment.active { background: #4ade80; background-color: var(--charging-color); /* animation: activePulse 2s infinite alternate; */ box-shadow: 0 0 10px #4ade80; flex: 1; } /* @keyframes activePulse { 0% { opacity: 0.6; box-shadow: 0 0 5px var(--charging-color); } 100% { opacity: 1; box-shadow: 0 0 12px var(--charging-color); } } */ /* Фоновая сетка */ .grid-pattern { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px); background-size: 25px 25px; pointer-events: none; } /* .particles { position: absolute; inset: 0; pointer-events: none; z-index: 1; } */ /* .particle { position: absolute; width: 3px; height: 3px; background: #4ade80; border-radius: 50%; box-shadow: 0 0 8px #4ade80; opacity: 0; bottom: 0; animation: particleUp 5s infinite ease-in; } */ /* @keyframes particleUp { 0% { transform: translateY(0) scale(1); opacity: 0; } 20% { opacity: 0.6; } 80% { opacity: 0.3; } 100% { transform: translateY(-300px) scale(0.5); opacity: 0; } } */ 
+        /* Расставляем точки вразнобой */
+        /* .particle:nth-child(1) { left: 15%; animation-duration: 4s; }
+        .particle:nth-child(2) { left: 45%; animation-duration: 6s; animation-delay: 1s; }
+        .particle:nth-child(3) { left: 75%; animation-duration: 5s; animation-delay: 2s; }
+        .particle:nth-child(4) { left: 30%; animation-duration: 7s; animation-delay: 0.5s; }
+        .particle:nth-child(5) { left: 90%; animation-duration: 4.5s; animation-delay: 1.5s; } */ .mirror-polish, .particles, .shine, .energy-pulse { pointer-events: none !important; /* Чтобы клик пролетал сквозь них в инпут */ }
+        .progress-bar { display: flex; gap: 4px; height: 6px; margin-top: 15px; background: rgba(255,255,255,0.05); border-radius: 10px; overflow: hidden; padding: 2px; }
+        .border-glow, .particles, .mirror-polish, .shine, .wave-bg, .energy-pulse { pointer-events: none !important; /* Клик будет пролетать сквозь них */ z-index: 1; }
+        
+        /* 1. Старая версия для всей строчки анимация */
+        /* .message-entry { animation: floatMessage 22s ease-in-out infinite alternate; will-change: transform; image-rendering: -webkit-optimize-contrast; width: 100%; display: block; backface-visibility: hidden; transform: translateZ(0); perspective: 1000px; } */ 
+        /* 1. Новая версия которая должна сгладить анимацию */
+        /* .message-entry { */ /* 1. Сначала отключаем анимацию для всех */ /* animation: none;  will-change: transform; */ /* Убираем 100%, если текст короткий — это главный источник тормозов */ /* width: fit-content;  max-width: 100%; display: block; */ /* Оптимизация для плавности */ /* backface-visibility: hidden; transform: translateZ(0);  perspective: 1000px; -webkit-font-smoothing: subpixel-antialiased; } */ 
+        /* 1. Полное отключение анимации */
+        .message-entry { /* Возвращаем видимость и стандартное отображение */ display: block !important; visibility: visible !important; opacity: 1 !important; /* Полностью убираем движение */ animation: none !important; transform: none !important; will-change: auto !important; /* Убираем ограничения по ширине для теста */ width: 100%; } 
+        /* Обязательно очистите этот селектор, если он был в коде! */
+        .message-entry:nth-child(7n+1) { animation: none !important; transform: none !important; } 
+        .message-entry:hover { background: rgba(255, 215, 0, 0.1); /* Легкое золотистое подсвечивание строки */ transition: background 0.3s ease; cursor: pointer; } 
+        /* Каждая первая в цикле из 5 */
+        .message-entry:nth-child(5n+1) { margin-left: 0px; opacity: 0.9; } /* Каждая вторая */
+        .message-entry:nth-child(5n+2) { margin-left: 0px; } /* Каждая третья (сдвиг влево) */
+        .message-entry:nth-child(5n+3) { margin-left: 0px; opacity: 0.85; } /* Каждая четвертая */
+        .message-entry:nth-child(5n+4) { margin-left: 0px; } /* Каждая пятая */
+        .message-entry:nth-child(5n+5) { margin-left: 0px; } /* 2. Включаем анимацию ТОЛЬКО для каждой 7-й строки (одна плавает, шесть стоят) */
+        /* .message-entry:nth-child(7n+1) { animation: floatMessage 22s ease-in-out infinite alternate; } */ 
+        /* Если «микро-глюки» все равно заметны, попробуйте изменить ease-in-out на linear. Это уберет математические расчеты ускорения и замедления: */
+        /* .message-entry:nth-child(7n+1) { animation: floatMessage 22s linear infinite alternate; } */ 
+        /* Важно Оптимизируем саму анимацию (минимальные сдвиги меньше нагружают GPU) */
+        /* @keyframes floatMessage { 0% { transform: translate3d(0, 0, 0); } 50% { transform: translate3d(4px, 0, 0); } 100% { transform: translate3d(-3px, 0, 0); } } */ 
+        /* А. Замените width: 100% и display: blockАнимация элементов, которые занимают всю ширину экрана, нагружает систему сильнее. Если текст короткий, попробуйте: width: fit-content Ширина только по тексту, margin: 0 auto Центрирование, если нужно */
+        /* .message-entry { width: fit-content;  margin: 0 auto; } */ 
+        /* Б. Упростите KeyframesВ вашем коде 50% анимации меняет и translateY, и translateX. Попробуйте оставить движение только по одной оси (например, только вверх-вниз) — это в два раза снизит нагрузку на расчеты. */ 
+        /* В. "Магическое" свойство для сглаживанияДобавьте это в .message-entry, чтобы заставить браузер отрисовывать анимацию более плавно: */
+        /* .message-entry { will-change: transform; image-rendering: -webkit-optimize-contrast; backface-visibility: hidden; } */
+        /* Г. Крайняя мера: Полная остановкаЕсли тормоза не уходят (особенно на мобильных устройствах или в тяжелых браузерах), лучше действительно полностью убрать анимацию, так как дергающееся "плавание" выглядит хуже, чем статичный текст. */
+        /* .message-entry { animation: none !important; transform: none !important; } */
+        .pulse-icon { margin-right: 10px; display: inline-block; filter: drop-shadow(0 0 5px var(--gold)); } 
+        /* Сделаем так, чтобы сообщения плавали вразнобой (одно быстрее, другое медленнее) */
+        /* .message-entry:nth-child(even) { animation-duration: 12s; animation-delay: 6s; } */
+        /* не четные */
+        /* .message-entry:nth-child(odd) { animation: none; transform: none; } */ 
+        /* четные even */
+        /* .message-entry:nth-child(even) { animation: none; transform: none; } */ 
+        /* новая версия */
+        /* .message-entry:nth-child(7n+1) { animation: floatMessage 22s ease-in-out infinite alternate; } */
+        /* старая анимация плавающего текста */
+        /* @keyframes floatMessage { 0% { transform: translateY(0) translateX(0); } 50% { transform: translateY(-3px) translateX(2px); } 100% { transform: translateY(0) translateX(-1px); } } */ 
+        .energy-pulse, .shine, .mirror-polish { display: none !important; /* Убираем тяжелые блики и пульсации */ }
     </style>
 </head>
 <body>
@@ -723,7 +267,7 @@
     background-clip: text;
     -webkit-text-fill-color: transparent;
     ">7. ⚠️Усиление Зверей (итемы развития зверей)</p>
-        <p>7.1 ✔️ <i class="p">Второй день Тоже на (итемы развития зверей)</i></p>
+        <p>7.1 ✔️ <i class="p">(Делайте сегодня задания зверей)</i></p>
          <p>8. Модификация Снаряжения (трата камней и итемов для прокачки и ковки снаряжения лорда)</p>
         <p>9. Перековка Талантов</p>
         <p>10. Фантомная Богиня (Трата предмета прокачки девушек)</p>
