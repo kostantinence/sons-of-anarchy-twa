@@ -941,7 +941,7 @@ function activateTimeHack() {
             logo.innerText = "ВЗЛОМ ВРЕМЕНИ...";
         }
 
-        hackInterval = setInterval(createHackSymbol, 200);
+        hackInterval = setInterval(createHackSymbol, 400);
 
         if (window.Telegram?.WebApp?.HapticFeedback) {
             window.Telegram.WebApp.HapticFeedback.notificationOccurred('warning');
@@ -979,7 +979,7 @@ function createHackSymbol() {
     // Можно оставить зелеными или сделать розовыми под сетку:
     symbol.style.color = "#00ff41"; 
     
-    symbol.innerHTML = ['0', '1', 'Реликтовое', 'TIME', 'EXE', 'ERR'][Math.floor(Math.random() * 6)];
+    symbol.innerHTML = ['0', '1', 'Relictum', 'TIME', 'EXE', 'ERR'][Math.floor(Math.random() * 6)];
     symbol.style.left = Math.random() * 100 + 'vw';
     document.body.appendChild(symbol);
 
@@ -989,7 +989,7 @@ function createHackSymbol() {
     ], { 
         // Было Math.random() * 1000 + 1000 (1-2 сек)
         // Ставим от 3 до 5 секунд для плавного падения:
-        duration: Math.random() * 2000 + 2000, 
+        duration: Math.random() * 4000 + 4000, 
         easing: 'linear' 
     }).onfinish = () => symbol.remove();
 }
