@@ -938,10 +938,10 @@ function activateTimeHack() {
         if (logo) {
             logo.classList.add('hacker-text');
             logo.dataset.oldText = logo.innerText;
-            logo.innerText = "HACKING TIME...";
+            logo.innerText = "ВЗЛОМ ВРЕМЕНИ...";
         }
 
-        hackInterval = setInterval(createHackSymbol, 100);
+        hackInterval = setInterval(createHackSymbol, 200);
 
         if (window.Telegram?.WebApp?.HapticFeedback) {
             window.Telegram.WebApp.HapticFeedback.notificationOccurred('warning');
@@ -951,7 +951,7 @@ function activateTimeHack() {
     };
 
     if (window.Telegram?.WebApp) {
-        window.Telegram.WebApp.showConfirm("Hack the time, Hackerman?", (ok) => { if(ok) runHack(); });
+        window.Telegram.WebApp.showConfirm("Взломать время?", (ok) => { if(ok) runHack(); });
     } else {
         runHack();
     }
@@ -973,18 +973,26 @@ function activateTimeHack() {
         ], { duration: Math.random() * 5000 + 4000, easing: 'ease-in' }).onfinish = () => snowflake.remove();
     }
 
-    function createHackSymbol() {
-        const symbol = document.createElement('div');
-        symbol.className = 'hack-symbol';
-        symbol.innerHTML = ['0', '1', 'HACK', 'TIME', 'EXE', 'ERR'][Math.floor(Math.random() * 6)];
-        symbol.style.left = Math.random() * 100 + 'vw';
-        document.body.appendChild(symbol);
+function createHackSymbol() {
+    const symbol = document.createElement('div');
+    symbol.className = 'hack-symbol';
+    // Можно оставить зелеными или сделать розовыми под сетку:
+    symbol.style.color = "#00ff41"; 
+    
+    symbol.innerHTML = ['0', '1', 'Реликтовое', 'TIME', 'EXE', 'ERR'][Math.floor(Math.random() * 6)];
+    symbol.style.left = Math.random() * 100 + 'vw';
+    document.body.appendChild(symbol);
 
-        symbol.animate([
-            { transform: 'translateY(0)', opacity: 1 },
-            { transform: 'translateY(110vh)', opacity: 0 }
-        ], { duration: Math.random() * 1000 + 1000, easing: 'linear' }).onfinish = () => symbol.remove();
-    }
+    symbol.animate([
+        { transform: 'translateY(0)', opacity: 1 },
+        { transform: 'translateY(110vh)', opacity: 0 }
+    ], { 
+        // Было Math.random() * 1000 + 1000 (1-2 сек)
+        // Ставим от 3 до 5 секунд для плавного падения:
+        duration: Math.random() * 2000 + 2000, 
+        easing: 'linear' 
+    }).onfinish = () => symbol.remove();
+}
 
     function createCRT() {
         const crt = document.createElement('div');
