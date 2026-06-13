@@ -143,7 +143,13 @@
         @keyframes hack-shake { 0% { transform: translate(1px, 1px); } 100% { transform: translate(-1px, -1px); } }
         .hack-symbol { position: fixed; top: -50px; color: #00ff41; font-family: 'Courier New', monospace; font-weight: bold; pointer-events: none; z-index: 10001; text-shadow: 0 0 5px #00ff41; }
         .crt-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%); background-size: 100% 4px; pointer-events: none; z-index: 10002; opacity: 0; transition: opacity 0.3s; }
-        
+        /* Розовая неоновая сетка */
+        .grid-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; perspective: 500px; /* Глубина перспективы */ z-index: 9997; overflow: hidden; opacity: 0; transition: opacity 1s ease-in; pointer-events: none; background: radial-gradient(circle at 50% 50%, rgba(255, 0, 255, 0.1) 0%, transparent 80%); }
+        .grid-plane { position: absolute; width: 200%; height: 200%; top: -50%; left: -50%; background-image: linear-gradient(to right, rgba(255, 0, 255, 0.3) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 0, 255, 0.3) 1px, transparent 1px); background-size: 50px 50px; transform: rotateX(60deg); animation: grid-move 2s linear infinite; }
+        @keyframes grid-move { from { transform: rotateX(60deg) translateY(0); } to { transform: rotateX(60deg) translateY(50px); } }
+        /* Стили заголовка при хаке */ 
+        .hacker-text { color: #ff00ff !important; /* Розовый под сетку */ text-shadow: 0 0 5px #ff00ff, 0 0 20px #00ffff !important; font-family: 'Courier New', monospace !important; animation: hack-shake 0.1s infinite alternate; }
+
         /* НОВЫЙ ЧАТ */
         /* 1. ПЕРЕМЕННЫЕ И ОСНОВНОЙ КОНТЕЙНЕР */
         :root { --card-bg: #1a1a1a; --card-highlight: #2a2a2a; --card-shadow: #141414; --text-primary: #ffffff; --text-secondary: rgba(255, 255, 255, 0.7); --gold: #d4af37; --gold-glow: rgba(212, 175, 55, 0.4); --charging-color: #4ade80; --progress-bg: rgba(255, 255, 255, 0.1); }
@@ -854,25 +860,33 @@ document.querySelectorAll('.copy-target').forEach(item => {
         };
     }
 
-    function stopAllEffects() {
-        // Стоп звуки
-        const sMusic = document.getElementById('secret-music');
-        const hMusic = document.getElementById('kungfury-music');
-        if (sMusic) { sMusic.pause(); sMusic.currentTime = 0; }
-        if (hMusic) { hMusic.pause(); hMusic.currentTime = 0; }
+function stopAllEffects() {
+    // 1. Звук
+    const sMusic = document.getElementById('secret-music');
+    const hMusic = document.getElementById('kungfury-music');
+    if (sMusic) { sMusic.pause(); sMusic.currentTime = 0; }
+    if (hMusic) { hMusic.pause(); hMusic.currentTime = 0; }
 
-        // Стоп анимации
-        clearInterval(snowInterval);
-        clearInterval(hackInterval);
+    // 2. Интервалы
+    clearInterval(snowInterval);
+    clearInterval(hackInterval);
 
-        // Сброс визуалов
-        if (logo) {
-            logo.classList.remove('frozen-text', 'hacker-text');
-            if (logo.dataset.oldText) logo.innerText = logo.dataset.oldText;
+    // 3. Сброс заголовка
+    if (logo) {
+        logo.classList.remove('frozen-text', 'hacker-text');
+        if (logo.dataset.oldText) {
+            logo.innerText = logo.dataset.oldText;
+            delete logo.dataset.oldText;
         }
-        const crt = document.querySelector('.crt-overlay');
-        if (crt) crt.style.opacity = '0';
     }
+
+    // 4. Скрытие сетки и CRT
+    const grid = document.querySelector('.grid-container');
+    if (grid) grid.style.opacity = '0';
+    
+    const crt = document.querySelector('.crt-overlay');
+    if (crt) crt.style.opacity = '0';
+}
 
     function activateSnowProtocol() {
         stopAllEffects();
@@ -896,39 +910,52 @@ document.querySelectorAll('.copy-target').forEach(item => {
         } else { runSnow(); }
     }
 
-    function activateTimeHack() {
-        stopAllEffects();
-        const music = document.getElementById('kungfury-music');
-        let crt = document.querySelector('.crt-overlay') || createCRT();
+function activateTimeHack() {
+    stopAllEffects(); // Останавливаем снег
 
-        const runHack = () => {
-            if (music) {
-                music.currentTime = 0;
-                music.play().catch(e => {
-                    music.muted = true;
-                    music.play().then(() => { music.muted = false; });
-                });
-            }
-
-            crt.style.opacity = '1';
-            if (logo) {
-                logo.classList.add('hacker-text');
-                logo.dataset.oldText = logo.innerText; // Запоминаем оригинал
-                logo.innerText = "HACKING TIME...";
-            }
-
-            hackInterval = setInterval(createHackSymbol, 100);
-            if (window.Telegram?.WebApp?.HapticFeedback) {
-                window.Telegram.WebApp.HapticFeedback.notificationOccurred('warning');
-            }
-
-            if (music) music.onended = () => stopAllEffects();
-        };
-
-        if (window.Telegram?.WebApp) {
-            window.Telegram.WebApp.showConfirm("Hack the time, Hackerman?", (ok) => { if(ok) runHack(); });
-        } else { runHack(); }
+    const music = document.getElementById('kungfury-music');
+    // Создаем контейнер для сетки, если его нет
+    let gridContainer = document.querySelector('.grid-container');
+    if (!gridContainer) {
+        gridContainer = document.createElement('div');
+        gridContainer.className = 'grid-container';
+        gridContainer.innerHTML = '<div class="grid-plane"></div>';
+        document.body.appendChild(gridContainer);
     }
+
+    const runHack = () => {
+        if (music) {
+            music.currentTime = 0;
+            music.play().catch(() => {
+                music.muted = true;
+                music.play().then(() => music.muted = false);
+            });
+        }
+
+        // Плавное появление сетки
+        gridContainer.style.opacity = '1';
+        
+        if (logo) {
+            logo.classList.add('hacker-text');
+            logo.dataset.oldText = logo.innerText;
+            logo.innerText = "HACKING TIME...";
+        }
+
+        hackInterval = setInterval(createHackSymbol, 100);
+
+        if (window.Telegram?.WebApp?.HapticFeedback) {
+            window.Telegram.WebApp.HapticFeedback.notificationOccurred('warning');
+        }
+
+        if (music) music.onended = () => stopAllEffects();
+    };
+
+    if (window.Telegram?.WebApp) {
+        window.Telegram.WebApp.showConfirm("Hack the time, Hackerman?", (ok) => { if(ok) runHack(); });
+    } else {
+        runHack();
+    }
+}
 
     function createSnowflake() {
         const snowflake = document.createElement('div');
