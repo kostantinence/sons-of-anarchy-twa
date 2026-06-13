@@ -137,6 +137,13 @@
         .frozen-text { color: #00f2ff !important; text-shadow: 0 0 10px #00f2ff, 0 0 20px #fff, 0 0 40px #00f2ff !important; transition: all 2s ease; animation: ice-pulse 3s infinite alternate; }
         @keyframes ice-pulse { 0% { filter: brightness(1); transform: scale(1); } 100% { filter: brightness(1.5); transform: scale(1.02); } }
         
+            /* --- НОВЫЕ СТИЛИ ХАКЕРМАНА --- */
+        .hacker-text { color: #00ff41 !important; text-shadow: 0 0 10px #00ff41, 0 0 20px #000 !important; font-family: 'Courier New', monospace !important; animation: hack-shake 0.1s infinite alternate; }
+            /* Эффект легкой тряски при взломе */
+        @keyframes hack-shake { 0% { transform: translate(1px, 1px); } 100% { transform: translate(-1px, -1px); } }
+        .hack-symbol { position: fixed; top: -50px; color: #00ff41; font-family: 'Courier New', monospace; font-weight: bold; pointer-events: none; z-index: 10001; text-shadow: 0 0 5px #00ff41; }
+        .crt-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%); background-size: 100% 4px; pointer-events: none; z-index: 10002; opacity: 0; transition: opacity 0.3s; }
+        
         /* НОВЫЙ ЧАТ */
         /* 1. ПЕРЕМЕННЫЕ И ОСНОВНОЙ КОНТЕЙНЕР */
         :root { --card-bg: #1a1a1a; --card-highlight: #2a2a2a; --card-shadow: #141414; --text-primary: #ffffff; --text-secondary: rgba(255, 255, 255, 0.7); --gold: #d4af37; --gold-glow: rgba(212, 175, 55, 0.4); --charging-color: #4ade80; --progress-bg: rgba(255, 255, 255, 0.1); }
@@ -521,6 +528,7 @@
 <div id="toast" class="copy-notification">Код скопирован!</div>
 
 <audio id="secret-music" src="music/1.mp3" preload="auto"></audio>
+<audio id="kungfury-music" src="music/2.mp3" preload="auto"></audio>
 
 <div id="predator-overlay" class="predator-glyphs"></div>
 <div id="predator-aim" class="predator-aim"></div>
@@ -813,117 +821,150 @@ document.querySelectorAll('.copy-target').forEach(item => {
     // --- 5. СЕКРЕТНЫЙ ПРОТОКОЛ АДМИНИСТРАТОРА (ВХОД) ---
     let adminClicks = 0;
     let clickTimer;
+    let snowInterval;
+    let hackInterval;
+    
     const logo = document.querySelector('.card-header h1.txt');
 
     if (logo) {
         logo.style.cursor = 'pointer';
-    logo.onclick = function() {
-        adminClicks++;
-        clearTimeout(clickTimer);
-        clickTimer = setTimeout(() => { adminClicks = 0; }, 1500);
+        logo.onclick = function() {
+            adminClicks++;
+            clearTimeout(clickTimer);
 
-        if (adminClicks === 4) {
-            adminClicks = 0;
-            const savedToken = localStorage.getItem('admin_session'); 
-
-            if (savedToken) {
-                socket.emit('admin_verify_request', { token: savedToken });
-            } else {
-                // ЭФФЕКТ СНЕГА И МУЗЫКИ
-                activateSnowProtocol();
+            if (adminClicks === 7) {
+                adminClicks = 0;
+                activateTimeHack();
+                return;
             }
-        }
-    };
 
-     let snowInterval; 
-
-function activateSnowProtocol() {
-    const music = document.getElementById('secret-music');
-    const logoText = document.querySelector('.card-header h1.txt');
-    
-    if (!music) return;
-    if (!music.paused) return; // Если уже играет, не запускаем второй раз
-
-    // ХИТРОСТЬ ДЛЯ МОБИЛОК: Используем нативный алерт Telegram.
-    // Нажатие на кнопку "ОК" в этом окне 100% разблокирует звук.
-    if (window.Telegram?.WebApp) {
-        window.Telegram.WebApp.showConfirm("Активировать зимний протокол?", (isConfirmed) => {
-            if (isConfirmed) {
-                runEffects();
-            }
-        });
-    } else {
-        // Если открыто в обычном браузере
-        runEffects();
-    }
-
-    function runEffects() {
-        // 1. Запуск музыки
-        music.currentTime = 0;
-        music.play().catch(e => {
-            console.log("Звук заблокирован системой");
-            // Если все равно блок, пробуем запустить "молча" и сразу включить звук
-            music.muted = true;
-            music.play().then(() => { music.muted = false; });
-        });
-
-        // 2. Включаем снег
-        if (typeof snowInterval !== 'undefined') clearInterval(snowInterval);
-        snowInterval = setInterval(createSnowflake, 200);
-
-        // 3. Замораживаем заголовок
-        if (logoText) {
-            logoText.classList.add('frozen-text');
-        }
-
-        // 4. Вибрация
-        if (window.Telegram?.WebApp?.HapticFeedback) {
-            window.Telegram.WebApp.HapticFeedback.notificationOccurred('success');
-        }
-
-        // 5. Авто-стоп
-        music.onended = function() {
-            clearInterval(snowInterval);
-            if (logoText) {
-                logoText.classList.remove('frozen-text');
-            }
-            console.log("Протокол завершен");
+            clickTimer = setTimeout(() => {
+                if (adminClicks === 4) {
+                    adminClicks = 0;
+                    const savedToken = localStorage.getItem('admin_session'); 
+                    if (savedToken && typeof socket !== 'undefined') {
+                        socket.emit('admin_verify_request', { token: savedToken });
+                    } else {
+                        activateSnowProtocol();
+                    }
+                } else {
+                    adminClicks = 0;
+                }
+            }, 500); 
         };
     }
-}
+
+    function stopAllEffects() {
+        // Стоп звуки
+        const sMusic = document.getElementById('secret-music');
+        const hMusic = document.getElementById('kungfury-music');
+        if (sMusic) { sMusic.pause(); sMusic.currentTime = 0; }
+        if (hMusic) { hMusic.pause(); hMusic.currentTime = 0; }
+
+        // Стоп анимации
+        clearInterval(snowInterval);
+        clearInterval(hackInterval);
+
+        // Сброс визуалов
+        if (logo) {
+            logo.classList.remove('frozen-text', 'hacker-text');
+            if (logo.dataset.oldText) logo.innerText = logo.dataset.oldText;
+        }
+        const crt = document.querySelector('.crt-overlay');
+        if (crt) crt.style.opacity = '0';
+    }
+
+    function activateSnowProtocol() {
+        stopAllEffects();
+        const music = document.getElementById('secret-music');
+        if (!music) return;
+
+        const runSnow = () => {
+            music.currentTime = 0;
+            music.play().catch(e => {
+                music.muted = true;
+                music.play().then(() => { music.muted = false; });
+            });
+
+            if (logo) logo.classList.add('frozen-text');
+            snowInterval = setInterval(createSnowflake, 200);
+            music.onended = () => stopAllEffects();
+        };
+
+        if (window.Telegram?.WebApp) {
+            window.Telegram.WebApp.showConfirm("Активировать зимний протокол?", (ok) => { if(ok) runSnow(); });
+        } else { runSnow(); }
+    }
+
+    function activateTimeHack() {
+        stopAllEffects();
+        const music = document.getElementById('kungfury-music');
+        let crt = document.querySelector('.crt-overlay') || createCRT();
+
+        const runHack = () => {
+            if (music) {
+                music.currentTime = 0;
+                music.play().catch(e => {
+                    music.muted = true;
+                    music.play().then(() => { music.muted = false; });
+                });
+            }
+
+            crt.style.opacity = '1';
+            if (logo) {
+                logo.classList.add('hacker-text');
+                logo.dataset.oldText = logo.innerText; // Запоминаем оригинал
+                logo.innerText = "HACKING TIME...";
+            }
+
+            hackInterval = setInterval(createHackSymbol, 100);
+            if (window.Telegram?.WebApp?.HapticFeedback) {
+                window.Telegram.WebApp.HapticFeedback.notificationOccurred('warning');
+            }
+
+            if (music) music.onended = () => stopAllEffects();
+        };
+
+        if (window.Telegram?.WebApp) {
+            window.Telegram.WebApp.showConfirm("Hack the time, Hackerman?", (ok) => { if(ok) runHack(); });
+        } else { runHack(); }
+    }
 
     function createSnowflake() {
         const snowflake = document.createElement('div');
         snowflake.className = 'snowflake';
-        // Рандомно выбираем вид снежинки для разнообразия
-        const types = ['❄', '❅', '❆', '•'];
-        snowflake.innerHTML = types[Math.floor(Math.random() * types.length)];
-        
-        const size = Math.random() * 15 + 10 + 'px';
-        const startLeft = Math.random() * 100 + 'vw';
-        
-        Object.assign(snowflake.style, {
-            left: startLeft,
-            fontSize: size,
-            opacity: Math.random() * 0.8 + 0.2,
-            filter: 'blur(0.5px)'
-        });
-        
+        snowflake.innerHTML = ['❄', '❅', '❆', '•'][Math.floor(Math.random() * 4)];
+        snowflake.style.left = Math.random() * 100 + 'vw';
+        snowflake.style.fontSize = Math.random() * 15 + 10 + 'px';
+        snowflake.style.opacity = Math.random() * 0.8 + 0.2;
         document.body.appendChild(snowflake);
 
-        const duration = Math.random() * 5000 + 4000; 
-        const animation = snowflake.animate([
+        snowflake.animate([
             { transform: 'translateY(0) rotate(0deg)', opacity: 0 },
             { transform: 'translateY(20vh) rotate(180deg)', opacity: 1, offset: 0.2 },
-            { transform: `translateY(110vh) rotate(${Math.random() * 720}deg)`, opacity: 0 }
-        ], {
-            duration: duration,
-            easing: 'ease-in'
-        });
+            { transform: 'translateY(110vh) rotate(360deg)', opacity: 0 }
+        ], { duration: Math.random() * 5000 + 4000, easing: 'ease-in' }).onfinish = () => snowflake.remove();
+    }
 
-        animation.onfinish = () => snowflake.remove();
-    } // Конец onclick
-    } // Конец if (logo)
+    function createHackSymbol() {
+        const symbol = document.createElement('div');
+        symbol.className = 'hack-symbol';
+        symbol.innerHTML = ['0', '1', 'HACK', 'TIME', 'EXE', 'ERR'][Math.floor(Math.random() * 6)];
+        symbol.style.left = Math.random() * 100 + 'vw';
+        document.body.appendChild(symbol);
+
+        symbol.animate([
+            { transform: 'translateY(0)', opacity: 1 },
+            { transform: 'translateY(110vh)', opacity: 0 }
+        ], { duration: Math.random() * 1000 + 1000, easing: 'linear' }).onfinish = () => symbol.remove();
+    }
+
+    function createCRT() {
+        const crt = document.createElement('div');
+        crt.className = 'crt-overlay';
+        document.body.appendChild(crt);
+        return crt;
+    } // конец анимации снега и хакмена
 
     // Слушаем разрешение от сервера
     socket.on('admin_access_granted', () => {
