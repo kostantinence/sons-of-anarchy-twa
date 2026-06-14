@@ -888,60 +888,60 @@ function stopAllEffects() {
     if (crt) crt.style.opacity = '0';
 }
 
-    function activateSnowProtocol() {
-        stopAllEffects();
-        const music = document.getElementById('secret-music');
-        if (!music) return;
+// --- УНИВЕРСАЛЬНЫЙ ЗИМНИЙ ПРОТОКОЛ ---
+function activateSnowProtocol() {
+    stopAllEffects();
+    const music = document.getElementById('secret-music');
+    if (!music) return;
 
-        const runSnow = () => {
+    const startAction = () => {
+        // "Пинок" для аудио: сначала мутим, играем, потом включаем звук
+        music.muted = true;
+        music.play().then(() => {
+            music.muted = false;
             music.currentTime = 0;
-            music.play().catch(e => {
-                music.muted = true;
-                music.play().then(() => { music.muted = false; });
-            });
+        });
 
-            if (logo) logo.classList.add('frozen-text');
-            snowInterval = setInterval(createSnowflake, 200);
-            music.onended = () => stopAllEffects();
-        };
+        if (logo) logo.classList.add('frozen-text');
+        snowInterval = setInterval(createSnowflake, 200);
+        music.onended = () => stopAllEffects();
+    };
 
-        if (window.Telegram?.WebApp) {
-            window.Telegram.WebApp.showConfirm("Активировать зимний протокол?", (ok) => { if(ok) runSnow(); });
-        } else { runSnow(); }
+    // Проверка: мы в Telegram или в обычном браузере?
+    if (window.Telegram?.WebApp?.showConfirm) {
+        window.Telegram.WebApp.showConfirm("Активировать зимний протокол?", (ok) => { if(ok) startAction(); });
+    } else {
+        if (confirm("Активировать зимний протокол?")) startAction();
     }
+}
 
+// --- УНИВЕРСАЛЬНЫЙ ВЗЛОМ ВРЕМЕНИ ---
 function activateTimeHack() {
-    stopAllEffects(); // Останавливаем снег
-
+    stopAllEffects();
     const music = document.getElementById('kungfury-music');
-    // Создаем контейнер для сетки, если его нет
-    let gridContainer = document.querySelector('.grid-container');
-    if (!gridContainer) {
-        gridContainer = document.createElement('div');
-        gridContainer.className = 'grid-container';
-        gridContainer.innerHTML = '<div class="grid-plane"></div>';
-        document.body.appendChild(gridContainer);
-    }
+    let crt = document.querySelector('.crt-overlay') || createCRT();
+    let grid = document.querySelector('.grid-container') || createGrid();
 
-    const runHack = () => {
+    const startAction = () => {
         if (music) {
-            music.currentTime = 0;
-            music.play().catch(() => {
-                music.muted = true;
-                music.play().then(() => music.muted = false);
+            // Трюк с разблокировкой звука
+            music.muted = true;
+            music.play().then(() => {
+                music.muted = false;
+                music.currentTime = 0;
             });
         }
 
-        // Плавное появление сетки
-        gridContainer.style.opacity = '1';
+        grid.style.opacity = '1';
+        crt.style.opacity = '1';
         
         if (logo) {
             logo.classList.add('hacker-text');
             logo.dataset.oldText = logo.innerText;
-            logo.innerText = "ВЗЛОМ ВРЕМЕНИ...";
+            logo.innerText = "HACKING TIME...";
         }
 
-        hackInterval = setInterval(createHackSymbol, 400);
+        hackInterval = setInterval(createHackSymbol, 400); // Ваш любимый тайминг
 
         if (window.Telegram?.WebApp?.HapticFeedback) {
             window.Telegram.WebApp.HapticFeedback.notificationOccurred('warning');
@@ -950,11 +950,20 @@ function activateTimeHack() {
         if (music) music.onended = () => stopAllEffects();
     };
 
-    if (window.Telegram?.WebApp) {
-        window.Telegram.WebApp.showConfirm("Взломать время?", (ok) => { if(ok) runHack(); });
+    if (window.Telegram?.WebApp?.showConfirm) {
+        window.Telegram.WebApp.showConfirm("Активировать взлом времени?", (ok) => { if(ok) startAction(); });
     } else {
-        runHack();
+        if (confirm("Активировать взлом времени?")) startAction();
     }
+}
+
+// Доп. функция для создания сетки, если её нет при запуске в браузере
+function createGrid() {
+    const gridContainer = document.createElement('div');
+    gridContainer.className = 'grid-container';
+    gridContainer.innerHTML = '<div class="grid-plane"></div>';
+    document.body.appendChild(gridContainer);
+    return gridContainer;
 }
 
     function createSnowflake() {
