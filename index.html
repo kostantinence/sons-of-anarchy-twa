@@ -149,6 +149,10 @@
         @keyframes grid-move { from { transform: rotateX(60deg) translateY(0); } to { transform: rotateX(60deg) translateY(50px); } }
         /* Стили заголовка при хаке */ 
         .hacker-text { color: #ff00ff !important; /* Розовый под сетку */ text-shadow: 0 0 5px #ff00ff, 0 0 20px #00ffff !important; font-family: 'Courier New', monospace !important; animation: hack-shake 0.1s infinite alternate; }
+        /* Эффект временного разлома */
+        .time-glitch { position: fixed; color: #ff00ff; /* Неоновый розовый */ font-family: 'Courier New', monospace; font-weight: bold; pointer-events: none; z-index: 9999; text-shadow: 2px 2px #00ffff; text-transform: uppercase; filter: blur(0.5px); }
+        /* Линия помех (VHS scanline) */
+        .vhs-line { position: fixed; left: 0; width: 100%; height: 2px; background: rgba(0, 255, 65, 0.5); box-shadow: 0 0 10px #00ff41; z-index: 10003; pointer-events: none; }
 
         /* НОВЫЙ ЧАТ */
         /* 1. ПЕРЕМЕННЫЕ И ОСНОВНОЙ КОНТЕЙНЕР */
@@ -941,7 +945,7 @@ function activateTimeHack() {
             logo.innerText = "HACKING TIME...";
         }
 
-        hackInterval = setInterval(createHackSymbol, 400); // Ваш любимый тайминг
+        hackInterval = setInterval(createTimeDistortion, 300); // Ваш любимый тайминг
 
         if (window.Telegram?.WebApp?.HapticFeedback) {
             window.Telegram.WebApp.HapticFeedback.notificationOccurred('warning');
@@ -982,25 +986,41 @@ function createGrid() {
         ], { duration: Math.random() * 5000 + 4000, easing: 'ease-in' }).onfinish = () => snowflake.remove();
     }
 
-function createHackSymbol() {
-    const symbol = document.createElement('div');
-    symbol.className = 'hack-symbol';
-    // Можно оставить зелеными или сделать розовыми под сетку:
-    symbol.style.color = "#00ff41"; 
-    
-    symbol.innerHTML = ['0', '1', 'Relictum', 'TIME', 'EXE', 'ERR'][Math.floor(Math.random() * 6)];
-    symbol.style.left = Math.random() * 100 + 'vw';
-    document.body.appendChild(symbol);
+function createTimeDistortion() {
+    const chance = Math.random();
 
-    symbol.animate([
-        { transform: 'translateY(0)', opacity: 1 },
-        { transform: 'translateY(110vh)', opacity: 0 }
-    ], { 
-        // Было Math.random() * 1000 + 1000 (1-2 сек)
-        // Ставим от 3 до 5 секунд для плавного падения:
-        duration: Math.random() * 4000 + 4000, 
-        easing: 'linear' 
-    }).onfinish = () => symbol.remove();
+    if (chance > 0.7) {
+        // Эффект 1: Вспыхивающий текст (фантом)
+        const glitch = document.createElement('div');
+        glitch.className = 'time-glitch';
+        const words = ['1985', 'HACK', 'SCANNING...', 'DANGER', 'SYSTEM FAILURE', 'TIME ERROR'];
+        glitch.innerText = words[Math.floor(Math.random() * words.length)];
+        
+        glitch.style.left = Math.random() * 80 + 10 + 'vw';
+        glitch.style.top = Math.random() * 80 + 10 + 'vh';
+        glitch.style.fontSize = Math.random() * 40 + 20 + 'px';
+        
+        document.body.appendChild(glitch);
+
+        glitch.animate([
+            { transform: 'scale(0.5) skew(20deg)', opacity: 0 },
+            { transform: 'scale(1.2) skew(-20deg)', opacity: 1, offset: 0.5 },
+            { transform: 'scale(1.5) skew(0)', opacity: 0 }
+        ], { duration: 600, easing: 'ease-out' }).onfinish = () => glitch.remove();
+
+    } else if (chance > 0.4) {
+        // Эффект 2: Горизонтальная линия помех
+        const line = document.createElement('div');
+        line.className = 'vhs-line';
+        line.style.top = Math.random() * 100 + 'vh';
+        document.body.appendChild(line);
+
+        line.animate([
+            { opacity: 0, transform: 'scaleY(1)' },
+            { opacity: 1, transform: 'scaleY(3)', offset: 0.5 },
+            { opacity: 0, transform: 'scaleY(1)' }
+        ], { duration: 200 }).onfinish = () => line.remove();
+    }
 }
 
     function createCRT() {
