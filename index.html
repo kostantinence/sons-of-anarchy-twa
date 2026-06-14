@@ -153,6 +153,8 @@
         .time-glitch { position: fixed; color: #ff00ff; /* Неоновый розовый */ font-family: 'Courier New', monospace; font-weight: bold; pointer-events: none; z-index: 9999; text-shadow: 2px 2px #00ffff; text-transform: uppercase; filter: blur(0.5px); }
         /* Линия помех (VHS scanline) */
         .vhs-line { position: fixed; left: 0; width: 100%; height: 2px; background: rgba(0, 255, 65, 0.5); box-shadow: 0 0 10px #00ff41; z-index: 10003; pointer-events: none; }
+        /* Системные логи взлома */
+        .data-node { position: fixed; color: #00ff41; font-family: 'Courier New', monospace; font-size: 14px; font-weight: bold; pointer-events: none; z-index: 10005; text-shadow: 0 0 5px #00ff41; background: rgba(0, 0, 0, 0.3); /* Легкая подложка для читаемости */ padding: 2px 5px; border-left: 2px solid #00ff41; }
 
         /* НОВЫЙ ЧАТ */
         /* 1. ПЕРЕМЕННЫЕ И ОСНОВНОЙ КОНТЕЙНЕР */
@@ -989,37 +991,59 @@ function createGrid() {
 function createTimeDistortion() {
     const chance = Math.random();
 
-    if (chance > 0.7) {
-        // Эффект 1: Вспыхивающий текст (фантом)
-        const glitch = document.createElement('div');
-        glitch.className = 'time-glitch';
-        const words = ['1985', 'HACK', 'SCANNING...', 'DANGER', 'SYSTEM FAILURE', 'TIME ERROR'];
-        glitch.innerText = words[Math.floor(Math.random() * words.length)];
+    // 1. СЛОЖНЫЕ ВЫЧИСЛЕНИЯ (Шанс 60% — чтобы экран жил)
+    if (chance > 0.4) {
+        const node = document.createElement('div');
+        node.className = 'data-node';
         
-        glitch.style.left = Math.random() * 80 + 10 + 'vw';
-        glitch.style.top = Math.random() * 80 + 10 + 'vh';
-        glitch.style.fontSize = Math.random() * 40 + 20 + 'px';
+        // Массив разных типов данных
+        const hex = Math.random().toString(16).toUpperCase().substring(2, 8);
+        const lat = (Math.random() * 180 - 90).toFixed(4);
+        const lon = (Math.random() * 360 - 180).toFixed(4);
         
-        document.body.appendChild(glitch);
+        const logs = [
+            `RUN sys_hack.exe --0x${hex}`,
+            `TIME_OFFSET: ${ (Math.random() * -40).toFixed(1) } YEARS`,
+            `SYNC_GPS: ${lat}, ${lon}`,
+            `BUFFER_OVERFLOW: AT 0x${hex}`,
+            `CPU_LOAD: ${Math.floor(Math.random() * 40 + 60)}%`,
+            `SEARCHING FOR 1985...`,
+            `IP_TRACKING: 127.0.0.1`,
+            `VB_INTERFACE_LOADED`
+        ];
+        
+        node.innerText = logs[Math.floor(Math.random() * logs.length)];
+        
+        // Позиция: стараемся распределять по всему экрану
+        node.style.left = Math.random() * 80 + 5 + 'vw';
+        node.style.top = Math.random() * 90 + 5 + 'vh';
 
-        glitch.animate([
-            { transform: 'scale(0.5) skew(20deg)', opacity: 0 },
-            { transform: 'scale(1.2) skew(-20deg)', opacity: 1, offset: 0.5 },
-            { transform: 'scale(1.5) skew(0)', opacity: 0 }
-        ], { duration: 600, easing: 'ease-out' }).onfinish = () => glitch.remove();
+        document.body.appendChild(node);
 
-    } else if (chance > 0.4) {
-        // Эффект 2: Горизонтальная линия помех
+        // Анимация появления (быстрое мерцание и исчезновение)
+        node.animate([
+            { opacity: 0, transform: 'scale(0.9)' },
+            { opacity: 1, transform: 'scale(1)', offset: 0.1 },
+            { opacity: 1, offset: 0.8 },
+            { opacity: 0, transform: 'scale(1.1)' }
+        ], { 
+            duration: 1200, 
+            easing: 'ease-out' 
+        }).onfinish = () => node.remove();
+
+    } 
+    // 2. ПОЛОСЫ VHS (Шанс 30%)
+    else if (chance > 0.1) {
         const line = document.createElement('div');
         line.className = 'vhs-line';
         line.style.top = Math.random() * 100 + 'vh';
         document.body.appendChild(line);
-
+        
         line.animate([
-            { opacity: 0, transform: 'scaleY(1)' },
-            { opacity: 1, transform: 'scaleY(3)', offset: 0.5 },
-            { opacity: 0, transform: 'scaleY(1)' }
-        ], { duration: 200 }).onfinish = () => line.remove();
+            { opacity: 0, transform: 'translateX(-100%)' },
+            { opacity: 1, transform: 'translateX(0)', offset: 0.5 },
+            { opacity: 0, transform: 'translateX(100%)' }
+        ], { duration: 250 }).onfinish = () => line.remove();
     }
 }
 
