@@ -36,8 +36,8 @@
         .expandable-box.is-expanded { max-height: 2000px !important; }
 
         /* Смена двух дневных ивентов */
-        .active-event { background-image: linear-gradient(to right, #4facfe 0%, #00f2fe 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; font-weight: bold; font-size: 1.1em; /* Можно чуть увеличить для акцента */ text-shadow: 0 0 10px rgba(79, 172, 254, 0.5); /* Мягкое свечение текста */ }
-
+        .active-event { background-image: linear-gradient(to right, #4facfe 0%, #00f2fe 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; font-weight: bold; text-shadow: 0 0 10px rgba(79, 172, 254, 0.5); }
+        
         /* Карточки кнопок */
         .temple-row { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; width: 100%; }
         .temple-row .expandable-box { flex: 1; min-width: 280px; max-width: 360px; margin: 0; cursor: pointer; }
@@ -609,7 +609,7 @@ setInterval(updateBackground, 900000); // Проверка каждые 15 ми�
     // 1. Дата старта цикла (Год, Месяц-1, Число)
     // ВАЖНО: В JS месяцы начинаются с 0 (0 - январь, 5 - июнь)
     // Поставьте сюда дату, когда начался ПЕРВЫЙ ивент из вашего списка
-    const startDate = new Date(2026, 6, 15); // 17 июня 2024
+    const startDate = new Date(2026, 5, 15); // 17 июня 2024
     
     const now = new Date();
     
