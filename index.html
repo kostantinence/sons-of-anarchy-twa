@@ -19,7 +19,8 @@
         
         /* 2. ФОНОВЫЕ СЛОИ */
         canvas { position: fixed; top: 0; left: 0; z-index: 1; pointer-events: none; }
-        .bg-photo { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: url('bg.webp') no-repeat center center; background-size: cover; opacity: 0.4; z-index: 2; pointer-events: none; }
+        /* .bg-photo { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: url('bg.webp') no-repeat center center; background-size: cover; opacity: 0.4; z-index: 2; pointer-events: none; } */
+        .bg-photo { position: fixed; top: 0; left: 0; width: 100%; height: 100%; /* background: url(...) — УДАЛЯЕМ ОТСЮДА */ background-repeat: no-repeat; background-position: center center; background-size: cover; opacity: 0.4; z-index: 2; pointer-events: none; /* ЭТА СТРОКА ОТВЕЧАЕТ ЗА ПЛАВНОСТЬ (1 секунда) */ transition: background-image 1.0s ease-in-out; }
 
         /* 3. СЕТКА GRID И КОЛОННЫ */
         .ui { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; padding: 20px; align-items: start; width: 100%; box-sizing: border-box; position: relative; justify-content: center; z-index: 10; }
@@ -583,6 +584,31 @@
     draw();
 </script> -->
     
+   <!-- Смена фона -->
+<script>
+function updateBackground() {
+    const hour = new Date().getHours();
+    const bgLayer = document.querySelector('.bg-photo');
+    
+    // Пути к вашим картинкам
+    const dayImg = "url('day-bg.webp')";
+    const nightImg = "url('night-bg.webp')";
+    
+    // Смена в 8:00 и 20:00
+    if (hour >= 8 && hour < 20) {
+        bgLayer.style.backgroundImage = dayImg;
+    } else {
+        bgLayer.style.backgroundImage = nightImg;
+    }
+}
+
+// Запуск при загрузке
+updateBackground();
+
+// Проверка каждые 15 минут (чтобы фон сменился, если вкладка открыта долго)
+setInterval(updateBackground, 1000 * 60 * 15);
+</script>
+
 <script>
 // Находим только раздвижные блоки
 const boxes = document.querySelectorAll('.expandable-box');
