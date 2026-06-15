@@ -35,6 +35,9 @@
         .expandable-box:not(.is-expanded) { max-height: 60px !important; }
         .expandable-box.is-expanded { max-height: 2000px !important; }
 
+        /* Смена двух дневных ивентов */
+        .active-event { background-image: linear-gradient(to right, #4facfe 0%, #00f2fe 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; font-weight: bold; font-size: 1.1em; /* Можно чуть увеличить для акцента */ text-shadow: 0 0 10px rgba(79, 172, 254, 0.5); /* Мягкое свечение текста */ }
+
         /* Карточки кнопок */
         .temple-row { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; width: 100%; }
         .temple-row .expandable-box { flex: 1; min-width: 280px; max-width: 360px; margin: 0; cursor: pointer; }
@@ -292,30 +295,23 @@
      <!-- <div class="temple-row" style="grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; width: 100%;"> -->
 <div class="temple-row" style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; width: 100%;">
          <!-- 1. СТАЦИОНАРНАЯ КАРТОЧКА -->
-    <div class="static-box">
+    <div class="static-box" id="events-list">
         <h2>Порядок двух дневных ивентов</h2>
-        <p>1. Резонанс Рун (любые руны)</p>
-        <p>2. Святилище Пяти Духов [сила союза](камни развития фракций)</p>
-        <p>2а. Прокачка славы , скин лорда и поля </p>
-        <p>3. ♻️ Исследования (философские камни и репутация лорда) ♻️ (сброс книги магии)</p>
-        <p>4. Откровение Элайджи (резонитовые кристалы, камни очистки эллари, священные камни для развития солдат в эллари)</p>
-        <p>5. Пробуждение героической души (пыль, слитки кристаллов - развитие героев)</p>
-        <p>6. Экспедиция Союза (получить вклад союза)</p>
-        <p>7. ⚠️Усиление Зверей (итемы развития зверей)</p>
-        <p>7.1 ✔️ Второй день тоже на итемы развития зверей</p>
-        <p>8. Модификация Снаряжения (трата камней и итемов для прокачки и ковки снаряжения лорда)</p>
-        <p style="
-    background-image: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    ">9. Перековка Талантов</p>
-        <p>10. Фантомная Богиня (Трата предмета прокачки девушек)</p>
-        <p>11. Экспедиция Хаоса (опыт хаоса и итемы на прокачку навыков хаоса)</p>
-        <p>12. ⚠️ Боевой Колосс (итемы развития машин) ждем второй день</p>           
-        <p>12.1 ✔️ Второй день тоже на (итемы боевых машин)</p>
-        <p>13. Улучшение Облика (итемы развития скинов замка, похода, области, лорда)</p>
-        <p>14. Кузница Сокровищ (все для развития сокровищ)</p>
+        <p class="event-item">1. Резонанс Рун (любые руны)</p>
+        <p class="event-item">2. Святилище Пяти Духов [сила союза](камни развития фракций)</p>
+        <p class="event-item">3. Прокачка славы , скин лорда и поля </p>
+        <p class="event-item">4. ♻️ Исследования (философские камни и репутация лорда) ♻️ (сброс книги магии)</p>
+        <p class="event-item">5. Откровение Элайджи (резонитовые кристалы, камни очистки эллари, священные камни для развития солдат в эллари)</p>
+        <p class="event-item">6. Пробуждение героической души (пыль, слитки кристаллов - развитие героев)</p>
+        <p class="event-item">7. Экспедиция Союза (получить вклад союза)</p>
+        <p class="event-item">8. ⚠️Усиление Зверей (итемы развития зверей) ✔️ Второй день тоже на итемы развития зверей</p>
+        <p class="event-item">9. Модификация Снаряжения (трата камней и итемов для прокачки и ковки снаряжения лорда)</p>
+        <p class="event-item">10. Перековка Талантов</p>
+        <p class="event-item">11. Фантомная Богиня (Трата предмета прокачки девушек)</p>
+        <p class="event-item">12. Экспедиция Хаоса (опыт хаоса и итемы на прокачку навыков хаоса)</p>
+        <p class="event-item">13. ⚠️ Боевой Колосс (итемы развития машин) ждем второй день ✔️ Второй день тоже на (итемы боевых машин)</p>           
+        <p class="event-item">14. Улучшение Облика (итемы развития скинов замка, похода, области, лорда)</p>
+        <p class="event-item">15. Кузница Сокровищ (все для развития сокровищ)</p>
     
     </div>
 </div>
@@ -593,7 +589,7 @@ function updateBackground() {
     const dayImg = "url('day-bg.webp')";
     const nightImg = "url('night-bg.webp')";
     
-    if (hour >= 10 && hour < 22) {
+    if (hour >= 8 && hour < 20) {
         // ДНЕВНОЙ РЕЖИМ
         bgLayer.style.backgroundImage = dayImg;
         bgLayer.style.opacity = "0.6"; // Днем делаем фон поярче
@@ -606,6 +602,42 @@ function updateBackground() {
 
 updateBackground();
 setInterval(updateBackground, 900000); // Проверка каждые 15 минут
+</script>
+
+<script>
+    function updateEventHighlight() {
+    // 1. Дата старта цикла (Год, Месяц-1, Число)
+    // ВАЖНО: В JS месяцы начинаются с 0 (0 - январь, 5 - июнь)
+    // Поставьте сюда дату, когда начался ПЕРВЫЙ ивент из вашего списка
+    const startDate = new Date(2026, 6, 15); // 17 июня 2024
+    
+    const now = new Date();
+    
+    // Считаем разницу в миллисекундах и переводим в дни
+    const diffTime = now - startDate;
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    
+    // Получаем все элементы списка
+    const eventItems = document.querySelectorAll('.event-item');
+    
+    // Если дата старта в будущем, diffDays будет отрицательным — выходим
+    if (diffDays < 0) return;
+
+    // Вычисляем индекс: делим дни на 2, и берем остаток от количества ивентов
+    // Math.floor(diffDays / 2) меняет индекс каждые 48 часов
+    const eventIndex = Math.floor(diffDays / 2) % eventItems.length;
+    
+    // Убираем подсветку у всех и ставим текущему
+    eventItems.forEach((item, index) => {
+        item.classList.remove('active-event');
+        if (index === eventIndex) {
+            item.classList.add('active-event');
+        }
+    });
+}
+
+// Запускаем при открытии страницы
+updateEventHighlight();
 </script>
 
 <script>
