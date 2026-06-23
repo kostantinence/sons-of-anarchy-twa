@@ -759,16 +759,19 @@ document.querySelectorAll('.copy-target').forEach(item => {
     });
 
     // 2. ОТПРАВКА
-    function sendMessage() {
+function sendMessage() {
     const text = chatInput.value.trim();
     const userName = nameInput.value.trim() || "Guest";
+    
+    const telegramId = (typeof tg !== 'undefined' && tg?.initDataUnsafe?.user?.id) || null;
 
     if (text) {
         localStorage.setItem('soa_chat_name', userName);
         socket.emit('client_message', {
             user: userName,
             text: text,
-            timestamp: new Date().getTime() // Добавляем точное время отправки
+            tg_id: telegramId,
+            timestamp: new Date().getTime()
         });
         chatInput.value = '';
         chatInput.focus();
