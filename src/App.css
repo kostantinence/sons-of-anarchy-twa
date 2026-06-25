@@ -243,10 +243,11 @@
         @import "tailwindcss";
 
 @theme {
-  --color-soa-yellow: #ffd11a;
+  /* --color-soa-yellow: #ffd11a; */
   --color-soa-gold: #d4af37;
   --color-soa-success: #37d439;
   --shadow-gold-glow: 0 0 15px rgba(212, 175, 55, 0.4);
+  --color-soa-yellow: #1affe9;
   
   /* Регистрируем кастомную анимацию глитча */
   --animate-glitch-active: glitch-bounce 0.3s linear;

@@ -338,7 +338,7 @@ export default function CyberVideoArchive() {
 
   return (
     <div className="static-box w-full !p-2.5 flex flex-col gap-3">
-      {/* Стили для бегущей строки */}
+      {/* Стили для бегущей строки и анимаций */}
       <style>{`
         @keyframes soaMarquee {
           0% { transform: translate3d(0, 0, 0); }
@@ -350,10 +350,10 @@ export default function CyberVideoArchive() {
       `}</style>
 
       <h2 className="text-base text-soa-gold border-b border-soa-gold/20 pb-1 font-serif uppercase tracking-wider">
-        🎬 ВИДЕОПРОТОКОЛ v3.0
+        🎬 ВИДЕОПРОТОКОЛ v4.0
       </h2>
 
-      {/* ЭКРАН ПЛЕЕРА */}
+      {/* ЭКРАН ПЛЕЕРА (ТЕПЕРЬ ПОЛНОСТЬЮ СВОБОДЕН ОТ КНОПОК) */}
       <div className="relative w-full aspect-video bg-black rounded overflow-hidden group" ref={containerRef}>
         <video
           ref={videoRef}
@@ -366,112 +366,180 @@ export default function CyberVideoArchive() {
           className="w-full h-full object-contain cursor-pointer"
         />
 
-        {/* ПАНЕЛЬ УПРАВЛЕНИЯ ВНУТРИ ПЛЕЕРА */}
-        <div className="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/95 via-black/70 to-transparent flex flex-col gap-2.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          
-          {/* Градиентный таймлайн (Плавная смена цвета от золотого к зеленому) */}
-          <div onClick={handleProgressClick} className="w-full h-1 bg-white/20 rounded-full cursor-pointer">
-            <div 
-              className="h-full shadow-[0_0_8px_rgba(55,212,57,0.6)] transition-all duration-100 rounded-full" 
-              style={{ 
-                width: `${progress}%`,
-                background: `linear-gradient(to right, #ffd11a 0%, #37d439 100%)`
-              }}
-            />
-          </div>
-                    {/* ЕДИНЫЙ РЯД УПРАВЛЕНИЯ */}
-          <div className="flex items-center justify-between w-full text-soa-yellow px-1">
+        {/* Индикатор паузы по центру экрана при наведении мыши/тапе */}
+        {/* Индикатор паузы по центру экрана при наведении мыши/тапе */}
+        <div 
+          onClick={togglePlay}
+          className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-200 cursor-pointer"
+        >
+          <div className="p-4 rounded-xl bg-black/70 text-soa-gold border border-soa-gold/30 backdrop-blur-sm shadow-[0_0_15px_rgba(212,175,55,0.2)] flex items-center justify-center relative w-14 h-14">
+            {/* Сетчатый визор вокруг кнопки */}
+            <span className="absolute top-1 left-1 w-2 h-2 border-t border-l border-soa-gold/60"></span>
+            <span className="absolute top-1 right-1 w-2 h-2 border-t border-r border-soa-gold/60"></span>
+            <span className="absolute bottom-1 left-1 w-2 h-2 border-b border-l border-soa-gold/60"></span>
+            <span className="absolute bottom-1 right-1 w-2 h-2 border-b border-r border-soa-gold/60"></span>
             
-            {/* 1. Громкость */}
-            <div className="flex items-center gap-2 max-w-[110px] w-full">
-              <button onClick={toggleMute} className="hover:text-white transition-colors cursor-pointer opacity-70 hover:opacity-100">
-                {isMuted ? (
-                  <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.21.05-.42.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>
-                ) : volume < 0.5 ? (
-                  <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M18.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM5 9v6h4l5 5V4L9 9H5z"/></svg>
-                ) : (
-                  <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
-                )}
-              </button>
-              <input
-                type="range"
-                min="0"
-                max="1"
-                step="0.05"
-                value={isMuted ? 0 : volume}
-                onChange={handleVolumeChange}
-                className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-soa-yellow [color-scheme:dark]"
-                style={{
-                  background: `linear-gradient(to right, #ffd11a ${(isMuted ? 0 : volume) * 100}%, rgba(255,255,255,0.1) ${(isMuted ? 0 : volume) * 100}%)`
-                }}
-              />
-            </div>
-
-            {/* 2. Кнопки навигации */}
-            <div className="flex items-center justify-center gap-4">
-              <button onClick={prevTrack} className="hover:text-white transition-colors p-1 cursor-pointer">
-                <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
-              </button>
-              <button onClick={togglePlay} className="hover:text-white transition-colors p-1 cursor-pointer">
-                {isPlaying ? (
-                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
-                ) : (
-                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                )}
-              </button>
-              <button onClick={stopVideo} className="hover:text-white transition-colors p-1 cursor-pointer">
-                <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M6 6h12v12H6z"/></svg>
-              </button>
-              <button onClick={nextTrack} className="hover:text-white transition-colors p-1 cursor-pointer">
-                <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6zm9-12v12h2V6z"/></svg>
-              </button>
-            </div>
-
-            {/* 3. Фуллскрин */}
-            <button onClick={toggleFullscreen} className="hover:text-white transition-colors p-1 opacity-70 hover:opacity-100 cursor-pointer">
-              {isFullscreen ? (
-                <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M5 16h3v3h2v-5H5zm3-8H5v2h5V5H8zm6 11h2v-3h3v-2h-5zm2-11V5h-2v5h5V8z"/></svg>
-              ) : (
-                <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7zm-2-4h2V7h3V5H5zm12 7h-3v2h5v-5h-2zM14 5v2h3v3h2V5z"/></svg>
-              )}
-            </button>
+            {isPlaying ? (
+              <svg className="w-5 h-5 fill-soa-gold" viewBox="0 0 24 24"><rect x="4" y="4" width="4" height="16" rx="0.5"/><rect x="16" y="4" width="4" height="16" rx="0.5"/></svg>
+            ) : (
+              <svg className="w-5 h-5 fill-soa-gold" viewBox="0 0 24 24"><path d="M7 4v16l13-8z"/></svg>
+            )}
           </div>
-
-          {/* РЯД 2: Плавающее название слева и Цифровой таймер справа */}
-          <div className="flex items-center justify-between w-full max-w-xl mx-auto px-1 border-t border-white/5 pt-1.5 gap-3">
-            {/* Анимированное плавающее название (смещено влево за счет text-left) */}
-            <div className="w-[75%] overflow-hidden relative h-4 select-none text-left">
-              <div className="animate-[marquee_15s_linear_infinite] whitespace-nowrap absolute will-change-transform inline-block text-[11px] font-mono tracking-wide text-soa-gold drop-shadow-[0_0_4px_rgba(212,175,55,0.4)] left-0">
-                {currentTrack.name} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {currentTrack.name}
-              </div>
-            </div>
-            {/* Цифровой таймер (Остается строго справа) */}
-            <div className="text-[10px] font-mono text-soa-yellow/80 tracking-wider shrink-0 select-none">
-              {formatTime(currentTime)} / {formatTime(duration)}
-            </div>
-          </div>
-
         </div>
       </div>
 
-      {/* ФАЙЛОВЫЙ МЕНЕДЖЕР */}
-      <div className="text-[10px] text-soa-gold/40 uppercase font-mono tracking-wider">
-        root@samcro_terminal:~# tree --fs --neon-style
-      </div>
-      
-      <div 
-        className="playlist-box flex flex-col w-full overflow-y-auto pr-1 transition-all duration-300 [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-track]:bg-white/5 [&::-webkit-scrollbar-thumb]:bg-soa-gold/40 [&::-webkit-scrollbar-thumb]:rounded-full"
-        style={{ maxHeight: isExpanded ? '450px' : '150px' }}
-      >
-        <RenderTree node={FILE_TREE} />
+      {/* ИНФОРМАЦИОННЫЙ РЯД СРАЗУ ПОД ЭКРАНОМ ВИДЕО */}
+      <div className="flex flex-col gap-1.5 px-0.5">
+        <div className="flex items-center justify-between w-full gap-3">
+          {/* Ваша анимированная бегущая строка названия трека */}
+          <div className="w-[70%] overflow-hidden relative h-4 select-none text-left">
+            <div className="animate-[soaMarquee_15s_linear_infinite] whitespace-nowrap absolute will-change-transform inline-block text-[11px] font-mono tracking-wide text-soa-gold drop-shadow-[0_0_4px_rgba(212,175,55,0.4)] left-0">
+              {currentTrack.name} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {currentTrack.name}
+            </div>
+          </div>
+          {/* Цифровой таймер хронометража */}
+          <div className="text-[10px] font-mono text-soa-yellow/80 tracking-wider shrink-0 select-none tabular-nums">
+            {formatTime(currentTime)} / {formatTime(duration)}
+          </div>
+        </div>
+
+        {/* Ваш фирменный градиентный таймлайн (Перенесен под видео) */}
+        <div onClick={handleProgressClick} className="w-full h-1 bg-white/10 rounded-full cursor-pointer mt-0.5">
+          <div 
+            className="h-full shadow-[0_0_8px_rgba(55,212,57,0.6)] transition-all duration-100 rounded-full" 
+            style={{ 
+              width: `${progress}%`,
+              background: `linear-gradient(to right, #ffd11a 0%, #37d439 50%, #00ffff 100%)`
+            }}
+          />
+        </div>
       </div>
 
-      <button 
-        onClick={() => setIsExpanded(!isExpanded)} 
-        className="w-full text-[11px] font-mono border border-soa-gold/30 py-1.5 rounded-md bg-black/40 text-soa-yellow hover:bg-soa-gold/10 hover:text-white transition-all uppercase tracking-wider cursor-pointer text-center focus:outline-none active:scale-[0.99]"
-      >
-        {isExpanded ? "⬇️ СВЕРНУТЬ ХРАНИЛИЩЕ" : "🗖 РАЗВЕРНУТЬ ХРАНИЛИЩЕ АРХИВА"}
-      </button>
+      {/* ХАКЕРСКИЙ ФАЙЛОВЫЙ МЕНЕДЖЕР (КОНСОЛЬ) */}
+      <div className="mt-2 bg-black/20 border border-white/5 rounded-xl p-2.5 flex flex-col gap-3">
+        
+        {/* Строка терминала */}
+        <div className="text-[10px] text-soa-gold/40 uppercase font-mono tracking-wider">
+          root@samcro_terminal:~# tree --fs --neon-style
+        </div>
+
+        {/* НОВАЯ ФУТУРИСТИЧНАЯ ПАНЕЛЬ С РЕДКИМИ КНОПКАМИ */}
+        <div className="flex items-center justify-between w-full text-soa-yellow bg-black/80 border border-soa-gold/20 rounded-xl p-2.5 px-4 shadow-[inset_0_0_15px_rgba(212,175,55,0.05)] backdrop-blur-md">
+          
+          {/* 1. Громкость: Иконка в стиле «Динамический Радар» */}
+          <div className="flex items-center gap-2 max-w-[105px] w-full group/vol">
+            <button onClick={toggleMute} className="hover:text-white transition-colors cursor-pointer opacity-80 hover:opacity-100 shrink-0">
+              {isMuted ? (
+                /* Перечеркнутый звуковой интерфейс */
+                <svg className="w-4 h-4 text-red-500 drop-shadow-[0_0_3px_rgba(239,68,68,0.4)]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                  <path d="M5.5 15H3a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1h2.5l5.2-4.4a.5.5 0 0 1 .8.4v16a.5.5 0 0 1-.8.4L5.5 15zM23 9l-6 6m0-6l6 6" strokeLinecap="round"/>
+                </svg>
+              ) : volume < 0.5 ? (
+                /* Одноделение уровня сигнала */
+                <svg className="w-4 h-4 text-soa-yellow" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                  <path d="M5.5 15H3a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1h2.5l5.2-4.4a.5.5 0 0 1 .8.4v16a.5.5 0 0 1-.8.4L5.5 15zM15 15a3 3 0 0 0 0-6" strokeLinecap="round"/>
+                </svg>
+              ) : (
+                /* Полная звуковая волна Sci-Fi */
+                <svg className="w-4 h-4 text-soa-yellow drop-shadow-[0_0_4px_rgba(212,175,55,0.3)]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                  <path d="M5.5 15H3a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1h2.5l5.2-4.4a.5.5 0 0 1 .8.4v16a.5.5 0 0 1-.8.4L5.5 15zM15 16a4 4 0 0 0 0-8m4 10a8 8 0 0 0 0-12" strokeLinecap="round"/>
+                </svg>
+              )}
+            </button>
+            <input
+  type="range"
+  min="0"
+  max="1"
+  step="0.05"
+  value={isMuted ? 0 : volume}
+  onChange={handleVolumeChange}
+  className="w-full h-1 bg-white/5 rounded-none appearance-none cursor-pointer accent-soa-yellow [color-scheme:dark] group-hover/vol:bg-white/10 transition-colors
+    [&::-webkit-slider-thumb]:appearance-none 
+    [&::-webkit-slider-thumb]:w-2.5 
+    [&::-webkit-slider-thumb]:h-2.5 
+    [&::-webkit-slider-thumb]:rotate-45 
+    [&::-webkit-slider-thumb]:bg-soa-gold 
+    [&::-webkit-slider-thumb]:shadow-[0_0_10px_#ffd11a]
+    [&::-webkit-slider-thumb]:active:scale-110"
+  style={{
+    background: `linear-gradient(to right, #baff1a ${(isMuted ? 0 : volume) * 100}%, rgba(255,255,255,0.05) ${(isMuted ? 0 : volume) * 100}%)`
+  }}
+/>
+          </div>
+
+          {/* 2. Основные навигационные кнопки пульта управления */}
+          <div className="flex items-center justify-center gap-5">
+            {/* Кнопка НАЗАД: Киберпанк двойная стрелка-шеврон */}
+            <button onClick={prevTrack} className="text-soa-yellow/60 hover:text-white transition-all p-1 cursor-pointer active:scale-75 hover:drop-shadow-[0_0_6px_#ffd11a]">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M11 19l-7-7 7-7M19 19l-7-7 7-7" />
+              </svg>
+            </button>
+
+            {/* Главная кнопка ТРИГГЕР (PLAY/PAUSE) с неоновым свечением */}
+            <button onClick={togglePlay} className="p-2 bg-soa-gold/10 text-soa-gold hover:bg-soa-gold hover:text-black border border-soa-gold/40 rounded-xl transition-all duration-200 cursor-pointer active:scale-90 shadow-[0_0_15px_rgba(212,175,55,0.15)] hover:shadow-[0_0_20px_rgba(212,175,55,0.4)]">
+              {isPlaying ? (
+                /* Кастомные брутальные параллельные линии паузы */
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                  <rect x="5" y="4" width="4" height="16" rx="1" />
+                  <rect x="15" y="4" width="4" height="16" rx="1" />
+                </svg>
+              ) : (
+                /* Полый контурный треугольник запуска */
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M7 4v16l13-8z" />
+                </svg>
+              )}
+            </button>
+
+            {/* Кнопка СТОП: Квадрат со срезанными кибер-углами */}
+            <button onClick={stopVideo} className="text-zinc-600 hover:text-red-500 transition-all p-1 cursor-pointer active:scale-75 hover:drop-shadow-[0_0_6px_rgba(239,68,68,0.5)]">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                <rect x="5" y="5" width="14" height="14" rx="1" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
+
+            {/* Кнопка ВПЕРЕД: Киберпанк двойная стрелка-шеврон */}
+            <button onClick={nextTrack} className="text-soa-yellow/60 hover:text-white transition-all p-1 cursor-pointer active:scale-75 hover:drop-shadow-[0_0_6px_#ffd11a]">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M13 5l7 7-7 7M5 5l7 7-7 7" />
+              </svg>
+            </button>
+          </div>
+
+          {/* 3. Кнопка ФУЛЛСКРИН: Рамка захвата цели (Target Lock) */}
+          <button onClick={toggleFullscreen} className="text-soa-yellow/50 hover:text-white transition-all p-1 cursor-pointer active:scale-75 hover:drop-shadow-[0_0_6px_#ffd11a]">
+            {isFullscreen ? (
+              /* Иконка сворачивания прицела */
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round">
+                <path d="M4 10h6V4M20 10h-6V4M4 14h6v6M20 14h-6v6" />
+              </svg>
+            ) : (
+              /* Иконка футуристичного захвата углов экрана */
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round">
+                <path d="M5 9V5h4M15 5h4v4M5 15v4h4M15 19h4v-4M12 8v8M8 12h8" />
+              </svg>
+            )}
+          </button>
+        </div>
+
+        {/* Список папок (Дерево) */}
+        <div 
+          className="playlist-box flex flex-col w-full overflow-y-auto pr-1 transition-all duration-300 [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-track]:bg-white/5 [&::-webkit-scrollbar-thumb]:bg-soa-gold/40 [&::-webkit-scrollbar-thumb]:rounded-full"
+          style={{ maxHeight: isExpanded ? '430px' : '130px' }}
+        >
+          <RenderTree node={FILE_TREE} />
+        </div>
+
+        {/* Кнопка сворачивания архива */}
+        <button 
+          onClick={() => setIsExpanded(!isExpanded)} 
+          className="w-full text-[11px] font-mono border border-soa-gold/30 py-1.5 rounded-md bg-black/40 text-soa-yellow hover:bg-soa-gold/10 hover:text-white transition-all uppercase tracking-wider cursor-pointer text-center focus:outline-none active:scale-[0.99]"
+        >
+          {isExpanded ? "⬇️ СВЕРНУТЬ ХРАНИЛИЩЕ" : "🗖 РАЗВЕРНУТЬ ХРАНИЛИЩЕ АРХИВА"}
+        </button>
+      </div>
+
     </div>
   );
 }
