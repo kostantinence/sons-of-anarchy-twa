@@ -27,6 +27,7 @@ const UnionChat = ({
               <input 
                 type="text" 
                 className="ai-input w-full bg-transparent border-none text-gold p-2 font-mono text-xs outline-none" 
+                id="chat-input"
                 placeholder="Identification..." 
                 maxLength={15} 
                 value={username} 
@@ -56,6 +57,7 @@ const UnionChat = ({
               <input 
                 type="text" 
                 className="ai-input w-full bg-transparent border-none text-gold p-2 font-mono text-xs outline-none" 
+                id="chat-input"
                 placeholder="Execute command..." 
                 autoComplete="off" 
                 value={chatInput} 

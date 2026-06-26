@@ -162,8 +162,11 @@
         #chat-messages::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 10px; }
         
         /* Анимация смены цветов для курсора */
-        @keyframes caretRainbow { 0% { caret-color: var(--gold); } 33% { caret-color: #00ff00; } /* Зеленый */ 66% { caret-color: #ff00ff; } /* Розовый/Фиолетовый */ 100% { caret-color: var(--gold); } } 
+        @keyframes caretRainbow { 0% { caret-color: var(--gold); } 33% { caret-color: #00ff00; } 66% { caret-color: #ff00ff; } 100% { caret-color: var(--gold); } } 
         #chat-input { /* Применяем анимацию к курсору */ animation: caretRainbow 3s infinite; } 
+        /* Анимация смены цветов для курсора */
+        /* @keyframes caretRainbow { 0% { caret-color: var(--gold); } 20% { caret-color: #fffb00; } 33% { caret-color: #48ff00; }  44% { caret-color: #00ffd5; }  56% { caret-color: #002bff; }  69% { caret-color: #7a00ff; } 80% { caret-color: #ff00c8; } 90% { caret-color: #ff0000; } 100% { caret-color: var(--gold); } }  */
+        .chat-input { animation: caretRainbow 6s infinite; } 
         /* 4. ИНПУТЫ */ 
         .ai-input-inner { display: flex !important; align-items: center; } 
         .ai-input { width: 100%; background: transparent; border: none; color: var(--gold); padding: 10px 12px; font-family: inherit; font-size: 13px !important; /* Важно для iOS, чтобы не было зума */ outline: none; pointer-events: auto !important; cursor: text !important; } 
@@ -243,15 +246,24 @@
         @import "tailwindcss";
 
 @theme {
-  /* --color-soa-yellow: #ffd11a; */
+  --color-soa-yellow: #ffd11a;
   --color-soa-gold: #d4af37;
   --color-soa-success: #37d439;
   --shadow-gold-glow: 0 0 15px rgba(212, 175, 55, 0.4);
-  --color-soa-yellow: #1affe9;
-  
+  /* --color-soa-yellow: #1affe9; */
+  --color-red-500: oklch(0.52 0.22 260.09);
+  --color-zinc-600: oklch(0.57 0.25 27.48);
+  --color-energy-700: oklch(0.76 0.21 167.23);
+  --color-cyber-blue: #00f3ff;
+  --color-cyber-blue-glow: rgba(0, 243, 255, 0.4);
+
   /* Регистрируем кастомную анимацию глитча */
   --animate-glitch-active: glitch-bounce 0.3s linear;
 }
+
+/* .text-zinc-600 {
+    color: oklch(0.59 0.26 28.15);
+} */
 
 @keyframes glitch-bounce {
   0% { transform: translate(0); clip-path: inset(0 0 0 0); }

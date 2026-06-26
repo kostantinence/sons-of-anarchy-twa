@@ -294,7 +294,7 @@ export default function CyberVideoArchive() {
         <div className="flex flex-col w-full">
           <div 
             onClick={(e) => handleToggleFolder(node.id, e)} 
-            className="flex items-center gap-2 px-2 py-1 text-soa-yellow hover:bg-soa-gold/5 rounded text-[13px] cursor-pointer select-none h-7 transition-colors"
+            className="flex items-center gap-2 px-2 py-1 text-energy-700 hover:bg-soa-gold/5 rounded text-[13px] cursor-pointer select-none h-7 transition-colors"
           >
             {isOpen ? (
               <svg className="w-4 h-4 text-soa-gold shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
@@ -328,7 +328,7 @@ export default function CyberVideoArchive() {
         className={`flex items-center gap-2 px-2 py-1 text-[13px] rounded cursor-pointer transition-all h-7 select-none ${
           isCurrent 
             ? 'text-soa-success bg-soa-success/15 font-bold border-l-2 border-soa-success shadow-[0_0_10px_rgba(55,212,57,0.2)]' 
-            : 'text-soa-yellow/80 hover:bg-soa-gold/5 hover:text-white'
+            : 'text-cyber-blue/80 hover:bg-soa-gold/5 hover:text-white'
         }`}
       >
         <span className="truncate">{node.name}</span>
@@ -398,7 +398,7 @@ export default function CyberVideoArchive() {
             </div>
           </div>
           {/* Цифровой таймер хронометража */}
-          <div className="text-[10px] font-mono text-soa-yellow/80 tracking-wider shrink-0 select-none tabular-nums">
+          <div className="text-[10px] font-mono text-cyber-blue/80 tracking-wider shrink-0 select-none tabular-nums">
             {formatTime(currentTime)} / {formatTime(duration)}
           </div>
         </div>
@@ -424,7 +424,7 @@ export default function CyberVideoArchive() {
         </div>
 
         {/* НОВАЯ ФУТУРИСТИЧНАЯ ПАНЕЛЬ С РЕДКИМИ КНОПКАМИ */}
-        <div className="flex items-center justify-between w-full text-soa-yellow bg-black/80 border border-soa-gold/20 rounded-xl p-2.5 px-4 shadow-[inset_0_0_15px_rgba(212,175,55,0.05)] backdrop-blur-md">
+        <div className="flex items-center justify-between w-full text-cyber-blue bg-black/80 border border-soa-gold/20 rounded-xl p-2.5 px-4 shadow-[inset_0_0_15px_rgba(212,175,55,0.05)] backdrop-blur-md">
           
           {/* 1. Громкость: Иконка в стиле «Динамический Радар» */}
           <div className="flex items-center gap-2 max-w-[105px] w-full group/vol">
@@ -436,12 +436,12 @@ export default function CyberVideoArchive() {
                 </svg>
               ) : volume < 0.5 ? (
                 /* Одноделение уровня сигнала */
-                <svg className="w-4 h-4 text-soa-yellow" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <svg className="w-4 h-4 text-cyber-blue" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                   <path d="M5.5 15H3a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1h2.5l5.2-4.4a.5.5 0 0 1 .8.4v16a.5.5 0 0 1-.8.4L5.5 15zM15 15a3 3 0 0 0 0-6" strokeLinecap="round"/>
                 </svg>
               ) : (
                 /* Полная звуковая волна Sci-Fi */
-                <svg className="w-4 h-4 text-soa-yellow drop-shadow-[0_0_4px_rgba(212,175,55,0.3)]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <svg className="w-4 h-4 text-cyber-blue drop-shadow-[0_0_4px_rgba(212,175,55,0.3)]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                   <path d="M5.5 15H3a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1h2.5l5.2-4.4a.5.5 0 0 1 .8.4v16a.5.5 0 0 1-.8.4L5.5 15zM15 16a4 4 0 0 0 0-8m4 10a8 8 0 0 0 0-12" strokeLinecap="round"/>
                 </svg>
               )}
@@ -453,7 +453,7 @@ export default function CyberVideoArchive() {
   step="0.05"
   value={isMuted ? 0 : volume}
   onChange={handleVolumeChange}
-  className="w-full h-1 bg-white/5 rounded-none appearance-none cursor-pointer accent-soa-yellow [color-scheme:dark] group-hover/vol:bg-white/10 transition-colors
+  className="w-full h-1 bg-white/5 rounded-none appearance-none cursor-pointer accent-cyber-blue [color-scheme:dark] group-hover/vol:bg-white/10 transition-colors
     [&::-webkit-slider-thumb]:appearance-none 
     [&::-webkit-slider-thumb]:w-2.5 
     [&::-webkit-slider-thumb]:h-2.5 
@@ -470,7 +470,7 @@ export default function CyberVideoArchive() {
           {/* 2. Основные навигационные кнопки пульта управления */}
           <div className="flex items-center justify-center gap-5">
             {/* Кнопка НАЗАД: Киберпанк двойная стрелка-шеврон */}
-            <button onClick={prevTrack} className="text-soa-yellow/60 hover:text-white transition-all p-1 cursor-pointer active:scale-75 hover:drop-shadow-[0_0_6px_#ffd11a]">
+            <button onClick={prevTrack} className="text-cyber-blue/60 hover:text-white transition-all p-1 cursor-pointer active:scale-75 hover:drop-shadow-[0_0_6px_#ffd11a]">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M11 19l-7-7 7-7M19 19l-7-7 7-7" />
               </svg>
@@ -500,7 +500,7 @@ export default function CyberVideoArchive() {
             </button>
 
             {/* Кнопка ВПЕРЕД: Киберпанк двойная стрелка-шеврон */}
-            <button onClick={nextTrack} className="text-soa-yellow/60 hover:text-white transition-all p-1 cursor-pointer active:scale-75 hover:drop-shadow-[0_0_6px_#ffd11a]">
+            <button onClick={nextTrack} className="text-cyber-blue/60 hover:text-white transition-all p-1 cursor-pointer active:scale-75 hover:drop-shadow-[0_0_6px_#ffd11a]">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M13 5l7 7-7 7M5 5l7 7-7 7" />
               </svg>
@@ -508,7 +508,7 @@ export default function CyberVideoArchive() {
           </div>
 
           {/* 3. Кнопка ФУЛЛСКРИН: Рамка захвата цели (Target Lock) */}
-          <button onClick={toggleFullscreen} className="text-soa-yellow/50 hover:text-white transition-all p-1 cursor-pointer active:scale-75 hover:drop-shadow-[0_0_6px_#ffd11a]">
+          <button onClick={toggleFullscreen} className="text-cyber-blue/50 hover:text-white transition-all p-1 cursor-pointer active:scale-75 hover:drop-shadow-[0_0_6px_#ffd11a]">
             {isFullscreen ? (
               /* Иконка сворачивания прицела */
               <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round">
@@ -534,7 +534,7 @@ export default function CyberVideoArchive() {
         {/* Кнопка сворачивания архива */}
         <button 
           onClick={() => setIsExpanded(!isExpanded)} 
-          className="w-full text-[11px] font-mono border border-soa-gold/30 py-1.5 rounded-md bg-black/40 text-soa-yellow hover:bg-soa-gold/10 hover:text-white transition-all uppercase tracking-wider cursor-pointer text-center focus:outline-none active:scale-[0.99]"
+          className="w-full text-[11px] font-mono border border-soa-gold/30 py-1.5 rounded-md bg-black/40 text-energy-700 hover:bg-soa-gold/10 hover:text-white transition-all uppercase tracking-wider cursor-pointer text-center focus:outline-none active:scale-[0.99]"
         >
           {isExpanded ? "⬇️ СВЕРНУТЬ ХРАНИЛИЩЕ" : "🗖 РАЗВЕРНУТЬ ХРАНИЛИЩЕ АРХИВА"}
         </button>
