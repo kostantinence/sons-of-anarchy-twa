@@ -86,7 +86,8 @@
         .sci-fi-button:hover::before { left: 100%; } 
         .sci-fi-button span { position: relative; display: inline-block; transition: transform 0.3s ease, color 0.3s ease; z-index: 10; pointer-events: none; } /* .sci-fi-button:hover span { transform: scale(1.15) translateY(-2px); color: #ffd11a; text-shadow: 0 0 8px rgba(212, 175, 55, 0.8); } */
         .sci-fi-button:hover {  border-color: #d4af37;  background: rgba(212, 175, 55, 0.2);  box-shadow: 0 0 12px rgba(212, 175, 55, 0.3); color: #fff; } 
-        /* @keyframes gridScroll { 0% { transform: translate(-27.5%, -50%) rotateX(45deg) rotateZ(45deg) translateY(0); } 100% { transform: translate(-20%, -50%) rotateX(45deg) rotateZ(45deg) translateY(40px); } } */ /* хакий чат */ .ai-input-container { position: relative; width: 100%; background: #0505052b; border: 1px solid var(--gold); border-radius: 4px; margin-bottom: 15px; padding: 3px; /* ГЛАВНОЕ: ставим Z-index выше всех анимаций */ z-index: 999 !important; /* РАЗРЕШАЕМ КЛИКИ: гарантирует, что инпут нажмется */ pointer-events: auto !important; box-sizing: border-box; /* Свечение */ box-shadow: 0 0 10px var(--gold-glow); } 
+        /* @keyframes gridScroll { 0% { transform: translate(-27.5%, -50%) rotateX(45deg) rotateZ(45deg) translateY(0); } 100% { transform: translate(-20%, -50%) rotateX(45deg) rotateZ(45deg) translateY(40px); } } */ /* хакий чат */ 
+        .ai-input-container { position: relative; width: 100%; background: #0505052b; border: 1px solid var(--gold); border-radius: 4px; margin-bottom: 15px; padding: 3px; /* ГЛАВНОЕ: ставим Z-index выше всех анимаций */ z-index: 999 !important; /* РАЗРЕШАЕМ КЛИКИ: гарантирует, что инпут нажмется */ pointer-events: auto !important; box-sizing: border-box; /* Свечение */ box-shadow: 0 0 10px var(--gold-glow); } 
         .ai-input-inner {  position: relative;  display: flex;  align-items: center;  background: repeating-linear-gradient( 0deg, rgba(212, 175, 55, 0.05), rgba(212, 175, 55, 0.05) 2px, transparent 2px, transparent 10px );  animation: grid-shift 2s linear infinite;  border-radius: 2px; } 
         .ai-input {  pointer-events: auto !important; cursor: text; width: 100%; /* Убрали calc, используем flex */ padding: 8px 10px;  background: rgba(0,0,0,0.2) !important; border: none;  color: var(--gold);  font-family: "Courier New", monospace;  font-size: 12px !important; outline: none;  caret-color: var(--gold);  transition: all 6.0s ease; z-index: 1; } 
         .ai-input:placeholder-shown { color: transparent; } .ai-input:focus::placeholder { color: #00ff0088; } .ai-input:not(:placeholder-shown)::placeholder { color: transparent; } .ai-input:focus { box-shadow: inset 0 0 10px #00ff00, 0 0 20px #00ff00; animation: glitch-input 0.3s infinite; } .ai-label {  position: absolute;  top: -15px;  left: 10px;  color: var(--gold);  font-size: 11px;  text-shadow: 0 0 5px var(--gold);  background: #1a1a1a; /* Цвет фона из 2.1 */ padding: 0 6px;  z-index: 2; } 
@@ -314,3 +315,93 @@
   10%, 90% { width: 35px; }
   30%, 70% { width: 260px; max-width: max-content; }
 }
+
+/* =========================================================================
+   ФИНАЛЬНАЯ АНИМАЦИЯ ЗИМЫ И ХАКЕРМАНА (ДЛЯ VITE + TAIWIND)
+   ========================================================================= */
+
+/* Анимация плавного, медленного падения и вращения снега */
+.snowflake { 
+  position: fixed; 
+  top: -40px; 
+  color: white; 
+  user-select: none; 
+  pointer-events: none; 
+  z-index: 100010; 
+  text-shadow: 0 0 5px rgba(255,255,255,0.8); 
+}
+
+.frozen-text { 
+  color: #00f2ff !important; 
+  text-shadow: 0 0 10px #00f2ff, 0 0 20px #fff, 0 0 40px #00f2ff !important; 
+  transition: all 2s ease; 
+  animation: ice-pulse 3s infinite alternate; 
+}
+@keyframes ice-pulse { 0% { filter: brightness(1); transform: scale(1); } 100% { filter: brightness(1.5); transform: scale(1.02); } }
+
+/* СТИЛИ КУНГ-ФЬЮРИ ОДИН В ОДИН */
+.hacker-text { 
+  color: #ff00ff !important; /* Розовый под сетку */ 
+  text-shadow: 0 0 5px #ff00ff, 0 0 20px #00ffff !important; 
+  font-family: 'Courier New', monospace !important; 
+  animation: hack-shake 0.1s infinite alternate; 
+}
+@keyframes hack-shake { 0% { transform: translate(1px, 1px); } 100% { transform: translate(-1px, -1px); } }
+
+.crt-overlay { 
+  position: fixed; 
+  top: 0; 
+  left: 0; 
+  width: 100%; 
+  height: 100%; 
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%); 
+  background-size: 100% 4px; 
+  pointer-events: none; 
+  z-index: 10002; 
+  opacity: 0; /* Изначально скрыто по вашему коду */
+  transition: opacity 0.3s; 
+}
+/* Класс-активатор для плавного появления CRT */
+.crt-overlay.active {
+  opacity: 1 !important;
+}
+
+/* Розовая неоновая сетка */
+.grid-container { 
+  position: fixed; 
+  top: 0; 
+  left: 0; 
+  width: 100%; 
+  height: 100%; 
+  perspective: 500px; 
+  z-index: 9997; 
+  overflow: hidden; 
+  opacity: 0; /* Изначально скрыто по вашему коду */
+  transition: opacity 1s ease-in; 
+  pointer-events: none; 
+  background: radial-gradient(circle at 50% 50%, rgba(255, 0, 255, 0.1) 0%, transparent 80%); 
+}
+/* Класс-активатор для плавного появления сетки */
+.grid-container.active {
+  opacity: 1 !important;
+}
+
+.grid-plane { 
+  position: absolute; 
+  width: 200%; 
+  height: 200%; 
+  top: -50%; 
+  left: -50%; 
+  background-image: linear-gradient(to right, rgba(255, 0, 255, 0.3) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 0, 255, 0.3) 1px, transparent 1px); 
+  background-size: 50px 50px; 
+  transform: rotateX(60deg); 
+  animation: grid-move 2s linear infinite; 
+}
+@keyframes grid-move { from { transform: rotateX(60deg) translateY(0); } to { transform: rotateX(60deg) translateY(50px); } }
+
+/* Эффект временного разлома */
+.time-glitch { position: fixed; color: #ff00ff; font-family: 'Courier New', monospace; font-weight: bold; pointer-events: none; z-index: 9999; text-shadow: 2px 2px #00ffff; text-transform: uppercase; filter: blur(0.5px); }
+/* Линия помех (VHS scanline) */
+.vhs-line { position: fixed; left: 0; width: 100%; height: 2px; background: rgba(0, 255, 65, 0.5); box-shadow: 0 0 10px #00ff41; z-index: 10003; pointer-events: none; }
+/* Системные логи взлома */
+.data-node { position: fixed; color: #00ff41; font-family: 'Courier New', monospace; font-size: 14px; font-weight: bold; pointer-events: none; z-index: 10005; text-shadow: 0 0 5px #00ff41; background: rgba(0, 0, 0, 0.3); padding: 2px 5px; border-left: 2px solid #00ff41; }

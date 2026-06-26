@@ -11,10 +11,10 @@ const FILE_TREE = {
       name: "Антиреспект",
       type: "folder",
       children: [
-        { id: 1, name: "Антиреспект - Там", url: "music/1.mp4" },
-        { id: 2, name: "Антиреспект- Осень листьями", url: "music/2.mp4" },
-        { id: 3, name: "Антиреспект - Летай (альбом Тишина 2019)", url: "music/3.mp4" },
-        { id: 4, name: "Антиреспект - Одинокие берега", url: "music/4.mp4" },
+        { id: 1, name: "Антиреспект - Там", type: "file", url: "music/1.mp4" },
+        { id: 2, name: "Антиреспект- Осень листьями", type: "file", url: "music/2.mp4" },
+        { id: 3, name: "Антиреспект - Летай (альбом Тишина 2019)", type: "file", url: "music/3.mp4" },
+        { id: 4, name: "Антиреспект - Одинокие берега", type: "file", url: "music/4.mp4" },
       ]
     },
     {
@@ -22,8 +22,8 @@ const FILE_TREE = {
       name: "Дельфин",
       type: "folder",
       children: [
-        { id: 5, name: "Дельфин - Небо", url: "music/5.mp4" },
-        { id: 6, name: "Дельфин - Снег", url: "music/6.mp4" },
+        { id: 5, name: "Дельфин - Небо", type: "file", url: "music/5.mp4" },
+        { id: 6, name: "Дельфин - Снег", type: "file", url: "music/6.mp4" },
       ]
     },
     {
@@ -31,12 +31,12 @@ const FILE_TREE = {
       name: "Зарубежная",
       type: "folder",
       children: [
-        { id: 7, name: "Ray Charles - Hit The Road Jack (Milkdrop Trap Remix)", url: "music/7.mp4" },
-        { id: 8, name: "Status Quo - In The Army Now (Video)", url: "music/35.mp4" },
-        { id: 9, name: "The Rapsody feat. Warren G & Sissel - Prince Igor", url: "music/36.mp4" },
-        { id: 10, name: "Diddy [feat. Christina Aguilera] - Tell Me (Official Music Video)", url: "music/37.mp4" },
-        { id: 11, name: "50 Cent - Ayo Technology (Official Music Video) ft. Justin Timberlake", url: "music/38.mp4" },
-        { id: 12, name: "Timbaland - Give It To Me (Official Music Video) ft. Nelly Furtado, Justin Timberlake", url: "music/39.mp4" },
+        { id: 7, name: "Ray Charles - Hit The Road Jack (Milkdrop Trap Remix)", type: "file", url: "music/7.mp4" },
+        { id: 8, name: "Status Quo - In The Army Now (Video)", type: "file", url: "music/35.mp4" },
+        { id: 9, name: "The Rapsody feat. Warren G & Sissel - Prince Igor", type: "file", url: "music/36.mp4" },
+        { id: 10, name: "Diddy [feat. Christina Aguilera] - Tell Me (Official Music Video)", type: "file", url: "music/37.mp4" },
+        { id: 11, name: "50 Cent - Ayo Technology (Official Music Video) ft. Justin Timberlake", type: "file", url: "music/38.mp4" },
+        { id: 12, name: "Timbaland - Give It To Me (Official Music Video) ft. Nelly Furtado, Justin Timberlake", type: "file", url: "music/39.mp4" },
       ]
     },
     {
@@ -44,12 +44,12 @@ const FILE_TREE = {
       name: "Mary Gu",
       type: "folder",
       children: [
-        { id: 13, name: "Mary Gu - Ty moja slabost", url: "music/8.mp4" },
-        { id: 14, name: "Mary Gu - Астероид", url: "music/9.mp4" },
-        { id: 15, name: "Mary Gu - Магнолия", url: "music/10.mp4" },
-        { id: 16, name: "Mary Gu - Нежность", url: "music/11.mp4" },
-        { id: 17, name: "Mary Gu - Пьяный романтик", url: "music/12.mp4" },
-        { id: 18, name: "Mary Gu - Папа", url: "music/13.mp4" },
+        { id: 13, name: "Mary Gu - Ty moja slabost", type: "file", url: "music/8.mp4" },
+        { id: 14, name: "Mary Gu - Астероид", type: "file", url: "music/9.mp4" },
+        { id: 15, name: "Mary Gu - Магнолия", type: "file", url: "music/10.mp4" },
+        { id: 16, name: "Mary Gu - Нежность", type: "file", url: "music/11.mp4" },
+        { id: 17, name: "Mary Gu - Пьяный романтик", type: "file", url: "music/12.mp4" },
+        { id: 18, name: "Mary Gu - Папа", type: "file", url: "music/13.mp4" },
       ]
     },
     {
@@ -57,20 +57,20 @@ const FILE_TREE = {
       name: "Макс Корж",
       type: "folder",
       children: [
-        { id: 19, name: "Макс Корж - Где я", url: "music/14.mp4" },
-        { id: 20, name: "Макс Корж - Мир моих снов", url: "music/15.mp4" },
-        { id: 21, name: "Макс Корж - Оля", url: "music/16.mp4" },
-        { id: 22, name: "Макс Корж - Где твоя любовь?", url: "music/17.mp4" },
-        { id: 23, name: "Макс Корж - Открой глаза", url: "music/18.mp4" },
-        { id: 24, name: "Макс Корж - Супер Агент", url: "music/19.mp4" },
-        { id: 25, name: "Макс Корж - Уролог", url: "music/20.mp4" },
-        { id: 26, name: "Макс Корж - Чужая женщина", url: "music/21.mp4" },
-        { id: 27, name: "Макс Korж - Белый туман (Lyric video)", url: "music/22.mp4" },
-        { id: 28, name: "Макс Корж - Мой друг (official video)", url: "music/23.mp4" },
-        { id: 29, name: "Макс Корж - Армия", url: "music/24.mp4" },
-        { id: 30, name: "Макс Корж - Наташа", url: "music/25.mp4" },
-        { id: 31, name: "Макс Корж - Папаша (Lyric video)", url: "music/26.mp4" },
-        { id: 32, name: "Макс Корж - Молодым (Lyric video)", url: "music/27.mp4" },
+        { id: 19, name: "Макс Корж - Где я", type: "file", url: "music/14.mp4" },
+        { id: 20, name: "Макс Корж - Мир моих снов", type: "file", url: "music/15.mp4" },
+        { id: 21, name: "Макс Корж - Оля", type: "file", url: "music/16.mp4" },
+        { id: 22, name: "Макс Корж - Где твоя любовь?", type: "file", url: "music/17.mp4" },
+        { id: 23, name: "Макс Корж - Открой глаза", type: "file", url: "music/18.mp4" },
+        { id: 24, name: "Макс Корж - Супер Агент", type: "file", url: "music/19.mp4" },
+        { id: 25, name: "Макс Корж - Уролог", type: "file", url: "music/20.mp4" },
+        { id: 26, name: "Макс Корж - Чужая женщина", type: "file", url: "music/21.mp4" },
+        { id: 27, name: "Макс Korж - Белый туман (Lyric video)", type: "file", url: "music/22.mp4" },
+        { id: 28, name: "Макс Корж - Мой друг (official video)", type: "file", url: "music/23.mp4" },
+        { id: 29, name: "Макс Корж - Армия", type: "file", url: "music/24.mp4" },
+        { id: 30, name: "Макс Корж - Наташа", type: "file", url: "music/25.mp4" },
+        { id: 31, name: "Макс Корж - Папаша (Lyric video)", type: "file", url: "music/26.mp4" },
+        { id: 32, name: "Макс Корж - Молодым (Lyric video)", type: "file", url: "music/27.mp4" },
       ]
     },
     {
@@ -78,10 +78,10 @@ const FILE_TREE = {
       name: "Кирпичи",
       type: "folder",
       children: [
-        { id: 33, name: "Кирпичи - Vasin рэп (Kirpichi - Vasin Rap)", url: "music/28.mp4" },
-        { id: 34, name: "Кирпичи - Джедаи", url: "music/29.mp4" },
-        { id: 35, name: "Кирпичи - Зацените кайф", url: "music/30.mp4" },
-        { id: 36, name: "Корпорация амстердамских стрелков", url: "music/31.mp4" },
+        { id: 33, name: "Кирпичи - Vasin рэп (Kirpichi - Vasin Rap)", type: "file", url: "music/28.mp4" },
+        { id: 34, name: "Кирпичи - Джедаи", type: "file", url: "music/29.mp4" },
+        { id: 35, name: "Кирпичи - Зацените кайф", type: "file", url: "music/30.mp4" },
+        { id: 36, name: "Корпорация амстердамских стрелков", type: "file", url: "music/31.mp4" },
       ]
     },
     {
@@ -89,16 +89,16 @@ const FILE_TREE = {
       name: "The Prodigy",
       type: "folder",
       children: [
-        { id: 37, name: "The Prodigy - No Good (Start The Dance) (DJ BP)", url: "music/32.mp4" },
-        { id: 38, name: "The Prodigy - No Good (Bad For You Mix Remastered)", url: "music/33.mp4" },
-        { id: 39, name: "Flightcrank - Amazing (Controlled Change Mix)", url: "music/34.mp4" },
-        { id: 40, name: "The Prodigy - The Heat The Energy", url: "music/40.mp4" },
-        { id: 41, name: "The Prodigy - Goa The Heat The Energy Part 2", url: "music/41.mp4" },
-        { id: 42, name: "The Prodigy - Full Throttle Remastered", url: "music/42.mp4" },
-        { id: 43, name: "The Prodigy - Weather Experience", url: "music/43.mp4" },
-        { id: 44, name: "The Prodigy - One Love ('94 Live Edit) restored by All Souvenirs", url: "music/44.mp4" },
-        { id: 45, name: "The Prodigy - Skylined Remastered", url: "music/45.mp4" },
-        { id: 46, name: "The Prodigy - 2 Claustrophobic Sting Remastered", url: "music/46.mp4" },
+        { id: 37, name: "The Prodigy - No Good (Start The Dance) (DJ BP)", type: "file", url: "music/32.mp4" },
+        { id: 38, name: "The Prodigy - No Good (Bad For You Mix Remastered)", type: "file", url: "music/33.mp4" },
+        { id: 39, name: "Flightcrank - Amazing (Controlled Change Mix)", type: "file", url: "music/34.mp4" },
+        { id: 40, name: "The Prodigy - The Heat The Energy", type: "file", url: "music/40.mp4" },
+        { id: 41, name: "The Prodigy - Goa The Heat The Energy Part 2", type: "file", url: "music/41.mp4" },
+        { id: 42, name: "The Prodigy - Full Throttle Remastered", type: "file", url: "music/42.mp4" },
+        { id: 43, name: "The Prodigy - Weather Experience", type: "file", url: "music/43.mp4" },
+        { id: 44, name: "The Prodigy - One Love ('94 Live Edit) restored by All Souvenirs", type: "file", url: "music/44.mp4" },
+        { id: 45, name: "The Prodigy - Skylined Remastered", type: "file", url: "music/45.mp4" },
+        { id: 46, name: "The Prodigy - 2 Claustrophobic Sting Remastered", type: "file", url: "music/46.mp4" },
       ]
     }
   ]
@@ -164,16 +164,34 @@ export default function CyberVideoArchive() {
   const currentTrack = FLAT_PLAYLIST[currentTrackIndex];
 
   // Сохраняем выбранный трек при изменении
+  // Синхронизация и принудительное включение звука при смене трека
   useEffect(() => {
     localStorage.setItem('soa_player_track_index', currentTrackIndex);
+    
+    const applyAudioSettings = () => {
+      if (videoRef.current) {
+        // Жестко передаем актуальные значения громкости тегу video
+        videoRef.current.muted = isMuted;
+        videoRef.current.volume = isMuted ? 0 : volume;
+      }
+    };
+
+    // Вызываем сразу и вешаем на событие загрузки медиаданных
+    applyAudioSettings();
     if (videoRef.current) {
-      videoRef.current.volume = isMuted ? 0 : volume;
-      videoRef.current.muted = isMuted;
+      videoRef.current.addEventListener('loadeddata', applyAudioSettings);
     }
+
     if (isPlaying && videoRef.current) {
       videoRef.current.play().catch(() => setIsPlaying(false));
     }
-  }, [currentTrackIndex]);
+
+    return () => {
+      if (videoRef.current) {
+        videoRef.current.removeEventListener('loadeddata', applyAudioSettings);
+      }
+    };
+  }, [currentTrackIndex, volume, isMuted, isPlaying]);
 
   // Синхронизация громкости при загрузке
   useEffect(() => {
@@ -186,12 +204,18 @@ export default function CyberVideoArchive() {
   const handleVolumeChange = (e) => {
     const newVolume = parseFloat(e.target.value);
     setVolume(newVolume);
-    setIsMuted(newVolume === 0);
+    
+    // Если ползунок в нуле, включаем mute, иначе выключаем
+    const nextMute = newVolume === 0;
+    setIsMuted(nextMute);
+    
     localStorage.setItem('soa_player_volume', newVolume);
-    localStorage.setItem('soa_player_muted', newVolume === 0);
+    localStorage.setItem('soa_player_muted', nextMute);
+    
+    // 🟢 Жестко и мгновенно передаем громкость в сам тег видео
     if (videoRef.current) {
+      videoRef.current.muted = nextMute;
       videoRef.current.volume = newVolume;
-      videoRef.current.muted = newVolume === 0;
     }
   };
 
@@ -215,12 +239,17 @@ export default function CyberVideoArchive() {
 
   const togglePlay = () => {
     if (!videoRef.current) return;
+    
     if (isPlaying) {
       videoRef.current.pause();
     } else {
-      videoRef.current.volume = isMuted ? 0 : volume;
+      // 🟢 Принудительная разблокировка звукового движка браузера перед стартом
       videoRef.current.muted = isMuted;
-      videoRef.current.play().catch(() => {});
+      videoRef.current.volume = isMuted ? 0 : volume;
+      
+      videoRef.current.play().catch((err) => {
+        console.log("Браузер всё еще блокирует автоплей:", err);
+      });
     }
     setIsPlaying(!isPlaying);
   };
@@ -354,17 +383,22 @@ export default function CyberVideoArchive() {
       </h2>
 
       {/* ЭКРАН ПЛЕЕРА (ТЕПЕРЬ ПОЛНОСТЬЮ СВОБОДЕН ОТ КНОПОК) */}
-      <div className="relative w-full aspect-video bg-black rounded overflow-hidden group" ref={containerRef}>
-        <video
-          ref={videoRef}
-          src={currentTrack.url}
-          onTimeUpdate={handleTimeUpdate}
-          onLoadedMetadata={handleLoadedMetadata}
-          onEnded={nextTrack}
-          onClick={togglePlay}
-          playsInline
-          className="w-full h-full object-contain cursor-pointer"
-        />
+<div className="relative w-full aspect-video bg-black rounded overflow-hidden group" ref={containerRef}>
+  <video
+    ref={videoRef}
+    src={currentTrack.url}
+    onTimeUpdate={handleTimeUpdate}
+    onLoadedMetadata={handleLoadedMetadata}
+    onEnded={nextTrack}
+    onClick={togglePlay}
+    playsInline
+    /* 🟢 ДОБАВЛЯЕМ ЭТУ СТРОКУ: Как только видео готово, оно само включает звук на нужную громкость! */
+    onCanPlay={(e) => {
+      e.currentTarget.muted = isMuted;
+      e.currentTarget.volume = isMuted ? 0 : volume;
+    }}
+    className="w-full h-full object-contain cursor-pointer"
+  />
 
         {/* Индикатор паузы по центру экрана при наведении мыши/тапе */}
         {/* Индикатор паузы по центру экрана при наведении мыши/тапе */}
@@ -448,6 +482,7 @@ export default function CyberVideoArchive() {
             </button>
             <input
   type="range"
+  id="player-volume-slider"
   min="0"
   max="1"
   step="0.05"
