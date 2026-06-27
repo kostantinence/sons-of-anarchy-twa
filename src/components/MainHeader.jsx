@@ -52,14 +52,17 @@ const MainHeader = ({ activeEventIndex, logoClass }) => {
             if (logoClass === 'frozen-text') {
               // Особое ледяное выделение с бирюзовым индикатором
               prefixIndicator = <span className="text-[#00f2ff] animate-pulse mr-1">▶</span>;
+              // prefixIndicator = <span className="text-[#00f2ff] mr-1">▶</span>;
               activeItemClass = "bg-black/60 font-bold pl-2 text-[#00f2ff] border border-[#00f2ff]/50 shadow-[0_0_15px_rgba(0,242,255,0.5)] scale-[1.02]";
             } else if (logoClass === 'hacker-text') {
               // Особое неоновое хакерское выделение с глитч-индикатором
               prefixIndicator = <span className="text-[#ff00ff] animate-ping mr-1">▶</span>;
+              // prefixIndicator = <span className="text-[#ff00ff] mr-1">▶</span>;
               activeItemClass = "bg-black/60 font-bold pl-2 text-[#ff00ff] border border-[#ff00ff]/50 shadow-[0_0_15px_rgba(255,0,255,0.5)] time-glitch scale-[1.02]";
             } else {
               // Особое золотое кибер-выделение для обычного режима страницы
               prefixIndicator = <span className="text-gold animate-bounce inline-block mr-1">▶</span>;
+              // prefixIndicator = <span className="text-gold mr-1">▶</span>;
               activeItemClass = "bg-black/60 font-bold pl-2 text-gold border-2 border-gold shadow-[0_0_20px_rgba(212,175,55,0.4)] scale-[1.02]";
             }
           }

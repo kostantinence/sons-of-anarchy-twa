@@ -90,8 +90,14 @@
         .ai-input-container { position: relative; width: 100%; background: #0505052b; border: 1px solid var(--gold); border-radius: 4px; margin-bottom: 15px; padding: 3px; /* ГЛАВНОЕ: ставим Z-index выше всех анимаций */ z-index: 999 !important; /* РАЗРЕШАЕМ КЛИКИ: гарантирует, что инпут нажмется */ pointer-events: auto !important; box-sizing: border-box; /* Свечение */ box-shadow: 0 0 10px var(--gold-glow); } 
         .ai-input-inner {  position: relative;  display: flex;  align-items: center;  background: repeating-linear-gradient( 0deg, rgba(212, 175, 55, 0.05), rgba(212, 175, 55, 0.05) 2px, transparent 2px, transparent 10px );  animation: grid-shift 2s linear infinite;  border-radius: 2px; } 
         .ai-input {  pointer-events: auto !important; cursor: text; width: 100%; /* Убрали calc, используем flex */ padding: 8px 10px;  background: rgba(0,0,0,0.2) !important; border: none;  color: var(--gold);  font-family: "Courier New", monospace;  font-size: 12px !important; outline: none;  caret-color: var(--gold);  transition: all 6.0s ease; z-index: 1; } 
-        .ai-input:placeholder-shown { color: transparent; } .ai-input:focus::placeholder { color: #00ff0088; } .ai-input:not(:placeholder-shown)::placeholder { color: transparent; } .ai-input:focus { box-shadow: inset 0 0 10px #00ff00, 0 0 20px #00ff00; animation: glitch-input 0.3s infinite; } .ai-label {  position: absolute;  top: -15px;  left: 10px;  color: var(--gold);  font-size: 11px;  text-shadow: 0 0 5px var(--gold);  background: #1a1a1a; /* Цвет фона из 2.1 */ padding: 0 6px;  z-index: 2; } 
-        .ai-input:placeholder-shown + .ai-label { top: -18px; } .ai-input:focus + .ai-label, .ai-input:not(:placeholder-shown) + .ai-label { animation: flicker-label 6s infinite; } .ai-button {  width: 45px;  height: 40px;  background: #42d327a8; border: none;  border-radius: 8px; color: #0a0a0a;  font-size: 20px;  cursor: pointer;  display: flex; align-items: center; justify-content: center; transition: all 6.0s ease;  z-index: 5; }
+        .ai-input:placeholder-shown { color: transparent; } 
+        .ai-input:focus::placeholder { color: #00ff0088; } 
+        .ai-input:not(:placeholder-shown)::placeholder { color: transparent; } 
+        .ai-input:focus { box-shadow: inset 0 0 10px #00ff00, 0 0 20px #00ff00; animation: glitch-input 0.3s infinite; } 
+        .ai-label {  position: absolute;  top: -15px;  left: 10px;  color: var(--gold);  font-size: 11px;  text-shadow: 0 0 5px var(--gold);  background: #1a1a1a; /* Цвет фона из 2.1 */ padding: 0 6px;  z-index: 2; } 
+        .ai-input:placeholder-shown + .ai-label { top: -18px; } 
+        .ai-input:focus + .ai-label, .ai-input:not(:placeholder-shown) + .ai-label { animation: flicker-label 6s infinite; } 
+        .ai-button {  width: 45px;  height: 40px;  background: #42d327a8; border: none;  border-radius: 8px; color: #0a0a0a;  font-size: 20px;  cursor: pointer;  display: flex; align-items: center; justify-content: center; transition: all 6.0s ease;  z-index: 5; }
         /* .ai-button:active { transform: scale(0.9);  background: #b8952d; } */
         /* .ai-button:hover { background: #00cc00; box-shadow: 0 0 15px #00ff00; animation: pulse-button 2.0s infinite; } */
         /* .ai-button::before { content: ""; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient( 120deg, transparent, rgba(255, 255, 255, 0.3), transparent ); animation: swipe 1.5s infinite; } */
@@ -254,7 +260,7 @@
   /* --color-soa-yellow: #1affe9; */
   --color-red-500: oklch(0.52 0.22 260.09);
   --color-zinc-600: oklch(0.57 0.25 27.48);
-  --color-energy-700: oklch(0.76 0.21 167.23);
+  --color-energy-700: oklch(0.71 0.11 210.81);
   --color-cyber-blue: #00f3ff;
   --color-cyber-blue-glow: rgba(0, 243, 255, 0.4);
 
@@ -291,7 +297,7 @@
   white-space: nowrap;
   overflow: hidden;
   background-color: transparent;
-  animation: type-inputs 8s steps(28) infinite;
+  animation: type-inputs 22s steps(28) infinite;
 }
 
 /* Мигающий хакерский курсор */
@@ -303,7 +309,7 @@
   overflow: hidden;
   background-color: transparent;
   border-right: 0.15em solid #d4af37; /* Сделали курсор золотым под стиль клуба */
-  animation: cursor-blink 0.5s step-end infinite alternate;
+  animation: cursor-blink 1.0s step-end infinite alternate;
 }
 
 @keyframes cursor-blink {
