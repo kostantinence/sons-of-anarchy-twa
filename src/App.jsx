@@ -13,6 +13,7 @@ import PromoCodes from './components/PromoCodes';
 import AllianceHQ from './components/AllianceHQ';
 import TempleTabs from './components/TempleTabs';
 import MainHeader from './components/MainHeader';
+import GameGuideDashboard from './components/GameGuideDashboard';
 
 const socket = io("https://soa-backend.onrender.com");
 
@@ -597,6 +598,11 @@ function App() {
             showPlaylist={showPlaylist}
             setShowPlaylist={setShowPlaylist}
           />
+
+          {/* ВСТАВКА: ЖИВАЯ ТАБЛИЦА ГЕРОЕВ И СТИХИЙ */}
+          <div className="col-span-full w-full relative z-50">
+            <GameGuideDashboard />
+          </div>
 
           {/* 6. ТАБЛИЦЫ ХРАМОВ */}
           <TempleTabs activeTabId={activeTabId} handleTabClick={handleTabClick} />

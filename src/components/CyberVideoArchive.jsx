@@ -379,7 +379,7 @@ export default function CyberVideoArchive() {
       `}</style>
 
       <h2 className="text-base text-soa-gold border-b border-soa-gold/20 pb-1 font-serif uppercase tracking-wider">
-        🎬 ВИДЕОПРОТОКОЛ v4.0
+        🎬 Видео-Плеер v4.0
       </h2>
 
       {/* ЭКРАН ПЛЕЕРА (ТЕПЕРЬ ПОЛНОСТЬЮ СВОБОДЕН ОТ КНОПОК) */}

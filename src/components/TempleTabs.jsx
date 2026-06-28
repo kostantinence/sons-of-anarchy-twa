@@ -5,7 +5,7 @@ import styled from 'styled-components'; // 1. Импорт должен быть
    // По умолчанию поставил Огонь, как на фото
 const TempleTabs = () => {
   const [activeTab, setActiveTab] = useState('fire');
-  const [isDay, setIsDay] = useState(false);
+  const [isDay, setIsDay] = useState(true);
 
   // 2. База данных храмов
   const allTemplesData = {
