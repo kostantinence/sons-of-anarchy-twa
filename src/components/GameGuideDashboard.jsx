@@ -155,88 +155,63 @@ export default function GameGuideDashboard() {
                 </button>
               </div>
 
-              {/* КОНТЕНТ ВКЛАДКИ: 1. СПОСОБНОСТИ */}
-              {modalTab === 'skills' && (
-                <div className="flex-1 flex flex-col min-h-0">
-                  {/* Ряд круглых иконок навыков */}
-                  <div className="flex gap-2 overflow-x-auto pb-3 mb-4 border-b border-slate-800/60 scrollbar-none select-none">
-                    {selectedHero.skills?.map((skill, index) => (
-                      <button
-                        key={index}
-                        onClick={() => setActiveSkillIndex(index)}
-                        className={`flex-shrink-0 w-11 h-11 rounded-full flex items-center justify-center border-2 text-md transition-all ${
-                          activeSkillIndex === index ? 'border-cyan-400 bg-cyan-950/40 shadow-lg scale-105' : 'border-slate-700 bg-slate-950'
-                        }`}
-                      >
-                        {skill.icon}
-                      </button>
-                    ))}
-                  </div>
-                                    {/* Спецификации навыка */}
-                  {selectedHero.skills && selectedHero.skills[activeSkillIndex] ? (
-                    <div className="space-y-3 font-sans text-xs flex-1">
-                      <h4 className="text-sm font-bold text-white border-l-2 border-cyan-500 pl-2">{selectedHero.skills[activeSkillIndex].name}</h4>
-                      <div className="bg-slate-950/80 p-3 rounded-xl border border-slate-800 text-slate-300 leading-relaxed max-h-[140px] overflow-y-auto font-normal">
-                        {selectedHero.skills[activeSkillIndex].desc}
-                      </div>
+{/* КОНТЕНТ ВКЛАДКИ: 1. СПОСОБНОСТИ */}
+{modalTab === 'skills' && (
+  <div className="flex-1 flex flex-col min-h-0">
+    {/* Ряд круглых иконок навыков */}
+    <div className="flex gap-2 overflow-x-auto pb-3 mb-4 border-b border-slate-800/60 scrollbar-none select-none">
+      {selectedHero.skills?.map((skill, index) => (
+        <button
+          key={index}
+          onClick={() => setActiveSkillIndex(index)}
+          className={`flex-shrink-0 w-11 h-11 rounded-full flex items-center justify-center border-2 text-md transition-all ${
+            activeSkillIndex === index ? 'border-cyan-400 bg-cyan-950/40 shadow-lg scale-105' : 'border-slate-700 bg-slate-950'
+          }`}
+        >
+          {skill.icon}
+        </button>
+      ))}
+    </div>
 
-                      {/* Динамические шкалы параметров */}
-                      <div className="bg-slate-950/50 p-3 rounded-xl border border-slate-800 space-y-2 font-mono text-[11px]">
-                        {selectedHero.skills[activeSkillIndex].coef && (
-                          <div>
-                            <span className="text-amber-400 block mb-0.5 font-bold uppercase">Коэффициент / Эффект:</span>
-                            <span className="text-emerald-400 break-words">{selectedHero.skills[activeSkillIndex].coef}</span>
-                          </div>
-                        )}
-                        {selectedHero.skills[activeSkillIndex].turns && (
-                          <div>
-                            <span className="text-amber-400 block mb-0.5 font-bold uppercase">Ходы:</span>
-                            <span className="text-blue-400 break-words">{selectedHero.skills[activeSkillIndex].turns}</span>
-                          </div>
-                        )}
-                        {selectedHero.skills[activeSkillIndex].commands && (
-                          <div>
-                            <span className="text-amber-400 block mb-0.5 font-bold uppercase">Команды:</span>
-                            <span className="text-orange-400 break-words">{selectedHero.skills[activeSkillIndex].commands}</span>
-                          </div>
-                        )}
-                        {selectedHero.skills[activeSkillIndex].damageReduction && (
-                          <div>
-                            <span className="text-amber-400 block mb-0.5 font-bold uppercase">Уменьшение УРН:</span>
-                            <span className="text-pink-400 break-words">{selectedHero.skills[activeSkillIndex].damageReduction}</span>
-                          </div>
-                        )}
-                        {selectedHero.skills[activeSkillIndex].reductionRate && (
-                          <div>
-                            <span className="text-amber-400 block mb-0.5 font-bold uppercase">Снижение эффектов зверя:</span>
-                            <span className="text-teal-400 break-words">{selectedHero.skills[activeSkillIndex].reductionRate}</span>
-                          </div>
-                        )}
-                        {selectedHero.skills[activeSkillIndex].charisma && (
-                          <div>
-                            <span className="text-amber-400 block mb-0.5 font-bold uppercase">Харизма героя:</span>
-                            <span className="text-violet-400 break-words">{selectedHero.skills[activeSkillIndex].charisma}</span>
-                          </div>
-                        )}
-                        {selectedHero.skills[activeSkillIndex].kingdomProperty && (
-                          <div>
-                            <span className="text-amber-400 block mb-0.5 font-bold uppercase">Свойства царства:</span>
-                            <span className="text-purple-400 break-words">{selectedHero.skills[activeSkillIndex].kingdomProperty}</span>
-                          </div>
-                        )}
-                        {selectedHero.skills[activeSkillIndex].cooldown && (
-                          <div className="pt-1.5 border-t border-slate-800/60">
-                            <span className="text-purple-400 block mb-0.5 font-bold uppercase">Перезарядка хода:</span>
-                            <span className="text-slate-300">{selectedHero.skills[activeSkillIndex].cooldown}</span>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="text-slate-500 text-center py-6 text-xs">Навыки не заполнены</div>
-                  )}
+    {/* Спецификации навыка */}
+    {selectedHero.skills && selectedHero.skills[activeSkillIndex] ? (
+      <div className="space-y-3 font-sans text-xs flex-1">
+        <h4 className="text-sm font-bold text-white border-l-2 border-cyan-500 pl-2">
+          {selectedHero.skills[activeSkillIndex].name}
+        </h4>
+        
+        <div className="bg-slate-950/80 p-3 rounded-xl border border-slate-800 text-slate-300 leading-relaxed max-h-[140px] overflow-y-auto font-normal">
+          {selectedHero.skills[activeSkillIndex].desc}
+        </div>
+
+        {/* Динамические шкалы параметров — ТЕПЕРЬ АВТОМАТИЧЕСКИЕ ДЛЯ ВСЕХ ГЕРОЕВ */}
+        <div className="bg-slate-950/50 p-3 rounded-xl border border-slate-800 space-y-2 font-mono text-[11px]">
+          {selectedHero.skills[activeSkillIndex].fields?.map((field, i) => {
+            // Если это поле перезарядки (cooldown), рендерим его с разделительной линией внизу
+            if (field.isCooldown) {
+              return (
+                <div key={i} className="pt-1.5 border-t border-slate-800/60">
+                  <span className="text-purple-400 block mb-0.5 font-bold uppercase">{field.label}</span>
+                  <span className="text-slate-300">{field.value}</span>
                 </div>
-              )}
+              );
+            }
+
+            // Стандартный рендер любого игрового параметра
+            return (
+              <div key={i}>
+                <span className="text-amber-400 block mb-0.5 font-bold uppercase">{field.label}</span>
+                <span className={`${field.color} break-words`}>{field.value}</span>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    ) : (
+      <div className="text-slate-500 text-center py-6 text-xs">Навыки не заполнены</div>
+    )}
+  </div>
+)}
 
               {/* КОНТЕНТ ВКЛАДКИ: 2. ИСТОРИЯ */}
               {modalTab === 'story' && (
