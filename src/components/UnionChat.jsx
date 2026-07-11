@@ -24,35 +24,28 @@ const UnionChat = ({
   };
 
   // 3. ФУНКЦИЯ-ОБРАБОТЧИК УДАЛЕНИЯ [X]
-  const handleDeleteClick = (msg, idx) => {
-    const targetId = msg.id || idx; // Если сервер присылает id — берем его, если нет — используем индекс массива
-    
-    // Сигнализируем серверу сокетов, что сообщение удалено (для остальных юзеров)
-    if (socket) {
-      socket.emit('delete_message', targetId);
-    }
-    
-    console.log(`Команда на удаление сообщения с ID/Idx: ${targetId}`);
-    // В реальном проекте здесь также сработает фильтрация стейта, пришедшая из родителя
-  };
+const handleDeleteClick = (msg, idx) => {
+  // Проверяем _id от базы данных, затем обычный id, иначе индекс
+  const targetId = msg._id || msg.id || idx; 
+  
+  if (socket) {
+    socket.emit('delete_message', targetId); // Отправляем точный ID сокету
+  }
+  console.log(`Запрос на удаление отправлен для ID: ${targetId}`);
+};
 
-  // 4. ФУНКЦИЯ СОХРАНЕНИЯ ОТРЕДАКТИРОВАННОГО ТЕКСТА
-  const handleSaveEdit = (msg, idx) => {
-    const targetId = msg.id || idx;
+const handleSaveEdit = (msg, idx) => {
+  const targetId = msg._id || msg.id || idx;
+  if (!editText.trim()) return;
 
-    if (!editText.trim()) return;
-
-    // Отправляем измененный текст в сокет-сеть
-    if (socket) {
-      socket.emit('edit_message', { id: targetId, newText: editText });
-    }
-
-    console.log(`Сообщение ${targetId} успешно изменено на: ${editText}`);
-    
-    // Выходим из режима редактирования
-    setEditingId(null);
-    setEditText("");
-  };
+  if (socket) {
+    // Отправляем объект с точным ID
+    socket.emit('edit_message', { id: targetId, newText: editText }); 
+  }
+  console.log(`Запрос на изменение отправлен для ID: ${targetId}`);
+  setEditingId(null);
+  setEditText("");
+};
 
   return (
     <div className="battery-widget-container w-full">

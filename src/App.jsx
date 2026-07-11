@@ -106,10 +106,28 @@ function App() {
       }
     }
 
+    // Прием сообщений
     socket.on('chat_msg', (msg) => {
       setMessages(prev => [...prev, msg]);
     });
 
+    // 🌟 НОВЫЙ СЛУШАТЕЛЬ 1: Удаление сообщения из чата
+    socket.on('message_deleted', (deletedId) => {
+      setMessages(prev => prev.filter((msg, idx) => {
+        const currentId = msg._id || msg.id || idx;
+        return currentId !== deletedId;
+      }));
+    });
+
+    // 🌟 НОВЫЙ СЛУШАТЕЛЬ 2: Изменение текста сообщения
+    socket.on('message_edited', (data) => {
+      setMessages(prev => prev.map((msg, idx) => {
+        const currentId = msg._id || msg.id || idx;
+        return currentId === data.id ? { ...msg, text: data.newText } : msg;
+      }));
+    });
+
+    // Прием глобальных админ-команд
     socket.on('visual_command', (data) => {
       const WebApp = window.Telegram?.WebApp;
       if (data.type === 'alarm') {
@@ -124,7 +142,18 @@ function App() {
       if (data.type === 'reload') window.location.reload();
     });
 
-    // Логика вычисления времени суток и циклов ивентов
+    // Функция очистки строго для сетевых сокетов
+    return () => {
+      socket.off('chat_msg');
+      socket.off('message_deleted');
+      socket.off('message_edited');
+      socket.off('visual_command');
+    };
+  }, []); // Закрыли Эффект А
+
+
+  // Эффект Б: Логика вычисления времени суток и циклов ивентов (Изолированный)
+  useEffect(() => {
     function updateBackground() {
       const hour = new Date().getHours();
       if (hour >= 8 && hour < 20) {
@@ -135,23 +164,25 @@ function App() {
     }
 
     function updateEventHighlight() {
-      const startDate = new Date(2026, 5, 15);
+      const startDate = new Date(2026, 5, 15); // Ивент-календарь от июня 2026
       const now = new Date();
       const diffDays = Math.floor((now - startDate) / (1000 * 60 * 60 * 24));
       if (diffDays < 0) return;
       setActiveEventIndex(Math.floor(diffDays / 2) % 15);
     }
 
+    // Запускаем вычисления при старте
     updateBackground();
     updateEventHighlight();
+    
+    // Каждые 15 минут (900 000 мс) обновляем фон
     const bgInterval = setInterval(updateBackground, 900000);
 
+    // Функция очистки строго для таймеров времени суток
     return () => {
       clearInterval(bgInterval);
-      socket.off('chat_msg');
-      socket.off('visual_command');
     };
-  }, []);
+  }, []); // Закрыли Эффект Б
 
   // Эффект Б: Подключение дебаг-консоли Eruda по секретной комбинации сторон кликов
   useEffect(() => {
