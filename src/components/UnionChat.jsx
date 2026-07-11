@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react'; // 1. Добавили useState для управления редактированием
 
 const UnionChat = ({ 
   socket,
@@ -11,12 +11,47 @@ const UnionChat = ({
   chatEndRef 
 }) => {
 
-  // ОРИГИНАЛЬНАЯ ЛОГИКА РАСКРАСКИ НИКНЕЙМОВ ИЗ СТАРOГО ПРОЕКТА
+  // 2. НОВЫЕ СТЕНДБАЙ-СТЕЙТЫ ДЛЯ РЕДАКТИРОВАНИЯ
+  const [editingId, setEditingId] = useState(null); // Хранит id или idx редактируемого сообщения
+  const [editText, setEditText] = useState("");     // Хранит изменяемый текст
+
+  // ОРИГИНАЛЬНАЯ ЛОГИКА РАСКРАСКИ НИКНЕЙМОВ
   const getNicknameColor = (user, fromTg) => {
-    if (user === "Уточка") return "#00ff00"; // Зеленый для вас
-    if (user === "Kerber") return "#85ff00"; // Лаймовый для Kerber
-    if (fromTg) return "#0088cc";            // Синий для Telegram-пользователей
-    return "#d4af37";                        // Золотой по умолчанию для WebApp
+    if (user === "Уточка") return "#00ff00"; 
+    if (user === "Kerber") return "#85ff00"; 
+    if (fromTg) return "#0088cc";            
+    return "#d4af37";                        
+  };
+
+  // 3. ФУНКЦИЯ-ОБРАБОТЧИК УДАЛЕНИЯ [X]
+  const handleDeleteClick = (msg, idx) => {
+    const targetId = msg.id || idx; // Если сервер присылает id — берем его, если нет — используем индекс массива
+    
+    // Сигнализируем серверу сокетов, что сообщение удалено (для остальных юзеров)
+    if (socket) {
+      socket.emit('delete_message', targetId);
+    }
+    
+    console.log(`Команда на удаление сообщения с ID/Idx: ${targetId}`);
+    // В реальном проекте здесь также сработает фильтрация стейта, пришедшая из родителя
+  };
+
+  // 4. ФУНКЦИЯ СОХРАНЕНИЯ ОТРЕДАКТИРОВАННОГО ТЕКСТА
+  const handleSaveEdit = (msg, idx) => {
+    const targetId = msg.id || idx;
+
+    if (!editText.trim()) return;
+
+    // Отправляем измененный текст в сокет-сеть
+    if (socket) {
+      socket.emit('edit_message', { id: targetId, newText: editText });
+    }
+
+    console.log(`Сообщение ${targetId} успешно изменено на: ${editText}`);
+    
+    // Выходим из режима редактирования
+    setEditingId(null);
+    setEditText("");
   };
 
   return (
@@ -53,21 +88,73 @@ const UnionChat = ({
             </div>
             
             {messages.map((msg, idx) => {
-              // Форматируем время отправки, если оно есть в объекте msg
               const rawDate = msg.date || msg.timestamp || new Date();
               const time = new Date(rawDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+              
+              // Проверяем: редактируется ли ИМЕННО ЭТО сообщение прямо сейчас?
+              const currentId = msg.id || idx;
+              const isThisMessageEditing = editingId === currentId;
+
+              // Проверка прав: редактировать/удалять сообщения может только автор (например, "Уточка" может править только свои)
+              const isMyMessage = msg.user === username;
 
               return (
-                <div key={idx} className="message-entry p-1 rounded hover:bg-soa-gold/10 transition-colors">
-                  {/* Вывод системного времени */}
-                  <span className="text-gray-500 mr-1.5">[{time}]</span> 
+                <div key={idx} className="message-entry p-1 rounded hover:bg-soa-gold/10 transition-colors flex justify-between items-start group">
                   
-                  {/* Покраска имени по вашему оригинальному алгоритму */}
-                  <b style={{ color: getNicknameColor(msg.user, msg.from_tg) }}>
-                    {msg.user}:
-                  </b>{' '}
-                  
-                  <span className="text-white/95 break-all">{msg.text}</span>
+                  <div className="w-full pr-1">
+                    {/* Вывод системного времени */}
+                    <span className="text-gray-500 mr-1.5">[{time}]</span> 
+                    
+                    {/* Покраска имени */}
+                    <b style={{ color: getNicknameColor(msg.user, msg.from_tg) }}>
+                      {msg.user}:
+                    </b>{' '}
+                    
+                    {/* 5. УСЛОВНЫЙ РЕНДЕРИНГ: ИНПУТ РЕДАКТИРОВАНИЯ ИЛИ ОБЫЧНЫЙ ТЕКСТ */}
+                    {isThisMessageEditing ? (
+                      <div className="inline-flex gap-1.5 items-center ml-1 w-[70%]">
+                        <input 
+                          type="text"
+                          value={editText}
+                          onChange={(e) => setEditText(e.target.value)}
+                          onKeyDown={(e) => e.key === 'Enter' && handleSaveEdit(msg, idx)}
+                          className="bg-black/80 border border-soa-gold/30 rounded text-gold px-1.5 py-0.5 text-xs outline-none font-mono w-full"
+                          autoFocus
+                        />
+                        <button 
+                          onClick={() => handleSaveEdit(msg, idx)}
+                          className="text-[10px] text-matrix bg-matrix/10 border border-matrix/30 px-1 rounded hover:bg-matrix hover:text-black font-bold"
+                        >
+                          ОК
+                        </button>
+                      </div>
+                    ) : (
+                      <span className="text-white/95 break-all">{msg.text}</span>
+                    )}
+                  </div>
+
+                  {/* 6. КНОПКИ УПРАВЛЕНИЯ ПОВЕРХ СТРОКИ (появляются при наведении мыши `group-hover`) */}
+                  {isMyMessage && !isThisMessageEditing && (
+                    <div className="flex gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity bg-[#141414] px-1 rounded border border-soa-gold/5 shrink-0 ml-1">
+                      {/* Кнопка карандаша */}
+                      <button 
+                        onClick={() => { setEditingId(currentId); setEditText(msg.text); }}
+                        className="text-gray-500 hover:text-amber-400 font-mono text-[10px] cursor-pointer"
+                        title="Редактировать сообщение"
+                      >
+                        ✏
+                      </button>
+                      {/* Кнопка удаления */}
+                      <button 
+                        onClick={() => handleDeleteClick(msg, idx)}
+                        className="text-gray-500 hover:text-red-500 font-mono text-[10px] font-bold cursor-pointer"
+                        title="Удалить сообщение"
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  )}
+
                 </div>
               );
             })}
