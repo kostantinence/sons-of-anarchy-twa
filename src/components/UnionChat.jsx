@@ -24,28 +24,31 @@ const UnionChat = ({
   };
 
   // 3. ФУНКЦИЯ-ОБРАБОТЧИК УДАЛЕНИЯ [X]
-const handleDeleteClick = (msg, idx) => {
-  // Проверяем _id от базы данных, затем обычный id, иначе индекс
-  const targetId = msg._id || msg.id || idx; 
-  
-  if (socket) {
-    socket.emit('delete_message', targetId); // Отправляем точный ID сокету
-  }
-  console.log(`Запрос на удаление отправлен для ID: ${targetId}`);
-};
+  const handleDeleteClick = (msg, idx) => {
+    // ВАЖНО: сначала ищем _id (с нижним подчеркиванием) из MongoDB!
+    const targetId = msg._id || msg.id || idx; 
+    
+    if (socket) {
+      socket.emit('delete_message', targetId);
+    }
+    console.log(`📡 Сокет-сигнал удаления отправлен для ID: ${targetId}`);
+  };
 
-const handleSaveEdit = (msg, idx) => {
-  const targetId = msg._id || msg.id || idx;
-  if (!editText.trim()) return;
+  // 4. ФУНКЦИЯ СОХРАНЕНИЯ ОТРЕДАКТИРОВАННОГО ТЕКСТА
+  const handleSaveEdit = (msg, idx) => {
+    // ВАЖНО: здесь тоже сначала вытаскиваем _id из MongoDB
+    const targetId = msg._id || msg.id || idx;
 
-  if (socket) {
-    // Отправляем объект с точным ID
-    socket.emit('edit_message', { id: targetId, newText: editText }); 
-  }
-  console.log(`Запрос на изменение отправлен для ID: ${targetId}`);
-  setEditingId(null);
-  setEditText("");
-};
+    if (!editText.trim()) return;
+
+    if (socket) {
+      socket.emit('edit_message', { id: targetId, newText: editText });
+    }
+    console.log(`📡 Сокет-сигнал редактирования отправлен для ID: ${targetId}`);
+    
+    setEditingId(null);
+    setEditText("");
+  };
 
   return (
     <div className="battery-widget-container w-full">

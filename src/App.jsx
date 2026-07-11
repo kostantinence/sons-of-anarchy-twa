@@ -111,15 +111,15 @@ function App() {
       setMessages(prev => [...prev, msg]);
     });
 
-    // 🌟 НОВЫЙ СЛУШАТЕЛЬ 1: Удаление сообщения из чата
+    // 🌟 НОВЫЙ СЛУШАТЕЛЬ 1: Стираем сообщение с экрана у ВСЕХ пользователей
     socket.on('message_deleted', (deletedId) => {
       setMessages(prev => prev.filter((msg, idx) => {
         const currentId = msg._id || msg.id || idx;
-        return currentId !== deletedId;
+        return currentId !== deletedId; // удаляем совпавший ID
       }));
     });
 
-    // 🌟 НОВЫЙ СЛУШАТЕЛЬ 2: Изменение текста сообщения
+    // 🌟 НОВЫЙ СЛУШАТЕЛЬ 2: Меняем текст на экране у ВСЕХ пользователей
     socket.on('message_edited', (data) => {
       setMessages(prev => prev.map((msg, idx) => {
         const currentId = msg._id || msg.id || idx;
@@ -400,7 +400,7 @@ function App() {
   const sendMessage = () => {
     const WebApp = window.Telegram?.WebApp;
     if (chatInput.trim()) {
-      const userPayload = username.trim() || "Анонимный Сын";
+      const userPayload = username.trim() || "Аноним";
       socket.emit('client_message', { user: userPayload, text: chatInput });
       setChatInput(''); 
       if (WebApp?.HapticFeedback) WebApp.HapticFeedback.impactOccurred('medium');
