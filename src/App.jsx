@@ -115,7 +115,7 @@ function App() {
     socket.on('message_deleted', (deletedId) => {
       setMessages(prev => prev.filter((msg, idx) => {
         const currentId = msg._id || msg.id || idx;
-        return currentId !== deletedId; // удаляем совпавший ID
+        return currentId !== deletedId;
       }));
     });
 
