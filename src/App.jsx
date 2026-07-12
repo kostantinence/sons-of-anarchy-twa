@@ -14,6 +14,8 @@ import AllianceHQ from './components/AllianceHQ';
 import TempleTabs from './components/TempleTabs';
 import MainHeader from './components/MainHeader';
 import GameGuideDashboard from './components/GameGuideDashboard';
+import WeatherRadar from './components/WeatherRadar';
+import { BrowserRouter, Routes, Route, Link, NavLink } from 'react-router-dom';
 
 const socket = io("https://soa-backend.onrender.com");
 
@@ -518,12 +520,13 @@ function App() {
   // 4. ВЫВОД ИНТЕРФЕЙСА (JSX)
   // =========================================================================
   return (
-    <>
+    // КИТ №1: BrowserRouter включает слежку за адресной строкой браузера
+    <BrowserRouter>
       {/* Холст матрицы и адаптивный фон */}
       <canvas id="m" className="fixed top-0 left-0 w-full h-full z-1 pointer-events-none" />
       <div className="bg-photo fixed top-0 left-0 w-full h-full bg-cover bg-center transition-all duration-1000 z-2 pointer-events-none" style={bgStyle} />
       
-      {/* ДИНАМИЧЕСКИЕ СЛОИ АДМИНСКОГО ХАОСА (С ПОДДЕРЖКОЙ CSS OPACITY TRANSITION) */}
+      {/* ДИНАМИЧЕСКИЕ СЛОИ АДМИНСКОГО ХАОСА */}
       <div className={`grid-container ${isGridVisible ? 'active' : ''}`}>
         <div className="grid-plane" />
       </div>
@@ -531,8 +534,7 @@ function App() {
 
       {/* Контейнер генерации снега, VHS-полос и глитч-логов */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden z-[100000]">
-        {/* Рендер снежинок со стабильной анимацией до низа экрана */}
-       {/* Стабильный полет снежинок через стейт-анимацию */}
+        {/* Стабильный полет снежинок */}
         {snowflakes.map(s => (
           <div 
             key={s.id} 
@@ -566,6 +568,43 @@ function App() {
 
       <div className={`w-full min-h-screen relative z-10 ${activeEffects.alarm ? 'alarm-active' : ''} ${activeEffects.matrix ? 'matrix-active' : ''}`}>
         
+        {/* ========================================================================= */}
+        {/* КИБЕРПАНК МЕНЮ-ПЕРЕКЛЮЧАТЕЛЬ С АКТИВНОЙ НЕОНОВОЙ ПОДСВЕТКОЙ */}
+        {/* ========================================================================= */}
+        <div className="w-full max-w-[360px] mx-auto pt-5 px-5 select-none relative z-50">
+          <nav className="flex bg-[#141414e0] border-2 border-soa-gold/5 p-1 rounded-2xl font-mono text-[11px] tracking-wider shadow-2xl">
+            
+            {/* Вкладка 1: ЧАТ (Горит неоновым золотом, если активна) */}
+            <NavLink 
+              to="/" 
+              className={({ isActive }) => 
+                `w-1/2 py-2 text-center rounded-xl transition-all duration-300 font-bold ${
+                  isActive 
+                    ? 'text-gold bg-soa-gold/10 shadow-[0_0_15px_rgba(212,175,55,0.2)] border border-soa-gold/20' 
+                    : 'text-slate-500 hover:text-gold hover:bg-soa-gold/5'
+                }`
+              }
+            >
+              [ TERMINAL CHAT ]
+            </NavLink>
+            
+            {/* Вкладка 2: РАДАР (Горит неоновой матричной зеленью, если активна) */}
+            <NavLink 
+              to="/weather" 
+              className={({ isActive }) => 
+                `w-1/2 py-2 text-center rounded-xl transition-all duration-300 font-bold ${
+                  isActive 
+                    ? 'text-matrix bg-matrix/10 shadow-[0_0_15px_rgba(74,222,128,0.2)] border border-matrix/20' 
+                    : 'text-slate-500 hover:text-matrix hover:bg-matrix/5'
+                }`
+              }
+            >
+              [ METEO RADAR ]
+            </NavLink>
+            
+          </nav>
+        </div>
+
         {/* ГЛАВНАЯ СЕТКА GRID */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-5 w-full max-w-7xl mx-auto justify-center items-start box-border">
           
@@ -577,10 +616,9 @@ function App() {
             >
               {logoText}
             </h1>
-            {/* Мигающая кнопка полностью удалена для сохранения идеальной эстетики дизайна */}
           </div>
 
-          {/* 2. ШTAБНОЙ ТЕРМИНАЛ АДМИНА */}
+          {/* 2. ШТАБНОЙ ТЕРМИНАЛ АДМИНА */}
           {activeEffects.showAdmin && (
             <div className="fixed top-[20%] left-1/2 -translate-x-1/2 w-[90%] max-w-[350px] bg-[rgba(20,0,0,0.95)] border-2 border-red-600 rounded-2xl p-5 z-[10000] shadow-[0_0_30px_#ff0000] animate-fade-in">
               <h3 className="text-red-500 text-center mt-0 font-mono font-bold tracking-wider">ШТАБНОЙ ТЕРМИНАЛ</h3>
@@ -591,63 +629,73 @@ function App() {
                 <button onClick={() => socket.emit('admin_command', {type: 'matrix'})} className="p-2.5 bg-[#111] hover:bg-[#222] text-green-400 border border-green-500/50 cursor-pointer font-mono text-xs transition-colors">[🧪] Протокол MATRIX</button>
                 <button onClick={() => socket.emit('admin_command', {type: 'purge_last'})} className="p-2.5 bg-[#111] hover:bg-[#222] text-amber-400 border border-amber-500/50 cursor-pointer font-mono text-xs transition-colors">[🧹] Удалить последнее</button>
                 <button onClick={() => socket.emit('admin_command', {type: 'alarm'})} className="p-2.5 bg-red-600 hover:bg-red-700 text-white border-none rounded cursor-pointer font-mono font-bold text-xs shadow-md transition-colors">🚨 ТРЕВОГА (6 сек)</button>
-                                {/* Изменено: кнопка просто прячет окно терминала, не ломая музыку и сетку */}
-                <button 
-                  onClick={() => setActiveEffects(prev => ({ ...prev, showAdmin: false }))} 
-                  className="mt-2.5 p-2.5 bg-red-500 text-black border-none font-bold cursor-pointer font-mono text-xs hover:bg-red-400 transition-colors"
-                >
-                  ЗАКРЫТЬ ТЕРМИНАЛ
-                </button>
+                <button onClick={() => setActiveEffects(prev => ({ ...prev, showAdmin: false }))} className="mt-2.5 p-2.5 bg-red-500 text-black border-none font-bold cursor-pointer font-mono text-xs hover:bg-red-400 transition-colors">ЗАКРЫТЬ ТЕРМИНАЛ</button>
               </div>
             </div>
           )}
 
-          {/* 3. КАРТОЧКА СПИСКА ИВЕНТОВ (ПЕРЕДАЛИ LOGOCLASS ДЛЯ НЕОНА И ЛЬДА) */}
-          <MainHeader activeEventIndex={activeEventIndex} logoClass={logoClass} />
+          {/* ========================================================================= */}
+          {/* КИТ №2 и №3: ДИСПЕТЧЕР КОНТЕНТА ROUTES И ЕГО ПРАВИЛА ROUTE */}
+          {/* ========================================================================= */}
+          <Routes>
+            
+            {/* Вкладка 1 (Главная страница): Рендерим весь ваш оригинальный чат и таблицы */}
+            <Route path="/" element={
+              <>
+                {/* 3. КАРТОЧКА СПИСКА ИВЕНТОВ */}
+                <MainHeader activeEventIndex={activeEventIndex} logoClass={logoClass} />
 
-          {/* 4. ХАКЕРСКИЙ ЧАТ */}
-          <UnionChat 
-            socket={socket}
-            username={username}
-            setUsername={setUsername}
-            chatInput={chatInput}
-            setChatInput={setChatInput}
-            messages={messages}
-            sendMessage={sendMessage}
-            chatEndRef={chatEndRef}
-          />
+                {/* 4. ХАКЕРСКИЙ ЧАТ */}
+                <UnionChat 
+                  socket={socket}
+                  username={username}
+                  setUsername={setUsername}
+                  chatInput={chatInput}
+                  setChatInput={setChatInput}
+                  messages={messages}
+                  sendMessage={sendMessage}
+                  chatEndRef={chatEndRef}
+                />
 
-          {/* 5. ВИДЕОПРОТОКОЛ И МЕДИА-АРХИВ */}
-          <CyberVideoArchive 
-            playlist={playlist}
-            currentTrackIndex={currentTrackIndex}
-            setCurrentTrackIndex={setCurrentTrackIndex}
-            isPlaying={isPlaying}
-            togglePlay={togglePlay}
-            handleNextTrack={handleNextTrack}
-            handlePrevTrack={handlePrevTrack}
-            showPlaylist={showPlaylist}
-            setShowPlaylist={setShowPlaylist}
-          />
+                {/* 5. ВИДЕОПРОТОКОЛ И МЕДИА-АРХИВ */}
+                <CyberVideoArchive 
+                  playlist={playlist}
+                  currentTrackIndex={currentTrackIndex}
+                  setCurrentTrackIndex={setCurrentTrackIndex}
+                  isPlaying={isPlaying}
+                  togglePlay={togglePlay}
+                  handleNextTrack={handleNextTrack}
+                  handlePrevTrack={handlePrevTrack}
+                  showPlaylist={showPlaylist}
+                  setShowPlaylist={setShowPlaylist}
+                />
 
-          {/* ВСТАВКА: ЖИВАЯ ТАБЛИЦА ГЕРОЕВ И СТИХИЙ */}
-          <div className="col-span-full w-full relative z-50">
-            <GameGuideDashboard />
-          </div>
+                {/* ВСТАВКА: ЖИВАЯ ТАБЛИЦА ГЕРОЕВ И СТИХИЙ */}
+                <div className="col-span-full w-full relative z-50">
+                  <GameGuideDashboard />
+                </div>
 
-          {/* 6. ТАБЛИЦЫ ХРАМОВ */}
-          <TempleTabs activeTabId={activeTabId} handleTabClick={handleTabClick} />
+                {/* 6. ТАБЛИЦЫ ХРАМОВ */}
+                <TempleTabs activeTabId={activeTabId} handleTabClick={handleTabClick} />
 
-          {/* 7. АКТУАЛЬНЫЕ КОДЫ И ШТАБ СОЮЗА */}
-          <PromoCodes promoCodes={promoCodes} logoClass={logoClass} handleCopyCode={handleCopyCode} isValidCode={isValidCode} />
-          <AllianceHQ />
+                {/* 7. АКТУАЛЬНЫЕ КОДЫ И ШТАБ СОЮЗА */}
+                <PromoCodes promoCodes={promoCodes} logoClass={logoClass} handleCopyCode={handleCopyCode} isValidCode={isValidCode} />
+                <AllianceHQ />
+              </>
+            } />
+
+            {/* Вкладка 2 (Страница погоды): Скрывает чат и выводит метео-радар Open-Meteo */}
+            <Route path="/weather" element={
+              <div className="col-span-full justify-self-center w-full max-w-[360px] md:max-w-none flex justify-center items-start">
+                <WeatherRadar />
+              </div>
+            } />
+
+          </Routes>
 
         </div>
-
-
-
       </div>
-    </>
+    </BrowserRouter>
   );
 }
 

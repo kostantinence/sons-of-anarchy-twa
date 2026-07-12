@@ -51,7 +51,7 @@ const UnionChat = ({
   };
 
   return (
-    <div className="battery-widget-container w-full">
+  <div className="battery-widget-container w-full animate-[fadeIn_0.4s_ease-out]">
       <div className="widget-container w-full max-w-[360px] mx-auto">
         <div className="battery-widget bg-gradient-to-br from-[#14141452] to-[#1a1a1a5c] border-2 border-soa-gold/5 rounded-3xl p-6 overflow-hidden relative min-h-[550px]">
           
