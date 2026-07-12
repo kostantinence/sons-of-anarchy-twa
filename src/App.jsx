@@ -568,56 +568,51 @@ function App() {
 
       <div className={`w-full min-h-screen relative z-10 ${activeEffects.alarm ? 'alarm-active' : ''} ${activeEffects.matrix ? 'matrix-active' : ''}`}>
         
-        {/* ========================================================================= */}
-        {/* КИБЕРПАНК МЕНЮ-ПЕРЕКЛЮЧАТЕЛЬ С АКТИВНОЙ НЕОНОВОЙ ПОДСВЕТКОЙ */}
-        {/* ========================================================================= */}
-        <div className="w-full max-w-[360px] mx-auto pt-5 px-5 select-none relative z-50">
-          <nav className="flex bg-[#141414e0] border-2 border-soa-gold/5 p-1 rounded-2xl font-mono text-[11px] tracking-wider shadow-2xl">
-            
-            {/* Вкладка 1: ЧАТ (Горит неоновым золотом, если активна) */}
-            <NavLink 
-              to="/" 
-              className={({ isActive }) => 
-                `w-1/2 py-2 text-center rounded-xl transition-all duration-300 font-bold ${
-                  isActive 
-                    ? 'text-gold bg-soa-gold/10 shadow-[0_0_15px_rgba(212,175,55,0.2)] border border-soa-gold/20' 
-                    : 'text-slate-500 hover:text-gold hover:bg-soa-gold/5'
-                }`
-              }
-            >
-              [ TERMINAL CHAT ]
-            </NavLink>
-            
-            {/* Вкладка 2: РАДАР (Горит неоновой матричной зеленью, если активна) */}
-            <NavLink 
-              to="/weather" 
-              className={({ isActive }) => 
-                `w-1/2 py-2 text-center rounded-xl transition-all duration-300 font-bold ${
-                  isActive 
-                    ? 'text-matrix bg-matrix/10 shadow-[0_0_15px_rgba(74,222,128,0.2)] border border-matrix/20' 
-                    : 'text-slate-500 hover:text-matrix hover:bg-matrix/5'
-                }`
-              }
-            >
-              [ METEO RADAR ]
-            </NavLink>
-            
-          </nav>
-        </div>
 
-        {/* ГЛАВНАЯ СЕТКА GRID */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-5 w-full max-w-7xl mx-auto justify-center items-start box-border">
-          
-          {/* 1. СЕКРЕТНЫЙ ЛОГОТИП С ВШИТЫМ ПАКЕТОМ КЛИКОВ */}
-          <div className="col-span-full justify-self-center w-full max-w-[360px] md:max-w-none text-center py-2 select-none relative">
-            <h1 
-              onClick={handleLogoClick} 
-              className={`cursor-pointer text-xl tracking-widest font-serif text-center transition-all duration-300 ${logoClass}`}
-            >
-              {logoText}
-            </h1>
-          </div>
+        {/* ========================================================================= */}
+  {/* ШАГ 1: ВАШ ОРИГИНАЛЬНЫЙ СЕКРЕТНЫЙ ЛОГОТИП (ТЕПЕРЬ НА САМОЙ ВЕРШИНЕ) */}
+  {/* ========================================================================= */}
+  <div className="w-full text-center pt-6 pb-2 select-none relative z-50">
+    <h1 
+      onClick={handleLogoClick} 
+      className={`cursor-pointer text-xl tracking-widest font-serif text-center transition-all duration-300 ${logoClass}`}
+    >
+      {logoText}
+    </h1>
+  </div>
+        
+{/* ========================================================================= */}
+{/* КИБЕРПАНК МЕНЮ-ПЕРЕКЛЮЧАТЕЛЬ НА 4 ВКЛАДКИ С НЕОНОВОЙ ПОДСВЕТКОЙ */}
+{/* ========================================================================= */}
+<div className="w-full max-w-[540px] mx-auto pt-5 px-5 select-none relative z-50">
+  <nav className="grid grid-cols-4 bg-[#141414e0] border-2 border-soa-gold/5 p-1 rounded-2xl font-mono text-[9px] md:text-[10px] tracking-wider shadow-2xl text-center">
+    
+    {/* Вкладка 1: ГЛАВНЫЙ ШТАБ (Путь "/") */}
+    <NavLink to="/" className={({ isActive }) => `py-2 rounded-xl transition-all duration-300 font-bold ${ isActive ? 'text-gold bg-soa-gold/10 shadow-[0_0_15px_rgba(212,175,55,0.2)] border border-soa-gold/20' : 'text-slate-500 hover:text-gold hover:bg-soa-gold/5' }` }>
+      [ MAIN ]
+    </NavLink>
 
+    {/* Вкладка 2: ХАКЕРСКИЙ ЧАТ (Новый путь "/chat") */}
+    <NavLink to="/chat" className={({ isActive }) => `py-2 rounded-xl transition-all duration-300 font-bold ${ isActive ? 'text-cyan-400 bg-cyan-500/10 shadow-[0_0_15px_rgba(34,211,238,0.2)] border border-cyan-500/20' : 'text-slate-500 hover:text-cyan-400 hover:bg-cyan-500/5' }` }>
+      [ TERMINAL ]
+    </NavLink>
+
+    {/* Вкладка 3: МЕТЕО-РАДАР (Путь "/weather") */}
+    <NavLink to="/weather" className={({ isActive }) => `py-2 rounded-xl transition-all duration-300 font-bold ${ isActive ? 'text-matrix bg-matrix/10 shadow-[0_0_15px_rgba(74,222,128,0.2)] border border-matrix/20' : 'text-slate-500 hover:text-matrix hover:bg-matrix/5' }` }>
+      [ RADAR ]
+    </NavLink>
+
+    {/* Вкладка 4: МЕДИА-ПЛЕЕР (Путь "/music") */}
+    <NavLink to="/music" className={({ isActive }) => `py-2 rounded-xl transition-all duration-300 font-bold ${ isActive ? 'text-blue-400 bg-blue-500/10 shadow-[0_0_15px_rgba(96,165,250,0.2)] border border-blue-500/20' : 'text-slate-500 hover:text-blue-400 hover:bg-blue-500/5' }` }>
+      [ MUSIC ]
+    </NavLink>
+
+  </nav>
+</div>
+
+{/* ГЛАВНАЯ СЕТКА GRID */}
+<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-5 w-full max-w-7xl mx-auto justify-center items-start box-border">
+  
           {/* 2. ШТАБНОЙ ТЕРМИНАЛ АДМИНА */}
           {activeEffects.showAdmin && (
             <div className="fixed top-[20%] left-1/2 -translate-x-1/2 w-[90%] max-w-[350px] bg-[rgba(20,0,0,0.95)] border-2 border-red-600 rounded-2xl p-5 z-[10000] shadow-[0_0_30px_#ff0000] animate-fade-in">
@@ -637,61 +632,51 @@ function App() {
           {/* ========================================================================= */}
           {/* КИТ №2 и №3: ДИСПЕТЧЕР КОНТЕНТА ROUTES И ЕГО ПРАВИЛА ROUTE */}
           {/* ========================================================================= */}
-          <Routes>
-            
-            {/* Вкладка 1 (Главная страница): Рендерим весь ваш оригинальный чат и таблицы */}
-            <Route path="/" element={
-              <>
-                {/* 3. КАРТОЧКА СПИСКА ИВЕНТОВ */}
-                <MainHeader activeEventIndex={activeEventIndex} logoClass={logoClass} />
+{/* ДИСПЕТЧЕР ROUTES */}
+<Routes>
+  {/* Вкладка 1: Главная страница — чистая база данных без чата и плеера */}
+  <Route path="/" element={
+    <>
+      <MainHeader activeEventIndex={activeEventIndex} logoClass={logoClass} />
+      <TempleTabs activeTabId={activeTabId} handleTabClick={handleTabClick} />
+      <PromoCodes promoCodes={promoCodes} logoClass={logoClass} handleCopyCode={handleCopyCode} isValidCode={isValidCode} />
+      <AllianceHQ />
+      <div className="col-span-full w-full relative z-50">
+        <GameGuideDashboard />
+      </div>
+    </>
+  } />
 
-                {/* 4. ХАКЕРСКИЙ ЧАТ */}
-                <UnionChat 
-                  socket={socket}
-                  username={username}
-                  setUsername={setUsername}
-                  chatInput={chatInput}
-                  setChatInput={setChatInput}
-                  messages={messages}
-                  sendMessage={sendMessage}
-                  chatEndRef={chatEndRef}
-                />
+  {/* Вкладка 2: Изолированный Хакерский Чат */}
+  <Route path="/chat" element={
+    <div className="col-span-full justify-self-center w-full max-w-[360px] md:max-w-none flex justify-center items-start">
+      <UnionChat 
+        socket={socket} 
+        username={username} 
+        setUsername={setUsername} 
+        chatInput={chatInput} 
+        setChatInput={setChatInput} 
+        messages={messages} 
+        sendMessage={sendMessage} 
+        chatEndRef={chatEndRef} 
+      />
+    </div>
+  } />
 
-                {/* 5. ВИДЕОПРОТОКОЛ И МЕДИА-АРХИВ */}
-                <CyberVideoArchive 
-                  playlist={playlist}
-                  currentTrackIndex={currentTrackIndex}
-                  setCurrentTrackIndex={setCurrentTrackIndex}
-                  isPlaying={isPlaying}
-                  togglePlay={togglePlay}
-                  handleNextTrack={handleNextTrack}
-                  handlePrevTrack={handlePrevTrack}
-                  showPlaylist={showPlaylist}
-                  setShowPlaylist={setShowPlaylist}
-                />
+  {/* Вкладка 3: Метео-Радар Open-Meteo */}
+  <Route path="/weather" element={
+    <div className="col-span-full justify-self-center w-full max-w-[360px] md:max-w-none flex justify-center items-start">
+      <WeatherRadar />
+    </div>
+  } />
 
-                {/* ВСТАВКА: ЖИВАЯ ТАБЛИЦА ГЕРОЕВ И СТИХИЙ */}
-                <div className="col-span-full w-full relative z-50">
-                  <GameGuideDashboard />
-                </div>
-
-                {/* 6. ТАБЛИЦЫ ХРАМОВ */}
-                <TempleTabs activeTabId={activeTabId} handleTabClick={handleTabClick} />
-
-                {/* 7. АКТУАЛЬНЫЕ КОДЫ И ШТАБ СОЮЗА */}
-                <PromoCodes promoCodes={promoCodes} logoClass={logoClass} handleCopyCode={handleCopyCode} isValidCode={isValidCode} />
-                <AllianceHQ />
-              </>
-            } />
-
-            {/* Вкладка 2 (Страница погоды): Скрывает чат и выводит метео-радар Open-Meteo */}
-            <Route path="/weather" element={
-              <div className="col-span-full justify-self-center w-full max-w-[360px] md:max-w-none flex justify-center items-start">
-                <WeatherRadar />
-              </div>
-            } />
-
-          </Routes>
+  {/* Вкладка 4: Фоновый Медиа-Архив */}
+  <Route path="/music" element={
+    <div className="col-span-full justify-self-center w-full max-w-[360px] md:max-w-none flex justify-center items-start">
+      <CyberVideoArchive playlist={playlist} currentTrackIndex={currentTrackIndex} setCurrentTrackIndex={setCurrentTrackIndex} isPlaying={isPlaying} togglePlay={togglePlay} handleNextTrack={handleNextTrack} handlePrevTrack={handlePrevTrack} showPlaylist={showPlaylist} setShowPlaylist={setShowPlaylist} />
+    </div>
+  } />
+</Routes>
 
         </div>
       </div>
