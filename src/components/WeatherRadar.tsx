@@ -29,7 +29,8 @@ const WeatherRadar: React.FC = () => {
       setError(null);
       
       // const finalUrl = "https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&current=temperature_2m,wind_speed_10m&hourly=temperature_2m,relative_humidity_2m,wind_speed_10m" 
-       // Вставляем ваши рабочие координаты в URL динамически через косые кавычки
+      
+      // Вставляем ваши рабочие координаты в URL динамически через косые кавычки
       const finalUrl = `https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=${lon}&hourly=temperature_2m,precipitation_probability`;
       
       console.log("📡 Спутниковый радар SOA подключен через Axios к шлюзу:", finalUrl);
