@@ -411,3 +411,65 @@
 .vhs-line { position: fixed; left: 0; width: 100%; height: 2px; background: rgba(0, 255, 65, 0.5); box-shadow: 0 0 10px #00ff41; z-index: 10003; pointer-events: none; }
 /* Системные логи взлома */
 .data-node { position: fixed; color: #00ff41; font-family: 'Courier New', monospace; font-size: 14px; font-weight: bold; pointer-events: none; z-index: 10005; text-shadow: 0 0 5px #00ff41; background: rgba(0, 0, 0, 0.3); padding: 2px 5px; border-left: 2px solid #00ff41; }
+
+/* Погода скролл стили */
+/* Стилизация контейнера скролла */
+.custom-scrollbar {
+  /* Включаем плавный скролл на смартфонах */
+  -webkit-overflow-scrolling: touch; 
+}
+
+/* 1. Настройка самой дорожки (фона, по которому ползает ползунок) */
+.custom-scrollbar::-webkit-scrollbar {
+  height: 5px; /* Делаем полосу тонкой и аккуратной */
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.4); /* Прозрачный темный фон дорожки */
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+/* 2. Настройка бегунка с ТРЕХЦВЕТНЫМ градиентом (Золото -> Зеленый Матричный -> Неоновый Синий) */
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    to right, 
+    #ffd11a 0%,    /* 1. Золото (SOA Gold) */
+    #37d439 50%,   /* 2. Зеленый (Matrix Green) */
+    #00ffff 100%   /* 3. Неоновый синий (Cyber Blue) */
+  );
+  border-radius: 10px;
+  /* Эффект неонового свечения вокруг ползунка */
+  box-shadow: 0 0 8px rgba(55, 212, 57, 0.5); 
+}
+
+/* Свечение при наведении мыши на скролл */
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  filter: brightness(1.2);
+}
+
+/* Фикс и стилизация прокрутки */
+.custom-scrollbar::-webkit-scrollbar {
+  height: 4px !important; /* Делаем полосу ультра-тонкой */
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.5) !important;
+  border-radius: 10px;
+}
+
+/* Трехцветный кибер-ползунок (Золото -> Матрица -> Синева) */
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    to right, 
+    #ffd11a 0%,    /* Золото */
+    #37d439 50%,   /* Зеленый */
+    #00ffff 100%   /* Неоновый синий */
+  ) !important;
+  border-radius: 10px !important;
+}
+
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #37d439 rgba(0, 0, 0, 0.5);
+}
