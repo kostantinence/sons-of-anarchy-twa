@@ -60,7 +60,7 @@ const WeatherRadar: React.FC = () => {
       
       // 🚀 ШАГ 1: ОБРАТНОЕ ГЕОКОДИНГ-КОДИРОВАНИЕ (Координаты -> Название города)
       try {
-        // const geoUrl = `https://geocoding-api.open-meteo.com/v1/reverse?latitude=${lat}&longitude=${lon}&count=1&language=ru`;
+        const geoUrl = `https://geocoding-api.open-meteo.com/v1/reverse?latitude=${lat}&longitude=${lon}&count=1&language=ru`;
         // const geoUrl = `https://geocoding-api.open-meteo.com/v1/reverse?latitude=${lat}&longitude=${lon}&count=1&language=ru`;
         const geoResponse = await axios.get<{ results?: Array<{ name: string; country: string }> }>(geoUrl);
 
