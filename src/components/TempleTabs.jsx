@@ -38,7 +38,7 @@ const TempleTabs = () => {
   };
 
   return (
-    <div className="w-full max-w-[450px] mx-auto font-mono flex flex-col gap-5">
+    <div className="static-box w-full max-w-[450px] mx-auto font-mono flex flex-col gap-5">
       
       {/* Сюда вставляем Шаг 1 */}
       <StyledWrapper $isDay={isDay}>

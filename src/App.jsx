@@ -580,12 +580,25 @@ function App() {
       {logoText}
     </h1>
   </div>
-        
+  
+    <div className="w-full max-w-[360px] md:max-w-none justify-self-center lg:justify-self-start">
+    <CyberVideoArchive 
+      playlist={playlist} 
+      currentTrackIndex={currentTrackIndex} 
+      setCurrentTrackIndex={setCurrentTrackIndex} 
+      isPlaying={isPlaying} 
+      togglePlay={togglePlay} 
+      handleNextTrack={handleNextTrack} 
+      handlePrevTrack={handlePrevTrack} 
+      showPlaylist={showPlaylist} 
+      setShowPlaylist={setShowPlaylist} 
+    />
+  </div>
 {/* ========================================================================= */}
 {/* КИБЕРПАНК МЕНЮ-ПЕРЕКЛЮЧАТЕЛЬ НА 4 ВКЛАДКИ С НЕОНОВОЙ ПОДСВЕТКОЙ */}
 {/* ========================================================================= */}
 <div className="w-full max-w-[540px] mx-auto pt-5 px-5 select-none relative z-50">
-  <nav className="grid grid-cols-4 bg-[#141414e0] border-2 border-soa-gold/5 p-1 rounded-2xl font-mono text-[9px] md:text-[10px] tracking-wider shadow-2xl text-center">
+  <nav className="grid grid-cols-4 bg-[#14141494] border-2 border-soa-gold/5 p-1 rounded-2xl font-mono text-[9px] md:text-[10px] tracking-wider shadow-2xl text-center">
     
     {/* Вкладка 1: ГЛАВНЫЙ ШТАБ (Путь "/") */}
     <NavLink to="/" className={({ isActive }) => `py-2 rounded-xl transition-all duration-300 font-bold ${ isActive ? 'text-gold bg-soa-gold/10 shadow-[0_0_15px_rgba(212,175,55,0.2)] border border-soa-gold/20' : 'text-slate-500 hover:text-gold hover:bg-soa-gold/5' }` }>
@@ -603,9 +616,10 @@ function App() {
     </NavLink>
 
     {/* Вкладка 4: МЕДИА-ПЛЕЕР (Путь "/music") */}
-    <NavLink to="/music" className={({ isActive }) => `py-2 rounded-xl transition-all duration-300 font-bold ${ isActive ? 'text-blue-400 bg-blue-500/10 shadow-[0_0_15px_rgba(96,165,250,0.2)] border border-blue-500/20' : 'text-slate-500 hover:text-blue-400 hover:bg-blue-500/5' }` }>
+    {/* <NavLink to="/music" className={({ isActive }) => `py-2 rounded-xl transition-all duration-300 font-bold ${ isActive ? 'text-blue-400 bg-blue-500/10 shadow-[0_0_15px_rgba(96,165,250,0.2)] border border-blue-500/20' : 'text-slate-500 hover:text-blue-400 hover:bg-blue-500/5' }` }>
       [ MUSIC ]
-    </NavLink>
+    </NavLink> */}
+    <div className="py-2 pointer-events-none aria-hidden='true'"></div>
 
   </nav>
 </div>
@@ -671,11 +685,11 @@ function App() {
   } />
 
   {/* Вкладка 4: Фоновый Медиа-Архив */}
-  <Route path="/music" element={
+  {/* <Route path="/music" element={
     <div className="col-span-full justify-self-center w-full max-w-[360px] md:max-w-none flex justify-center items-start">
       <CyberVideoArchive playlist={playlist} currentTrackIndex={currentTrackIndex} setCurrentTrackIndex={setCurrentTrackIndex} isPlaying={isPlaying} togglePlay={togglePlay} handleNextTrack={handleNextTrack} handlePrevTrack={handlePrevTrack} showPlaylist={showPlaylist} setShowPlaylist={setShowPlaylist} />
     </div>
-  } />
+  } /> */}
 </Routes>
 
         </div>

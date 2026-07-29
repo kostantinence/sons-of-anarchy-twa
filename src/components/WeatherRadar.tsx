@@ -189,7 +189,7 @@ const WeatherRadar: React.FC = () => {
   };
 
   return (
-    <div className="widget-container w-full max-w-[360px] mx-auto p-5 bg-gradient-to-br from-[#141414e0] to-[#1a1a1ae0] border border-slate-800 rounded-3xl text-white font-mono text-xs relative overflow-hidden min-h-[380px] shadow-2xl animate-[fadeIn_0.4s_ease-out]">
+    <div className="widget-container w-full max-w-[360px] mx-auto p-5 bg-gradient-to-br from-[#141414e0] to-[#1a1a1a29] border border-slate-800 rounded-3xl text-white font-mono text-xs relative overflow-hidden min-h-[380px] shadow-2xl animate-[fadeIn_0.4s_ease-out]">
       
       {/* СИСТЕМНЫЙ ЛОГ */}
       <div className="text-[10px] text-gold mb-3 tracking-wider flex items-center justify-between">
