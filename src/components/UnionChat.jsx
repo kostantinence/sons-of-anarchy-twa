@@ -62,18 +62,19 @@ const UnionChat = ({
           
           {/* Поле USER_ID */}
           <div className="ai-input-container relative w-full bg-[#0505052b] border border-gold rounded p-1 mb-3 shadow-[0_0_10px_rgba(212,175,55,0.2)]">
-            <label className="ai-label absolute -top-2 left-2.5 bg-[#1a1a1a] text-gold text-[9px] px-1.5 z-10">USER_ID</label>
+           <label className="ai-label absolute -top-2 left-2.5 bg-[#1a1a1a] text-gold text-[9px] px-1.5 z-10">USER_ID</label>
             <div className="ai-input-inner w-full">
               <input 
-                type="text" 
-                className="ai-input w-full bg-transparent border-none text-gold p-2 font-mono text-xs outline-none" 
-                id="chat-input"
-                placeholder="Identification..." 
-                maxLength={15} 
-                value={username} 
-                onChange={(e) => setUsername(e.target.value)} 
-              />
-            </div>
+               type="text" 
+               className="ai-input w-full bg-transparent border-none text-gold p-2 font-mono text-xs outline-none" 
+               id="chat-input" 
+               placeholder="Identification..." 
+               maxLength={15} 
+               autoComplete="off" // <--- ДОБАВЬТЕ ЭТУ СТРОКУ
+               value={username} 
+               onChange={(e) => setUsername(e.target.value)} 
+             />
+           </div>
           </div>
 
           {/* Окно вывода сообщений */}
@@ -99,7 +100,7 @@ const UnionChat = ({
                   
                   <div className="w-full pr-1">
                     {/* Вывод системного времени */}
-                    <span className="text-gray-500 mr-1.5">[{time}]</span> 
+                    <span className="text-gray-900 mr-1.5">[{time}]</span> 
                     
                     {/* Покраска имени */}
                     <b style={{ color: getNicknameColor(msg.user, msg.from_tg) }}>

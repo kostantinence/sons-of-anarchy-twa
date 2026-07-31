@@ -263,6 +263,8 @@
   --color-energy-700: oklch(0.71 0.11 210.81);
   --color-cyber-blue: #00f3ff;
   --color-cyber-blue-glow: rgba(0, 243, 255, 0.4);
+  --color-gray-900: oklch(0.75 0.1 263.44);
+  --color-gray-500: oklch(0.65 0.3 28.81);
 
   /* Регистрируем кастомную анимацию глитча */
   --animate-glitch-active: glitch-bounce 0.3s linear;
@@ -473,3 +475,4 @@
   scrollbar-width: thin;
   scrollbar-color: #37d439 rgba(0, 0, 0, 0.5);
 }
+
