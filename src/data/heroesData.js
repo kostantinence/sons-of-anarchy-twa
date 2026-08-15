@@ -20,9 +20,9 @@ export const factionsData = [
   element: 'Вода',
   classType: 'Исцеление / Поддержка',
   level: 40,
-  icon: 'https://placehold.co', // Ссылка на круглую иконку персонажа
+  icon: '/src/assets/hero/2.png', // Ссылка на круглую иконку персонажа
   images: [
-    '/heroes/2.png'
+    '/src/assets/hero/2.png'
   ],
   story: 'Благочестивая служительница света, несущая исцеление и надежду на поля сражений. Её священная магия способна затягивать самые глубокие раны союзников, а свет веры ослепляет и сокрушает силы тьмы.',
   properties: [
@@ -94,9 +94,9 @@ export const factionsData = [
   element: 'Вода',
   classType: 'Атака / Контроль',
   level: 40,
-  icon: 'https://placehold.co', // Ссылка на круглую иконку персонажа
+  icon: '/src/assets/hero/1.jpg', // Ссылка на круглую иконку персонажа
   images: [
-    '/heroes/1.jpg'
+    '/src/assets/hero/1.jpg'
   ],
   story: 'Высший посланник небес и карающий меч правосудия. Его сияние способно ослепить целые армии врагов, лишая их возможности двигаться, а священные удары несут неотвратимое наказание всем силам зла.',
   properties: [
@@ -165,9 +165,9 @@ export const factionsData = [
   element: 'Вода',
   classType: 'Атака / Взрывной урон',
   level: 40,
-  icon: 'https://placehold.co', // Ссылка на круглую иконку персонажа
+  icon: '/src/assets/hero/3.jpg', // Ссылка на круглую иконку персонажа
   images: [
-    '/heroes/3.jpg'
+    '/src/assets/hero/3.jpg'
   ],
   story: 'Гордая и бесстрашная правительница, ведущая свои войска в самый центр сражения. Её клинки не знают промаха, а ярость способна обрушить на врагов метеоритный дождь, сокрушая любые защитные порядки.',
   properties: [
@@ -239,9 +239,9 @@ export const factionsData = [
   element: 'Вода',
   classType: 'Атака / Дебафф',
   level: 40,
-  icon: 'https://placehold.co', // Ссылка на круглую иконку персонажа
+  icon: '/src/assets/hero/4.jpg', // Ссылка на круглую иконку персонажа
   images: [
-    '/heroes/4.jpg'
+    '/src/assets/hero/4.jpg'
   ],
   story: 'Легендарный полководец пустынных земель, чьи походы оставили неизгладимый след в истории. Его тактика выжженной земли не оставляет врагам шансов на спасение, а несокрушимая грубая сила проламывает любые защитные редуты.',
   properties: [
@@ -325,9 +325,9 @@ export const factionsData = [
         element: 'Земля',
         classType: 'Баланс',
         level: 40,
-        icon: 'https://placehold.co',
+        icon: '/src/assets/hero/6.jpg',
         images: [
-    '/heroes/6.jpg'
+    '/src/assets/hero/6.jpg'
   ],
         story: 'Битва с темным лордом продолжалась слишком долго, бесчисленное множество людей пало жертвой Проклятия Бездны...',
         properties: [
@@ -410,9 +410,9 @@ export const factionsData = [
         element: 'Воздух',
         classType: 'Атака / Контроль',
         level: 40,
-        icon: 'https://placehold.co',
+        icon: '/src/assets/hero/7.jpg',
         images: [
-    '/heroes/7.jpg'
+    '/src/assets/hero/7.jpg'
   ],
         story: 'Могущественный правитель Бездны и повелитель Тьмы...',
         properties: [
@@ -488,9 +488,9 @@ export const factionsData = [
   element: 'Воздух',
   classType: 'Поддержка / Дебафф',
   level: 40,
-  icon: 'https://placehold.co', // Замените на локальный путь к круглой иконке
+  icon: '/src/assets/hero/10.jpg', // Замените на локальный путь к круглой иконке
           images: [
-    '/heroes/10.jpg'
+    '/src/assets/hero/10.jpg'
   ],
   story: 'Верный прислужник смерти и проводник душ в царство теней. Его присутствие на поле боя пробуждает в союзниках первобытную жажду крови, заставляя врагов трепетать от ужаса перед неумолимым роком.',
   properties: [
@@ -564,9 +564,9 @@ export const factionsData = [
   element: 'Воздух',
   classType: 'Защита / Танк',
   level: 40,
-  icon: 'https://placehold.co', // Ссылка на круглую иконку персонажа
+  icon: '/src/assets/hero/5.jpg', // Ссылка на круглую иконку персонажа
   images: [
-    '/heroes/5.jpg'
+    '/src/assets/hero/5.jpg'
   ],
   story: 'Грозный вождь и несокрушимый защитник своих территорий. Его воины укрыты прочной как скала кожей, а ярость в бою способна сокрушить любые оборонительные редуты врага.',
   properties: [
@@ -638,9 +638,9 @@ export const factionsData = [
   element: 'Воздух',
   classType: 'Атака / Буст урона',
   level: 40,
-  icon: 'https://placehold.co', // Ссылка на круглую иконку персонажа
+  icon: '/src/assets/hero/8.jpg', // Ссылка на круглую иконку персонажа
   images: [
-    '/heroes/8.jpg'
+    '/src/assets/hero/8.jpg'
   ],
   story: 'Неистовый воин, чей яростный клич зажигает пламя в сердцах союзников. Одним лишь рыком он способен заставить свои войска сражаться на пределе возможностей, нанося сокрушительные удары в самый решающий момент битвы.',
   properties: [
@@ -730,9 +730,9 @@ export const factionsData = [
   element: 'Луна',
   classType: 'Поддержка / Некромантия',
   level: 40,
-  icon: 'https://placehold.co',
+  icon: '/src/assets/hero/9.jpg',
           images: [
-    '/heroes/9.jpg'
+    '/src/assets/hero/9.jpg'
   ],
   story: 'Таинственный повелитель судеб, чьи приказы способны отменить саму смерть. Его войска идут в бой без страха, ведь каждый павший воин защищен нерушимым указом, возвращающим его душу обратно в мир живых.',
   properties: [

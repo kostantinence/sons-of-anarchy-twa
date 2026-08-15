@@ -1,12 +1,21 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import svgr from 'vite-plugin-svgr'
 import tailwindcss from '@tailwindcss/vite'
+import path from 'path' // Модуль для работы с путями
 
 export default defineConfig({
   plugins: [
     react(), 
-    tailwindcss()
+    svgr(),
+    tailwindcss() // Все плагины аккуратно объединены в одном месте
   ],
+  resolve: {
+    alias: {
+      // Настраиваем алиас @ для обращения к src напрямую
+      '@': path.resolve(__dirname, './src'),
+    },
+  },
   server: {
     open: 'chrome', // Автоматически открывать в Chrome
     proxy: {
@@ -18,10 +27,9 @@ export default defineConfig({
       },
       // 2. Новый независимый погодный шлюз
       '/weather-api': {
-        target: 'https://geocoding-api.open-meteo.com', // Замените на ваш погодный сервис
+        target: 'https://geocoding-api.open-meteo.com',
         changeOrigin: true,
         secure: true,
-        // Полностью удаляет '/weather-api' из итогового запроса к серверу погоды
         rewrite: (path) => path.replace(/^\/weather-api/, '')
       }
     }
