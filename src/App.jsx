@@ -12,7 +12,7 @@ import UnionChat from './components/UnionChat';
 import PromoCodes from './components/PromoCodes';
 import AllianceHQ from './components/AllianceHQ';
 import TempleTabs from './components/TempleTabs';
-import MainHeader from './components/MainHeader';
+import MainHeader from "./layout/Header/MainHeader";
 import GameGuideDashboard from './components/GameGuideDashboard';
 import WeatherRadar from './components/WeatherRadar';
 import { BrowserRouter, Routes, Route, Link, NavLink } from 'react-router-dom';
@@ -23,7 +23,7 @@ function App() {
   // =========================================================================
   // 1. ВСЕ СОСТОЯНИЯ (STATES) И РЕФЫ — СТРОГО В НАЧАЛЕ КОМПОНЕНТА
   // =========================================================================
-  const [bgStyle, setBgStyle] = useState({ backgroundImage: "url('/night-bg.webp')", opacity: "0.4" });
+  const [bgStyle, setBgStyle] = useState({ backgroundImage: "url('../src/assets/images/night-bg.webp')", opacity: "0.4" });
   const [activeEventIndex, setActiveEventIndex] = useState(0);
   const [activeTabId, setActiveTabId] = useState('machine'); 
   const [showPlaylist, setShowPlaylist] = useState(false);
@@ -159,9 +159,9 @@ function App() {
     function updateBackground() {
       const hour = new Date().getHours();
       if (hour >= 8 && hour < 20) {
-        setBgStyle({ backgroundImage: "url('/day-bg.webp')", opacity: "0.6" });
+        setBgStyle({ backgroundImage: "url('../src/assets/images/day-bg.webp')", opacity: "0.6" });
       } else {
-        setBgStyle({ backgroundImage: "url('/night-bg.webp')", opacity: "0.4" });
+        setBgStyle({ backgroundImage: "url('../src/assets/images/night-bg.webp')", opacity: "0.4" });
       }
     }
 
