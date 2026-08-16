@@ -3,12 +3,21 @@ import react from '@vitejs/plugin-react'
 import svgr from 'vite-plugin-svgr'
 import tailwindcss from '@tailwindcss/vite'
 import path from 'path' // Модуль для работы с путями
+import { VitePWA } from 'vite-plugin-pwa' // 1. Импортируем плагин PWA
 
 export default defineConfig({
   plugins: [
     react(), 
     svgr(),
-    tailwindcss() // Все плагины аккуратно объединены в одном месте
+    tailwindcss(), // Все плагины аккуратно объединены в одном месте
+    VitePWA({
+      registerType: 'prompt', // Показывает уведомление пользователю, когда есть обновление
+      includeAssets: ['favicon.svg', 'app-icon.jpg', 'robots.txt'], // Что кэшировать из папки public
+      workbox: {
+        // Кэшируем абсолютно все файлы сборки (js, css, html, картинки из src)
+        globPatterns: ['**/*.{js,css,html,ico,png,jpg,svg,webp}'],
+      },
+    })
   ],
   resolve: {
     alias: {

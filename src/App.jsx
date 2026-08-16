@@ -16,6 +16,7 @@ import MainHeader from "./layout/Header/MainHeader";
 import GameGuideDashboard from './components/GameGuideDashboard';
 import WeatherRadar from './components/WeatherRadar';
 import { BrowserRouter, Routes, Route, Link, NavLink } from 'react-router-dom';
+import ReloadPrompt from './components/ReloadPrompt'; // Импортируем
 
 const socket = io("https://soa-backend.onrender.com");
 
@@ -694,6 +695,10 @@ function App() {
 
         </div>
       </div>
+
+  {/* ⚡ Вставляем уведомление об обновлении союза SON ANT сюда! */}
+    <ReloadPrompt /> 
+
     </BrowserRouter>
   );
 }
