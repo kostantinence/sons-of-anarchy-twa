@@ -15,6 +15,12 @@ const UnionChat = ({
   const [editingId, setEditingId] = useState(null); // Хранит id или idx редактируемого сообщения
   const [editText, setEditText] = useState("");     // Хранит изменяемый текст
 
+   React.useEffect(() => {
+   if (chatEndRef && chatEndRef.current) {
+     chatEndRef.current.scrollIntoView({ behavior: 'smooth' });
+   }
+ }, [messages]); // Скроллит автоматически, когда массив сообщений меняется
+
   // ОРИГИНАЛЬНАЯ ЛОГИКА РАСКРАСКИ НИКНЕЙМОВ
   const getNicknameColor = (user, fromTg) => {
     if (user === "Уточка") return "#00ff00"; 
@@ -185,7 +191,7 @@ const UnionChat = ({
           <div className="mt-4 pt-2 border-t border-[#d4af37]/10 flex items-center bg-black/40 px-3 py-1.5 rounded font-mono text-[11px] whitespace-nowrap overflow-hidden">
             <span className="text-[#575757] select-none mr-1.5">-</span>
             <span className="text-[#4ade80] font-bold mr-1.5">npx</span>
-            <span className="cmd-text text-white" data-cmd="connect-soa-network@latest" />
+            <span className="cmd-text text-white" data-cmd="connect-son-ant-network@latest" />
           </div>
 
         </div>

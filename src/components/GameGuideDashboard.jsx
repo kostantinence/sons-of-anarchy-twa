@@ -39,11 +39,12 @@ export default function GameGuideDashboard() {
               <div className="flex flex-wrap gap-3">
                 {faction.heroes.length > 0 ? (
                   faction.heroes.map((hero) => (
-                    <button
-                      key={hero.id}
-                      onClick={() => openHeroModal(hero)}
-                      className="group relative w-14 h-14 rounded-xl bg-slate-900 border border-slate-700 hover:border-cyan-400 transition-all overflow-hidden active:scale-95"
-                    >
+                      <button
+                        key={hero.id}
+                        onClick={() => openHeroModal(hero)}
+                        // Добавлены эффекты неонового цианового свечения и легкого увеличения при наведении
+                        className="group relative w-14 h-14 rounded-xl bg-slate-900 border border-slate-700 hover:border-cyan-400 hover:shadow-[0_0_15px_rgba(34,211,238,0.4)] hover:scale-105 transition-all duration-300 overflow-hidden active:scale-95 motion-safe:animate-fade-in"
+                      >
                       <img src={hero.icon} alt={hero.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
                       <span className="absolute bottom-0 right-0 bg-black/80 text-[9px] text-yellow-400 px-1 rounded-tl font-mono border-t border-l border-slate-800">
                         {hero.level}
@@ -72,7 +73,8 @@ export default function GameGuideDashboard() {
                     <button
                       key={hero.id}
                       onClick={() => openHeroModal(hero)}
-                      className="group relative w-14 h-14 rounded-full bg-slate-900 border border-slate-700 hover:border-amber-400 transition-all overflow-hidden active:scale-95"
+                      // Добавлены эффекты круглого янтарного свечения при наведении
+                      className="group relative w-14 h-14 rounded-full bg-slate-900 border border-slate-700 hover:border-amber-400 hover:shadow-[0_0_15px_rgba(251,191,36,0.5)] hover:scale-105 transition-all duration-300 overflow-hidden active:scale-95"
                     >
                       <img src={hero.icon} alt={hero.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
                     </button>
@@ -88,7 +90,7 @@ export default function GameGuideDashboard() {
 
       {/* ЖИВАЯ ИГРОВАЯ МОДАЛКА */}
       {selectedHero && (
-        <div className="fixed inset-0 bg-black/85 backdrop-blur-md flex items-center justify-center p-2 md:p-4 z-[99999]">
+        <div className="fixed inset-0 bg-black/30 backdrop-blur-md flex items-center justify-center p-2 md:p-4 z-[99999]">
           <div className="bg-slate-900/95 border border-slate-700 rounded-2xl w-full max-w-4xl overflow-hidden shadow-2xl flex flex-col md:flex-row max-h-[95vh] md:max-h-[85vh]">
             
             {/* ГАЛЕРЕЯ (Слева) */}
