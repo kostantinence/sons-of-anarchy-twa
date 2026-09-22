@@ -17,6 +17,7 @@ import GameGuideDashboard from './components/GameGuideDashboard';
 import WeatherRadar from './components/WeatherRadar';
 import { BrowserRouter, Routes, Route, Link, NavLink } from 'react-router-dom';
 import ReloadPrompt from './components/ReloadPrompt'; // Импортируем
+import GuildBoard from './components/GuildBoard';
 
 const socket = io("https://soa-backend.onrender.com");
 
@@ -616,11 +617,16 @@ function App() {
       [ RADAR ]
     </NavLink>
 
+    {/* Вкладка 4: ТАКТИЧЕСКАЯ ДОСКА ОБЪЯВЛЕНИЙ (Путь "/board") */}
+    <NavLink to="/board" className={({ isActive }) => `py-2 rounded-xl transition-all duration-300 font-bold ${ isActive ? 'text-amber-400 bg-amber-950/30 border border-amber-500/50 shadow-[0_0_15px_rgba(245,158,11,0.15)]' : 'text-zinc-400 hover:text-zinc-300' }`}>
+      [ BOARD ]
+    </NavLink>
+
     {/* Вкладка 4: МЕДИА-ПЛЕЕР (Путь "/music") */}
     {/* <NavLink to="/music" className={({ isActive }) => `py-2 rounded-xl transition-all duration-300 font-bold ${ isActive ? 'text-blue-400 bg-blue-500/10 shadow-[0_0_15px_rgba(96,165,250,0.2)] border border-blue-500/20' : 'text-slate-500 hover:text-blue-400 hover:bg-blue-500/5' }` }>
       [ MUSIC ]
     </NavLink> */}
-    <div className="py-2 pointer-events-none aria-hidden='true'"></div>
+    {/* <div className="py-2 pointer-events-none aria-hidden='true'"></div> */}
 
   </nav>
 </div>
@@ -691,6 +697,7 @@ function App() {
       <CyberVideoArchive playlist={playlist} currentTrackIndex={currentTrackIndex} setCurrentTrackIndex={setCurrentTrackIndex} isPlaying={isPlaying} togglePlay={togglePlay} handleNextTrack={handleNextTrack} handlePrevTrack={handlePrevTrack} showPlaylist={showPlaylist} setShowPlaylist={setShowPlaylist} />
     </div>
   } /> */}
+  <Route path="/board" element={<GuildBoard />} />
 </Routes>
 
         </div>
