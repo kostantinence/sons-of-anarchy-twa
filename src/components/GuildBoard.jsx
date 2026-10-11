@@ -219,7 +219,7 @@ const handleLikePost = async (id, currentLikes) => {
     <div className="w-full max-w-[1360px] mx-auto p-4 font-mono text-zinc-100">
       {/* Шапка статуса */}
       <div className="flex justify-between items-center border-b border-zinc-800 pb-3 mb-6">
-        <span className="text-xs uppercase tracking-widest text-zinc-500">// КАНАЛ СИНХРОНИЗАЦИИ ТАКТИЧЕСКОЙ ДОСКИ</span>
+        <span className="text-xs uppercase tracking-widest text-zinc-500">Доска новостей ивентов</span>
         <span className={`text-xs px-2 py-0.5 rounded border ${isOnline ? 'text-emerald-400 border-emerald-500/30 bg-emerald-950/20' : 'text-amber-500 border-amber-500/30 bg-amber-950/20'}`}>
           {isOnline ? 'CLOUD_CONNECTED' : 'OFFLINE_LOCAL_MODE'}
         </span>

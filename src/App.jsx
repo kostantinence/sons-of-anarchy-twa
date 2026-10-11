@@ -333,19 +333,36 @@ function App() {
   };
 
   // 10-СЕКУНДНЫЙ ХУК УДЕРЖАНИЯ ДЛЯ ТЕСТОВОЙ КОНСОЛИ ERUDA (ЛОКАЛЬНЫЙ ФАЙЛ)
+  // Вызываем наш кастомный хук секретного кода прямо внутри App
+  useExtremeCornerKonamiCode();
+
+  return (
+    <div>
+      {/* Здесь ваш JSX-код приложения (верстка, компоненты и т.д.) */}
+    </div>
+  );
+} // <--- ВОТ ЗДЕСЬ СТРОГО ЗАКАНЧИВАЕТСЯ ОСНОВНАЯ ФУНКЦИЯ APP()
+
+// ============================================================================
+// --- ТЕПЕРЬ ОТДЕЛЬНО, ЗА ПРЕДЕЛАМИ APP(), ПИШЕМ НАШ СЕКРЕТНЫЙ КОД ---
+// ============================================================================
+export function useExtremeCornerKonamiCode() {
   useEffect(() => {
-    let touchTimer;
+    // Сверхсложная последовательность из 10 шагов
+    const secretSequence = ['TL', 'TL', 'TR', 'BR', 'BL', 'TR', 'TL', 'BR', 'BL', 'BR'];
+    let currentPosition = 0;
+    let clickTimeout = null;
 
     const activateDebug = () => {
       if (!window.eruda) {
         const script = document.createElement('script');
-        // Возвращаем ваш локальный файл, который сборщик Vite подтянет без ошибок
         script.src = "/style-v2.js"; 
+        script.async = true;
         document.body.appendChild(script);
         script.onload = () => {
           if (window.eruda) {
             window.eruda.init();
-            if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
+            if (navigator.vibrate) navigator.vibrate(100);
             if (window.Telegram?.WebApp?.HapticFeedback) {
               window.Telegram.WebApp.HapticFeedback.notificationOccurred('success');
             }
@@ -354,25 +371,64 @@ function App() {
       }
     };
 
-    const startHandler = () => { touchTimer = setTimeout(activateDebug, 10000); };
-    const endHandler = () => { clearTimeout(touchTimer); };
-    const moveHandler = () => { clearTimeout(touchTimer); };
+    const handleGlobalClick = (e) => {
+      const clientX = e.changedTouches ? e.changedTouches.clientX : e.clientX;
+      const clientY = e.changedTouches ? e.changedTouches.clientY : e.clientY;
 
-    document.addEventListener('touchstart', startHandler);
-    document.addEventListener('touchend', endHandler);
-    document.addEventListener('touchmove', moveHandler);
-    document.addEventListener('mousedown', startHandler);
-    document.addEventListener('mouseup', endHandler);
+      if (clientX === undefined || clientY === undefined) return;
+
+      const screenWidth = window.innerWidth;
+      const screenHeight = window.innerHeight;
+
+      const zoneX = screenWidth * 0.12;
+      const zoneY = screenHeight * 0.12;
+
+      let detectedCorner = null;
+
+      if (clientX < zoneX && clientY < zoneY) {
+        detectedCorner = 'TL';
+      } else if (clientX > screenWidth - zoneX && clientY < zoneY) {
+        detectedCorner = 'TR';
+      } else if (clientX < zoneX && clientY > screenHeight - zoneY) {
+        detectedCorner = 'BL';
+      } else if (clientX > screenWidth - zoneX && clientY > screenHeight - zoneY) {
+        detectedCorner = 'BR';
+      }
+
+      if (!detectedCorner) {
+        currentPosition = 0;
+        clearTimeout(clickTimeout);
+        return;
+      }
+
+      clearTimeout(clickTimeout);
+
+      if (detectedCorner === secretSequence[currentPosition]) {
+        currentPosition++;
+
+        if (currentPosition === secretSequence.length) {
+          activateDebug();
+          currentPosition = 0;
+        } else {
+          clickTimeout = setTimeout(() => {
+            currentPosition = 0;
+            console.log("⏳ Превышено время ожидания. Секретный код сброшен.");
+          }, 2500);
+        }
+      } else {
+        currentPosition = detectedCorner === secretSequence[0] ? 1 : 0;
+      }
+    };
+
+    document.addEventListener('click', handleGlobalClick);
+    document.addEventListener('touchend', handleGlobalClick, { passive: true });
 
     return () => {
-      document.removeEventListener('touchstart', startHandler);
-      document.removeEventListener('touchend', endHandler);
-      document.removeEventListener('touchmove', moveHandler);
-      document.removeEventListener('mousedown', startHandler);
-      document.removeEventListener('mouseup', endHandler);
-      clearTimeout(touchTimer);
+      document.removeEventListener('click', handleGlobalClick);
+      document.removeEventListener('touchend', handleGlobalClick);
+      clearTimeout(clickTimeout);
     };
-  }, []);
+  }, []); // Передали пустой массив зависимостей, чтобы слушатели создались один раз
 
   // ХЕНДЛЕРЫ И ТАБЫ
   const handleTabClick = (tabId) => {
