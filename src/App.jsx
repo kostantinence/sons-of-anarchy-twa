@@ -333,22 +333,8 @@ function App() {
   };
 
   // 10-СЕКУНДНЫЙ ХУК УДЕРЖАНИЯ ДЛЯ ТЕСТОВОЙ КОНСОЛИ ERUDA (ЛОКАЛЬНЫЙ ФАЙЛ)
-  // Вызываем наш кастомный хук секретного кода прямо внутри App
-  useExtremeCornerKonamiCode();
-
-  return (
-    <div>
-      {/* Здесь ваш JSX-код приложения (верстка, компоненты и т.д.) */}
-    </div>
-  );
-} // <--- ВОТ ЗДЕСЬ СТРОГО ЗАКАНЧИВАЕТСЯ ОСНОВНАЯ ФУНКЦИЯ APP()
-
-// ============================================================================
-// --- ТЕПЕРЬ ОТДЕЛЬНО, ЗА ПРЕДЕЛАМИ APP(), ПИШЕМ НАШ СЕКРЕТНЫЙ КОД ---
-// ============================================================================
-export function useExtremeCornerKonamiCode() {
   useEffect(() => {
-    // Сверхсложная последовательность из 10 шагов
+    // Наша сверхсложная последовательность из 10 шагов
     const secretSequence = ['TL', 'TL', 'TR', 'BR', 'BL', 'TR', 'TL', 'BR', 'BL', 'BR'];
     let currentPosition = 0;
     let clickTimeout = null;
@@ -356,13 +342,13 @@ export function useExtremeCornerKonamiCode() {
     const activateDebug = () => {
       if (!window.eruda) {
         const script = document.createElement('script');
+        // Возвращаем ваш локальный файл, который сборщик Vite подтянет без ошибок
         script.src = "/style-v2.js"; 
-        script.async = true;
         document.body.appendChild(script);
         script.onload = () => {
           if (window.eruda) {
             window.eruda.init();
-            if (navigator.vibrate) navigator.vibrate(100);
+            if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
             if (window.Telegram?.WebApp?.HapticFeedback) {
               window.Telegram.WebApp.HapticFeedback.notificationOccurred('success');
             }
@@ -372,6 +358,7 @@ export function useExtremeCornerKonamiCode() {
     };
 
     const handleGlobalClick = (e) => {
+      // Поддерживаем координаты и для кликов мыши, и для тапов (touchend)
       const clientX = e.changedTouches ? e.changedTouches.clientX : e.clientX;
       const clientY = e.changedTouches ? e.changedTouches.clientY : e.clientY;
 
@@ -380,21 +367,24 @@ export function useExtremeCornerKonamiCode() {
       const screenWidth = window.innerWidth;
       const screenHeight = window.innerHeight;
 
+      // Зона чувствительности углов экрана — 12% от краев
       const zoneX = screenWidth * 0.12;
       const zoneY = screenHeight * 0.12;
 
       let detectedCorner = null;
 
+      // Вычисляем, в какой именно угол попал пользователь
       if (clientX < zoneX && clientY < zoneY) {
-        detectedCorner = 'TL';
+        detectedCorner = 'TL'; // Верхний левый
       } else if (clientX > screenWidth - zoneX && clientY < zoneY) {
-        detectedCorner = 'TR';
+        detectedCorner = 'TR'; // Верхний правый
       } else if (clientX < zoneX && clientY > screenHeight - zoneY) {
-        detectedCorner = 'BL';
+        detectedCorner = 'BL'; // Нижний левый
       } else if (clientX > screenWidth - zoneX && clientY > screenHeight - zoneY) {
-        detectedCorner = 'BR';
+        detectedCorner = 'BR'; // Нижний правый
       }
 
+      // Если кликнули мимо углов (в центр экрана) — сбрасываем прогресс кода
       if (!detectedCorner) {
         currentPosition = 0;
         clearTimeout(clickTimeout);
@@ -403,32 +393,38 @@ export function useExtremeCornerKonamiCode() {
 
       clearTimeout(clickTimeout);
 
+      // Проверяем, совпадает ли нажатый угол с текущим шагом шифра
       if (detectedCorner === secretSequence[currentPosition]) {
         currentPosition++;
 
+        // Если вся комбинация из 10 шагов введена верно
         if (currentPosition === secretSequence.length) {
           activateDebug();
           currentPosition = 0;
         } else {
+          // Таймаут сброса: на нажатие следующего угла дается 2.5 секунды
           clickTimeout = setTimeout(() => {
             currentPosition = 0;
-            console.log("⏳ Превышено время ожидания. Секретный код сброшен.");
+            console.log("⏳ Время ожидания вышло. Код Конами сброшен.");
           }, 2500);
         }
       } else {
+        // Если ошиблись — сбрасываем, но проверяем, не был ли этот клик началом новой комбинации (TL)
         currentPosition = detectedCorner === secretSequence[0] ? 1 : 0;
       }
     };
 
+    // Привязываем обработчики ко всему документу
     document.addEventListener('click', handleGlobalClick);
     document.addEventListener('touchend', handleGlobalClick, { passive: true });
 
     return () => {
+      // Чистим за собой слушатели при размонтировании компонента
       document.removeEventListener('click', handleGlobalClick);
       document.removeEventListener('touchend', handleGlobalClick);
       clearTimeout(clickTimeout);
     };
-  }, []); // Передали пустой массив зависимостей, чтобы слушатели создались один раз
+  }, []);
 
   // ХЕНДЛЕРЫ И ТАБЫ
   const handleTabClick = (tabId) => {
