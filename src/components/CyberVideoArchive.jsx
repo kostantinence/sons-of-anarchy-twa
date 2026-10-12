@@ -1,4 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
+import Hls from 'hls.js';
 
 // Глубокая древовидная структура папок и треков
 const FILE_TREE = {
@@ -100,6 +101,15 @@ const FILE_TREE = {
         { id: 45, name: "The Prodigy - Skylined Remastered", type: "file", url: "music/45.mp4" },
         { id: 46, name: "The Prodigy - 2 Claustrophobic Sting Remastered", type: "file", url: "music/46.mp4" },
       ]
+    },
+    {
+      id: "folder-movies",
+      name: "Кинотеатр Тест",
+      type: "folder",
+      children: [
+        { id: 901, name: "🍿 Стрим-канал 24/7 (Тест)", type: "file", url: "https://ireplay.tv" },
+        { id: 902, name: "🎬 Фильм: Слезы Стали (HLS)", type: "file", url: "https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8" }
+      ]
     }
   ]
 };
@@ -127,6 +137,7 @@ const formatTime = (seconds) => {
 };
 export default function CyberVideoArchive() {
   const videoRef = useRef(null);
+  const hlsRef = useRef(null);
   const containerRef = useRef(null);
 
   // Инициализация состояний из памяти localStorage (сохранение трека и громкости)
@@ -168,27 +179,64 @@ export default function CyberVideoArchive() {
   useEffect(() => {
     localStorage.setItem('soa_player_track_index', currentTrackIndex);
     
+    const video = videoRef.current;
+    if (!video) return;
+
+    // 1. Очищаем прошлый стрим перед запуском нового, чтобы не забивать память телефона
+    if (hlsRef.current) {
+      hlsRef.current.destroy();
+      hlsRef.current = null;
+    }
+
     const applyAudioSettings = () => {
-      if (videoRef.current) {
-        // Жестко передаем актуальные значения громкости тегу video
-        videoRef.current.muted = isMuted;
-        videoRef.current.volume = isMuted ? 0 : volume;
-      }
+      video.muted = isMuted;
+      video.volume = isMuted ? 0 : volume;
     };
 
-    // Вызываем сразу и вешаем на событие загрузки медиаданных
-    applyAudioSettings();
-    if (videoRef.current) {
-      videoRef.current.addEventListener('loadeddata', applyAudioSettings);
+    // 2. Проверяем формат ссылки текущего трека
+    if (currentTrack.url && currentTrack.url.includes('.m3u8')) {
+      if (Hls.isSupported()) {
+        // Вариант для Android, Google Chrome и встроенного браузера Telegram
+        const hls = new Hls({
+          maxMaxBufferLength: 30, // Netflix-стайл: буферизируем только 30 секунд вперед
+          enableWorker: true     // Запуск в отдельном потоке процессора для плавной работы PWA
+        });
+        hlsRef.current = hls;
+        hls.loadSource(currentTrack.url);
+        hls.attachMedia(video);
+        
+        hls.on(Hls.Events.MANIFEST_PARSED, () => {
+          applyAudioSettings();
+          if (isPlaying) video.play().catch(() => setIsPlaying(false));
+        });
+      } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+        // Вариант для iOS (Нативная поддержка Safari на iPhone)
+        video.src = currentTrack.url;
+        video.addEventListener('loadedmetadata', () => {
+          applyAudioSettings();
+          if (isPlaying) video.play().catch(() => setIsPlaying(false));
+        });
+      }
+    } else {
+      // 3. СТАРЫЙ КОД: Обычная обработка ваших музыкальных MP4 файлов с GitHub
+      video.src = currentTrack.url;
+      applyAudioSettings();
+      
+      video.addEventListener('loadeddata', applyAudioSettings);
+      
+      if (isPlaying) {
+        video.play().catch(() => setIsPlaying(false));
+      }
     }
 
-    if (isPlaying && videoRef.current) {
-      videoRef.current.play().catch(() => setIsPlaying(false));
-    }
-
+    // Чистим за собой слушатели при смене трека
     return () => {
-      if (videoRef.current) {
-        videoRef.current.removeEventListener('loadeddata', applyAudioSettings);
+      if (video) {
+        video.removeEventListener('loadeddata', applyAudioSettings);
+      }
+      if (hlsRef.current) {
+        hlsRef.current.destroy();
+        hlsRef.current = null;
       }
     };
   }, [currentTrackIndex, volume, isMuted, isPlaying]);
