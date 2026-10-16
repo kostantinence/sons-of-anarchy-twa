@@ -100,17 +100,45 @@ const FILE_TREE = {
         { id: 44, name: "The Prodigy - One Love ('94 Live Edit) restored by All Souvenirs", type: "file", url: "music/44.mp4" },
         { id: 45, name: "The Prodigy - Skylined Remastered", type: "file", url: "music/45.mp4" },
         { id: 46, name: "The Prodigy - 2 Claustrophobic Sting Remastered", type: "file", url: "music/46.mp4" },
+        { id: 950, name: "🎬 Bluefire - The Prodigy Master Mix (2005)", type: "file", url: "https://www.youtube.com/embed/cLc5ZvQflXI?si=Au_iL4p-7Vx0WTu0" },
       ]
     },
     {
       id: "folder-movies",
+      name: "🎬 КИНОТЕАТР АВРОРЫ",
+      type: "folder",
+      children: [
+        {
+          id: "cyber-blockbusters",
+          name: "🤖 ИИ, Киборги и Роботы",
+          type: "folder",
+          children: [
+            { id: 951, name: "🦾 Апгрейд / Upgrade (Фильм в HD)", type: "file", url: "https://youtube.com" },
+            { id: 952, name: "🤖 Терминатор 2: Судный день (Культовые Сцены)", type: "file", url: "https://youtube.com" },
+            { id: 953, name: "🚛 Трансформеры (Эпичные Битвы Роботов)", type: "file", url: "https://youtube.com" },
+            { id: 954, name: "🧠 Железный Человек (Создание костюма Марк-1)", type: "file", url: "https://youtube.com" }
+          ]
+        },
+        {
+          id: "matrix-and-jaegers",
+          name: "🕶️ Виртуальность и Егери",
+          type: "folder",
+          children: [
+            { id: 955, name: "🕶️ Матрица: Перезагрузка (Легендарная Погоня)", type: "file", url: "https://youtube.com" },
+            { id: 956, name: "⚔️ Тихоокеанский Рубеж (Битва Егерей против Кайдзю)", type: "file", url: "https://youtube.com" }
+          ]
+        }
+      ]
+    },
+    {
+      id: "folder-movies-test",
       name: "Кинотеатр Тест",
       type: "folder",
       children: [
         { id: 901, name: "🍿 Стрим-канал 24/7 (Тест)", type: "file", url: "https://ireplay.tv" },
         { id: 902, name: "🎬 Фильм: Слезы Стали (HLS)", type: "file", url: "https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8" }
       ]
-    }
+    }  
   ]
 };
 
@@ -173,6 +201,15 @@ export default function CyberVideoArchive() {
   });
 
   const currentTrack = FLAT_PLAYLIST[currentTrackIndex];
+
+  // Автоматический детектор: проверяет, является ли ссылка внешним плеером-виджетом
+  const isEmbed = currentTrack?.url && (
+    currentTrack.url.includes('embed') || 
+    currentTrack.url.includes('iframe') || 
+    currentTrack.url.includes('youtube.com') || 
+    currentTrack.url.includes('youtu.be') || 
+    currentTrack.url.includes('://vk.com')
+  );
 
   // Сохраняем выбранный трек при изменении
   // Синхронизация и принудительное включение звука при смене трека
@@ -431,43 +468,55 @@ export default function CyberVideoArchive() {
       </h2>
 
       {/* ЭКРАН ПЛЕЕРА (ТЕПЕРЬ ПОЛНОСТЬЮ СВОБОДЕН ОТ КНОПОК) */}
-<div className="relative w-full aspect-video bg-black rounded overflow-hidden group" ref={containerRef}>
-  <video
-    ref={videoRef}
-    src={currentTrack.url}
-    onTimeUpdate={handleTimeUpdate}
-    onLoadedMetadata={handleLoadedMetadata}
-    onEnded={nextTrack}
-    onClick={togglePlay}
-    playsInline
-    /* 🟢 ДОБАВЛЯЕМ ЭТУ СТРОКУ: Как только видео готово, оно само включает звук на нужную громкость! */
-    onCanPlay={(e) => {
-      e.currentTarget.muted = isMuted;
-      e.currentTarget.volume = isMuted ? 0 : volume;
-    }}
-    className="w-full h-full object-contain cursor-pointer"
-  />
-
-        {/* Индикатор паузы по центру экрана при наведении мыши/тапе */}
-        {/* Индикатор паузы по центру экрана при наведении мыши/тапе */}
-        <div 
-          onClick={togglePlay}
-          className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-200 cursor-pointer"
-        >
-          <div className="p-4 rounded-xl bg-black/70 text-soa-gold border border-soa-gold/30 backdrop-blur-sm shadow-[0_0_15px_rgba(212,175,55,0.2)] flex items-center justify-center relative w-14 h-14">
-            {/* Сетчатый визор вокруг кнопки */}
-            <span className="absolute top-1 left-1 w-2 h-2 border-t border-l border-soa-gold/60"></span>
-            <span className="absolute top-1 right-1 w-2 h-2 border-t border-r border-soa-gold/60"></span>
-            <span className="absolute bottom-1 left-1 w-2 h-2 border-b border-l border-soa-gold/60"></span>
-            <span className="absolute bottom-1 right-1 w-2 h-2 border-b border-r border-soa-gold/60"></span>
-            
-            {isPlaying ? (
-              <svg className="w-5 h-5 fill-soa-gold" viewBox="0 0 24 24"><rect x="4" y="4" width="4" height="16" rx="0.5"/><rect x="16" y="4" width="4" height="16" rx="0.5"/></svg>
-            ) : (
-              <svg className="w-5 h-5 fill-soa-gold" viewBox="0 0 24 24"><path d="M7 4v16l13-8z"/></svg>
-            )}
-          </div>
-        </div>
+      {/* ЭКРАН ПЛЕЕРА: Автоматически переключается между музыкой и кино-виджетом */}
+      <div className="relative w-full aspect-video bg-black rounded overflow-hidden group" ref={containerRef}>
+       
+       {isEmbed ? (
+         /* РЕЖИМ КИНОТЕАТРА: Загружаем вечный плеер-виджет без CORS и блокировок */
+         <iframe
+           src={currentTrack.url}
+           className="w-full h-full border-0 z-10"
+           allowFullScreen
+           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+         />
+       ) : (
+         /* РЕЖИМ МУЗЫКИ И СТРИМОВ: Ваш старый проверенный тег видео для .mp4 и .m3u8 */
+         <video
+           ref={videoRef}
+           onTimeUpdate={handleTimeUpdate}
+           onLoadedMetadata={handleLoadedMetadata}
+           onEnded={nextTrack}
+           onClick={togglePlay}
+           playsInline
+           onCanPlay={(e) => {
+             e.currentTarget.muted = isMuted;
+             e.currentTarget.volume = isMuted ? 0 : volume;
+           }}
+           className="w-full h-full object-contain cursor-pointer"
+         />
+       )}
+      
+       {/* Индикатор паузы по центру экрана: показываем ТОЛЬКО для обычных файлов, 
+           так как в iframe есть свои встроенные кнопки управления */}
+       {!isEmbed && (
+         <div 
+           onClick={togglePlay}
+           className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-200 cursor-pointer"
+         >
+           <div className="p-4 rounded-xl bg-black/70 text-soa-gold border border-soa-gold/30 backdrop-blur-sm shadow-[0_0_15px_rgba(212,175,55,0.2)] flex items-center justify-center relative w-14 h-14">
+             <span className="absolute top-1 left-1 w-2 h-2 border-t border-l border-soa-gold/60"></span>
+             <span className="absolute top-1 right-1 w-2 h-2 border-t border-r border-soa-gold/60"></span>
+             <span className="absolute bottom-1 left-1 w-2 h-2 border-b border-l border-soa-gold/60"></span>
+             <span className="absolute bottom-1 right-1 w-2 h-2 border-b border-r border-soa-gold/60"></span>
+             
+             {isPlaying ? (
+               <svg className="w-5 h-5 fill-soa-gold" viewBox="0 0 24 24"><rect x="4" y="4" width="4" height="16" rx="0.5"/><rect x="16" y="4" width="4" height="16" rx="0.5"/></svg>
+             ) : (
+               <svg className="w-5 h-5 fill-soa-gold" viewBox="0 0 24 24"><path d="M7 4v16l13-8z"/></svg>
+             )}
+           </div>
+         </div>
+       )}
       </div>
 
       {/* ИНФОРМАЦИОННЫЙ РЯД СРАЗУ ПОД ЭКРАНОМ ВИДЕО */}
