@@ -4,9 +4,14 @@ import Hls from 'hls.js';
 // Глубокая древовидная структура папок и треков
 const FILE_TREE = {
   id: "folder-src",
-  name: "music",
+  name: "Файлы",
   type: "folder",
   children: [
+        {
+      id: "folder-musik",
+      name: "Музыка",
+      type: "folder",
+      children: [
     {
       id: "folder-anti",
       name: "Антиреспект",
@@ -100,7 +105,10 @@ const FILE_TREE = {
         { id: 44, name: "The Prodigy - One Love ('94 Live Edit) restored by All Souvenirs", type: "file", url: "music/44.mp4" },
         { id: 45, name: "The Prodigy - Skylined Remastered", type: "file", url: "music/45.mp4" },
         { id: 46, name: "The Prodigy - 2 Claustrophobic Sting Remastered", type: "file", url: "music/46.mp4" },
-        { id: 950, name: "🎬 Bluefire - The Prodigy Master Mix (2005)", type: "file", url: "https://www.youtube.com/embed/cLc5ZvQflXI?si=Au_iL4p-7Vx0WTu0" },
+        { id: 47, name: "🎬 Bluefire - The Prodigy Master Mix (2005)", type: "file", url: "https://www.youtube.com/embed/cLc5ZvQflXI?si=Au_iL4p-7Vx0WTu0" },
+        { id: 48, name: "Bluefire - The Prodigy Mastermix (Narayan/Climbatize)", type: "file", url: "https://www.youtube.com/embed/Q5lM_6YYEaA?si=CslvfLJ500712ofn" },
+      ]
+    },
       ]
     },
     {
@@ -110,13 +118,11 @@ const FILE_TREE = {
       children: [
         {
           id: "cyber-blockbusters",
-          name: "🤖 ИИ, Киборги и Роботы",
+          name: "🤖 Фильмы, ИИ, Сериалы",
           type: "folder",
           children: [
-            { id: 951, name: "🦾 Апгрейд / Upgrade (Фильм в HD)", type: "file", url: "https://youtube.com" },
-            { id: 952, name: "🤖 Терминатор 2: Судный день (Культовые Сцены)", type: "file", url: "https://youtube.com" },
-            { id: 953, name: "🚛 Трансформеры (Эпичные Битвы Роботов)", type: "file", url: "https://youtube.com" },
-            { id: 954, name: "🧠 Железный Человек (Создание костюма Марк-1)", type: "file", url: "https://youtube.com" }
+            { id: 951, name: "🦾 Терминатор(1984)", type: "file", url: "https://www.youtube.com/embed/kz3U8g8vWiE?si=uNoRPQ6HaMDXvK7b" },
+            { id: 952, name: "🤖 Терминатор 2: Судный день", type: "file", url: "https://www.youtube.com/embed/YUdMLmUzWT4?si=hCJATaxWWnMWqEBA" },
           ]
         },
         {
@@ -124,8 +130,11 @@ const FILE_TREE = {
           name: "🕶️ Виртуальность и Егери",
           type: "folder",
           children: [
-            { id: 955, name: "🕶️ Матрица: Перезагрузка (Легендарная Погоня)", type: "file", url: "https://youtube.com" },
-            { id: 956, name: "⚔️ Тихоокеанский Рубеж (Битва Егерей против Кайдзю)", type: "file", url: "https://youtube.com" }
+            { id: 953, name: "🕶️ Охотники На ведьм (2012)", type: "file", url: "https://www.youtube.com/embed/oRnbihRpxcs?si=Njhj5M9D_t79QKEj" },
+            { id: 954, name: "⚔️ Последний охотник на ведьм", type: "file", url: "https://www.youtube.com/embed/laazIDvtTVc?si=pYhwdm0krKrdjzBa" },
+            { id: 955, name: "⚔️ Время Ведьм 4К 2023", type: "file", url: "https://www.youtube.com/embed/EtlGSLWZi7E?si=CfnIA2UMNWuMK4F9" },
+            { id: 956, name: "⚔️ ДРУГОЙ МИР: Начало киносаги", type: "file", url: "https://www.youtube.com/embed/7swJHvaFL5Y?si=F-e5li9IPtK9l4fs" },
+            { id: 957, name: "⚔️ ДРУГОЙ МИР 2: ЭВОЛЮЦИЯ", type: "file", url: "https://www.youtube.com/embed/S0-pH3hFuk4?si=zlrYSQBEV0Pzoi8y" }
           ]
         }
       ]
