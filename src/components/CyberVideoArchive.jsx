@@ -118,7 +118,7 @@ const FILE_TREE = {
       children: [
         {
           id: "cyber-blockbusters",
-          name: "🤖 Фильмы, ИИ, Сериалы",
+          name: "🤖 Терминатор",
           type: "folder",
           children: [
             { id: 951, name: "🦾 Терминатор(1984)", type: "file", url: "https://www.youtube.com/embed/kz3U8g8vWiE?si=uNoRPQ6HaMDXvK7b" },
@@ -127,7 +127,7 @@ const FILE_TREE = {
         },
         {
           id: "matrix-and-jaegers",
-          name: "🕶️ Виртуальность и Егери",
+          name: "🕶️ Время ведьм",
           type: "folder",
           children: [
             { id: 953, name: "🕶️ Охотники На ведьм (2012)", type: "file", url: "https://www.youtube.com/embed/oRnbihRpxcs?si=Njhj5M9D_t79QKEj" },
