@@ -132,7 +132,14 @@ const FILE_TREE = {
           children: [
             { id: 953, name: "🕶️ Охотники На ведьм (2012)", type: "file", url: "https://www.youtube.com/embed/oRnbihRpxcs?si=Njhj5M9D_t79QKEj" },
             { id: 954, name: "⚔️ Последний охотник на ведьм", type: "file", url: "https://www.youtube.com/embed/laazIDvtTVc?si=pYhwdm0krKrdjzBa" },
-            { id: 955, name: "⚔️ Время Ведьм 4К 2023", type: "file", url: "https://www.youtube.com/embed/vaPS96yp8qo?si=QYPkgwzZlHVY5Fnu" },
+            { id: 955, name: "⚔️ Время Ведьм 4К 2023", type: "file", url: "https://www.youtube.com/embed/vaPS96yp8qo?si=QYPkgwzZlHVY5Fnu" }
+          ]
+        },
+                {
+          id: "peace",
+          name: "🕶️ Другой Мир",
+          type: "folder",
+          children: [
             { id: 956, name: "⚔️ ДРУГОЙ МИР: Начало киносаги", type: "file", url: "https://www.youtube.com/embed/oxwj5rvk12w?si=NRO6zKEwqPXBXmxu" },
             { id: 957, name: "⚔️ ДРУГОЙ МИР 2: ЭВОЛЮЦИЯ", type: "file", url: "https://www.youtube.com/embed/BjHDHVCfS3g?si=C3oh94Vz3HhllDly" }
           ]
@@ -141,10 +148,10 @@ const FILE_TREE = {
     },
     {
       id: "folder-movies-test",
-      name: "Кинотеатр Тест",
+      name: "ИИ Видео",
       type: "folder",
       children: [
-        { id: 901, name: "🍿 Стрим-канал 24/7 (Тест)", type: "file", url: "https://ireplay.tv" },
+        { id: 901, name: "🍿 фильм Назад в сперанцу 1", type: "file", url: "https://www.youtube.com/embed/mnhivJjrp0o?si=tsmV1GHNBuuiIagb" },
         { id: 902, name: "🎬 Фильм: Слезы Стали (HLS)", type: "file", url: "https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8" }
       ]
     }  
