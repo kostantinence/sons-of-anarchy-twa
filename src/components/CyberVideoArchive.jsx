@@ -135,7 +135,7 @@ const FILE_TREE = {
             { id: 955, name: "⚔️ Время Ведьм 4К 2023", type: "file", url: "https://www.youtube.com/embed/vaPS96yp8qo?si=QYPkgwzZlHVY5Fnu" }
           ]
         },
-                {
+        {
           id: "peace",
           name: "🕶️ Другой Мир",
           type: "folder",
@@ -154,7 +154,16 @@ const FILE_TREE = {
         { id: 901, name: "🍿 фильм Назад в сперанцу 1", type: "file", url: "https://www.youtube.com/embed/mnhivJjrp0o?si=tsmV1GHNBuuiIagb" },
         { id: 902, name: "🎬 Фильм: Слезы Стали (HLS)", type: "file", url: "https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8" }
       ]
-    }  
+    },
+    {
+      id: "forsash",
+      name: "Форсаж",
+      type: "folder",
+      children: [
+        { id: 910, name: "🍿 Форсаж : Хоббс и Шоу", type: "file", url: "https://www.youtube.com/embed/2oZAUcb_9M4?si=XMQadFBLk3uwqQQA" },
+        { id: 911, name: "🎬 Форсаж 8", type: "file", url: "https://www.youtube.com/embed/sAbsS4LkUoI?si=YEf-xd5TFyMpx9pq" }
+      ]
+    }
   ]
 };
 
