@@ -13,7 +13,7 @@ import UnionChat from './components/UnionChat';
 import AllianceHQ from './components/AllianceHQ';
 import TempleTabs from './components/TempleTabs';
 import MainHeader from "./layout/Header/MainHeader";
-import GameGuideDashboard from './components/GameGuideDashboard';
+// import GameGuideDashboard from './components/GameGuideDashboard';
 import WeatherRadar from './components/WeatherRadar';
 import { BrowserRouter, Routes, Route, Link, NavLink } from 'react-router-dom';
 import ReloadPrompt from './components/ReloadPrompt'; // Импортируем
@@ -715,7 +715,7 @@ function App() {
       {/* <PromoCodes promoCodes={promoCodes} logoClass={logoClass} handleCopyCode={handleCopyCode} isValidCode={isValidCode} /> */}
       <AllianceHQ />
       <div className="col-span-full w-full relative z-50">
-        <GameGuideDashboard />
+        {/* <GameGuideDashboard /> */}
       </div>
     </>
   } />
