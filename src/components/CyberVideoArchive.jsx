@@ -121,8 +121,7 @@ const FILE_TREE = {
           name: "🤖 Терминатор",
           type: "folder",
           children: [
-            { id: 951, name: "🦾 Терминатор да придёт спаситель", type: "file", url: "https://www.youtube.com/embed/6O_1mrr3dVE?si=fiWovY5DEFYC_t0n" },
-            { id: 952, name: "🤖 Терминатор 2: Судный день", type: "file", url: "https://www.youtube.com/embed/BcY6zmyyO3c?si=SUkiPYLMq4d-NVgg" },
+            { id: 951, name: "🦾 Терминатор да придёт спаситель", type: "file", url: "https://www.youtube.com/embed/6O_1mrr3dVE?si=fiWovY5DEFYC_t0n" }
           ]
         },
         {
@@ -143,6 +142,14 @@ const FILE_TREE = {
             { id: 956, name: "⚔️ ДРУГОЙ МИР: Начало киносаги", type: "file", url: "https://www.youtube.com/embed/oxwj5rvk12w?si=NRO6zKEwqPXBXmxu" },
             { id: 957, name: "⚔️ ДРУГОЙ МИР 2: ЭВОЛЮЦИЯ", type: "file", url: "https://www.youtube.com/embed/BjHDHVCfS3g?si=C3oh94Vz3HhllDly" }
           ]
+        },
+        {
+          id: "forsash",
+          name: "Форсаж",
+          type: "folder",
+          children: [
+            { id: 911, name: "🎬 Форсаж 8", type: "file", url: "https://www.youtube.com/embed/sAbsS4LkUoI?si=YEf-xd5TFyMpx9pq" }
+          ]
         }
       ]
     },
@@ -153,15 +160,6 @@ const FILE_TREE = {
       children: [
         { id: 901, name: "🍿 фильм Назад в сперанцу 1", type: "file", url: "https://www.youtube.com/embed/mnhivJjrp0o?si=tsmV1GHNBuuiIagb" },
         { id: 902, name: "🎬 Фильм: Слезы Стали (HLS)", type: "file", url: "https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8" }
-      ]
-    },
-    {
-      id: "forsash",
-      name: "Форсаж",
-      type: "folder",
-      children: [
-        { id: 910, name: "🍿 Форсаж : Хоббс и Шоу", type: "file", url: "https://www.youtube.com/embed/2oZAUcb_9M4?si=XMQadFBLk3uwqQQA" },
-        { id: 911, name: "🎬 Форсаж 8", type: "file", url: "https://www.youtube.com/embed/sAbsS4LkUoI?si=YEf-xd5TFyMpx9pq" }
       ]
     }
   ]

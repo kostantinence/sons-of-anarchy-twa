@@ -9,7 +9,7 @@ import ReactPlayer from 'react-player'
 import CyberVideoArchive from './components/CyberVideoArchive';
 import TerminalWidget from './TerminalWidget';
 import UnionChat from './components/UnionChat';
-import PromoCodes from './components/PromoCodes';
+// import PromoCodes from './components/PromoCodes';
 import AllianceHQ from './components/AllianceHQ';
 import TempleTabs from './components/TempleTabs';
 import MainHeader from "./layout/Header/MainHeader";
@@ -712,7 +712,7 @@ function App() {
     <>
       <MainHeader activeEventIndex={activeEventIndex} logoClass={logoClass} />
       <TempleTabs activeTabId={activeTabId} handleTabClick={handleTabClick} />
-      <PromoCodes promoCodes={promoCodes} logoClass={logoClass} handleCopyCode={handleCopyCode} isValidCode={isValidCode} />
+      {/* <PromoCodes promoCodes={promoCodes} logoClass={logoClass} handleCopyCode={handleCopyCode} isValidCode={isValidCode} /> */}
       <AllianceHQ />
       <div className="col-span-full w-full relative z-50">
         <GameGuideDashboard />
