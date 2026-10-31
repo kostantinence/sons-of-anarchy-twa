@@ -14,7 +14,7 @@ export default defineConfig({
       // registerType: 'prompt', // Показывает уведомление пользователю, когда есть обновление
       registerType: 'autoUpdate', // Автоматическое обновление pwa приложения
       manifest: false,        // ХВАТИТ ПЛАГИНУ ГЕНЕРИРОВАТЬ СВОЙ, берем ваш из папки public!
-      includeAssets: ['favicon.svg', 'app-icon.jpg', 'robots.txt'], 
+      includeAssets: ['favicon.svg', 'app-icon.png', 'robots.txt'], 
       workbox: {
         // Кэшируем абсолютно все файлы сборки
         globPatterns: ['**/*.{js,css,html,ico,png,jpg,svg,webp}'],
