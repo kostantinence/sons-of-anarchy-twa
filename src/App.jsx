@@ -18,6 +18,9 @@ import WeatherRadar from './components/WeatherRadar';
 import { BrowserRouter, Routes, Route, Link, NavLink } from 'react-router-dom';
 import ReloadPrompt from './components/ReloadPrompt'; // Импортируем
 import GuildBoard from './components/GuildBoard';
+import bgImage from './assets/images/bg.webp';
+import dayBg from './assets/images/day-bg.webp';
+import nightBg from './assets/images/night-bg.webp';
 
 const socket = io("https://soa-backend.onrender.com");
 
@@ -25,7 +28,8 @@ function App() {
   // =========================================================================
   // 1. ВСЕ СОСТОЯНИЯ (STATES) И РЕФЫ — СТРОГО В НАЧАЛЕ КОМПОНЕНТА
   // =========================================================================
-  const [bgStyle, setBgStyle] = useState({ backgroundImage: "url('../src/assets/images/night-bg.webp')", opacity: "0.4" });
+  // const [bgStyle, setBgStyle] = useState({ backgroundImage: "url('../src/assets/images/night-bg.webp')", opacity: "0.4" });
+  const [bgStyle, setBgStyle] = useState({ backgroundImage: `url(${nightBg})`, opacity: "0.4" });
   const [activeEventIndex, setActiveEventIndex] = useState(0);
   const [activeTabId, setActiveTabId] = useState('machine'); 
   const [showPlaylist, setShowPlaylist] = useState(false);
@@ -158,12 +162,14 @@ function App() {
 
   // Эффект Б: Логика вычисления времени суток и циклов ивентов (Изолированный)
   useEffect(() => {
-    function updateBackground() {
+        function updateBackground() {
       const hour = new Date().getHours();
       if (hour >= 8 && hour < 20) {
-        setBgStyle({ backgroundImage: "url('../src/assets/images/day-bg.webp')", opacity: "0.6" });
+        // Для дневного времени суток:
+        setBgStyle({ backgroundImage: `url(${dayBg})`, opacity: "0.6" });
       } else {
-        setBgStyle({ backgroundImage: "url('../src/assets/images/night-bg.webp')", opacity: "0.4" });
+        // Для ночного времени суток:
+        setBgStyle({ backgroundImage: `url(${nightBg})`, opacity: "0.4" });
       }
     }
 
