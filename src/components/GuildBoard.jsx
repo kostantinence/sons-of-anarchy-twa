@@ -49,14 +49,14 @@ export default function GuildBoard() {
                 });
             }
             
-            // 3. КТО-ТО ПОСТАВИЛ ЛАЙК (UPDATE) — НОВАЯ ЛОГИКА ДЛЯ REAL-TIME ЛАЙКОВ!
-            if (payload.eventType === 'UPDATE') {
-                setPosts((prevPosts) => {
-                    const updated = prevPosts.map(p => p.id === payload.new.id ? payload.new : p);
-                    saveLocalPosts(updated);
-                    return updated;
-                });
-            }
+            // // 3. КТО-ТО ПОСТАВИЛ ЛАЙК (UPDATE) — НОВАЯ ЛОГИКА ДЛЯ REAL-TIME ЛАЙКОВ!
+            // if (payload.eventType === 'UPDATE') {
+            //     setPosts((prevPosts) => {
+            //         const updated = prevPosts.map(p => p.id === payload.new.id ? payload.new : p);
+            //         saveLocalPosts(updated);
+            //         return updated;
+            //     });
+            // }
         }
       )
       .subscribe();
@@ -193,27 +193,27 @@ const handleDeletePost = async (id) => {
   }
 };
 
-// Функция добавления лайка (PATCH/UPDATE запрос)
-const handleLikePost = async (id, currentLikes) => {
-  if (!navigator.onLine) {
-    alert("ОБНОВЛЕНИЕ РЕАКЦИЙ СБОИТ: ТЕРМИНАЛ ОФЛАЙН");
-    return;
-  }
+// // Функция добавления лайка (PATCH/UPDATE запрос)
+// const handleLikePost = async (id, currentLikes) => {
+//   if (!navigator.onLine) {
+//     alert("ОБНОВЛЕНИЕ РЕАКЦИЙ СБОИТ: ТЕРМИНАЛ ОФЛАЙН");
+//     return;
+//   }
 
-  try {
-    // UPDATE запрос к Supabase: увеличиваем текущие лайки на 1
-    const { error } = await supabase
-      .from('posts')
-      .update({ likes: (currentLikes || 0) + 1 })
-      .eq('id', id);
+//   try {
+//     // UPDATE запрос к Supabase: увеличиваем текущие лайки на 1
+//     const { error } = await supabase
+//       .from('posts')
+//       .update({ likes: (currentLikes || 0) + 1 })
+//       .eq('id', id);
 
-    if (error) throw error;
+//     if (error) throw error;
     
-    // Стейт обновится автоматически у всех через WebSocket (событие UPDATE)!
-  } catch (err) {
-    console.error("Ошибка при установке лайка:", err);
-  }
-};
+//     // Стейт обновится автоматически у всех через WebSocket (событие UPDATE)!
+//   } catch (err) {
+//     console.error("Ошибка при установке лайка:", err);
+//   }
+// };
 
   return (
     <div className="w-full max-w-[1360px] mx-auto p-4 font-mono text-zinc-100">
@@ -306,13 +306,13 @@ const handleLikePost = async (id, currentLikes) => {
         <span className="text-[9px] text-zinc-500 uppercase tracking-widest">// ОПЕРАТОР: <strong className="text-zinc-400 font-normal">{post.author}</strong></span>
         
         {/* НЕОНОВАЯ КНОПКА КИБЕР-ЛАЙКА */}
-        <button 
+        {/* <button 
           onClick={() => handleLikePost(post.id, post.likes)}
           className="flex items-center gap-1.5 text-[10px] text-cyan-400 border border-cyan-500/30 bg-cyan-950/10 hover:bg-cyan-500 hover:text-black px-2.5 py-1 rounded transition-all active:scale-95 tracking-widest font-bold"
         >
           <span>🔥</span>
           <span>{(post.likes || 0)}</span>
-        </button>
+        </button> */}
       </div>
 
     </div>
